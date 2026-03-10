@@ -1,10 +1,5 @@
 #if canImport(SwiftUI)
 import SwiftUI
-import SharedKernel
-import SharedNavigation
-import Auth
-import Flights
-import BoardingPass
 
 @MainActor
 public final class DefaultViewFactory: Sendable {

@@ -1,5 +1,4 @@
-@testable import Flights
-@testable import SharedKernel
+@testable import iOSArchitectureShowcase
 
 actor FlightRepositorySpy: FlightRepositoryProtocol {
     private var stubbedFlights: [Flight] = []

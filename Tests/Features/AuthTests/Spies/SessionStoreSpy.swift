@@ -1,4 +1,4 @@
-@testable import Auth
+@testable import iOSArchitectureShowcase
 
 actor SessionStoreSpy: SessionStoreProtocol {
     private var token: String?
