@@ -1,25 +1,24 @@
 import Observation
-import BoardingPass
 import SharedKernel
 import SharedNavigation
 
 @MainActor
 @Observable
-public final class BoardingPassViewModel {
-    public private(set) var boardingPass: BoardingPassData?
+public final class FlightDetailViewModel {
+    public private(set) var detail: FlightDetail?
     public private(set) var isLoading = false
     public private(set) var errorMessage: String?
 
-    private let useCase: GetBoardingPassUseCase<InMemoryBoardingPassRepository>
+    private let detailUseCase: GetFlightDetailUseCase<InMemoryFlightRepository, InMemoryWeatherRepository>
     private let eventBus: NavigationEventPublishing
     private let flightID: FlightID
 
     public init(
-        useCase: GetBoardingPassUseCase<InMemoryBoardingPassRepository>,
+        detailUseCase: GetFlightDetailUseCase<InMemoryFlightRepository, InMemoryWeatherRepository>,
         eventBus: NavigationEventPublishing,
         flightID: FlightID
     ) {
-        self.useCase = useCase
+        self.detailUseCase = detailUseCase
         self.eventBus = eventBus
         self.flightID = flightID
     }
@@ -29,10 +28,14 @@ public final class BoardingPassViewModel {
         errorMessage = nil
         defer { isLoading = false }
         do {
-            boardingPass = try await useCase.execute(flightID: flightID)
+            detail = try await detailUseCase.execute(flightID: flightID)
         } catch {
-            errorMessage = String(localized: "boardingpass.error.load")
+            errorMessage = String(localized: "flights.error.detail")
         }
+    }
+
+    public func requestBoardingPass() async {
+        await eventBus.publish(.showBoardingPass(flightID: flightID))
     }
 
     public func goBack() async {

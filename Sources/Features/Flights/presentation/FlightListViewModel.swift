@@ -1,5 +1,4 @@
 import Observation
-import Flights
 import SharedKernel
 import SharedNavigation
 

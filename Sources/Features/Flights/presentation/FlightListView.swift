@@ -1,6 +1,5 @@
 #if canImport(SwiftUI)
 import SwiftUI
-import Flights
 
 public struct FlightListView: View {
     @Bindable var viewModel: FlightListViewModel
