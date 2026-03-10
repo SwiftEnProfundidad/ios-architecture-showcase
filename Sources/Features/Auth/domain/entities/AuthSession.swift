@@ -1,4 +1,3 @@
-import SharedKernel
 
 public struct AuthSession: Sendable, Equatable {
     public let passengerID: PassengerID

@@ -1,4 +1,3 @@
-import SharedKernel
 
 public struct AppState: Sendable, Equatable {
     public let route: AppRoute

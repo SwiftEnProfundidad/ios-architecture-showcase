@@ -1,6 +1,4 @@
 import Observation
-import SharedKernel
-import SharedNavigation
 
 @MainActor
 @Observable

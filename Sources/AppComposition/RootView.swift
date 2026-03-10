@@ -1,7 +1,5 @@
 #if canImport(SwiftUI)
 import SwiftUI
-import SharedKernel
-import SharedNavigation
 
 public struct RootView: View {
     @State private var appViewModel: AppViewModel

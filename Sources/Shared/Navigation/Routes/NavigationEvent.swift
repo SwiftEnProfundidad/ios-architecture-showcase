@@ -1,4 +1,3 @@
-import SharedKernel
 
 public enum NavigationEvent: Sendable, Equatable {
     case loginSuccess(passengerID: PassengerID, token: String)

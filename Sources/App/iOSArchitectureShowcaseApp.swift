@@ -1,10 +1,4 @@
 import SwiftUI
-import SharedKernel
-import SharedNavigation
-import Auth
-import Flights
-import BoardingPass
-import AppComposition
 
 @main
 struct iOSArchitectureShowcaseApp: App {

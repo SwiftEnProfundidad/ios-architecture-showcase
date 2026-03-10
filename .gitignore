@@ -1,6 +1,13 @@
+# SPM
 .build/
 .swiftpm/
+
+# Xcode
 *.xcuserstate
-.DS_Store
 xcuserdata/
 DerivedData/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+
+# macOS
+.DS_Store

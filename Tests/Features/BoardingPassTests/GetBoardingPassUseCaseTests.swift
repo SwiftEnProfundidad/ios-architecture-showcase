@@ -1,7 +1,5 @@
 import Testing
-@testable import BoardingPass
-@testable import SharedKernel
-@testable import SharedNavigation
+@testable import iOSArchitectureShowcase
 
 private typealias SUT = GetBoardingPassUseCase<BoardingPassRepositorySpy>
 
