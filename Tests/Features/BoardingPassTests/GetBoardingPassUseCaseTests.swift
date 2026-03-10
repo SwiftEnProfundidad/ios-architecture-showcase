@@ -8,7 +8,7 @@ private typealias SUT = GetBoardingPassUseCase<BoardingPassRepositorySpy>
 @Suite("GetBoardingPassUseCase")
 struct GetBoardingPassUseCaseTests {
 
-    @Test("Dado vuelo con tarjeta de embarque, cuando obtiene, entonces devuelve la tarjeta correcta")
+    @Test("Given flight with boarding pass, when fetching, then returns the correct pass")
     func getBoardingPassReturnsCorrectPass() async throws {
         let flightID = FlightID("IB3456")
         let passengerID = PassengerID("PAX-001")
@@ -26,7 +26,7 @@ struct GetBoardingPassUseCaseTests {
         #expect(lastEvent == .showBoardingPass(flightID: flightID))
     }
 
-    @Test("Dado vuelo sin tarjeta, cuando obtiene, entonces lanza BoardingPassError.notFound")
+    @Test("Given flight without boarding pass, when fetching, then throws BoardingPassError.notFound")
     func getBoardingPassThrowsWhenNotFound() async {
         let flightID = FlightID("IB9999")
         let repository = BoardingPassRepositorySpy()

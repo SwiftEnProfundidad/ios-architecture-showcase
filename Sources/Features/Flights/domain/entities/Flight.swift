@@ -2,11 +2,11 @@ import SharedKernel
 
 public struct Flight: Sendable, Equatable, Identifiable {
     public enum Status: String, Sendable, Equatable {
-        case onTime = "En hora"
-        case delayed = "Retrasado"
-        case boarding = "Embarcando"
-        case departed = "Despegado"
-        case cancelled = "Cancelado"
+        case onTime = "On Time"
+        case delayed = "Delayed"
+        case boarding = "Boarding"
+        case departed = "Departed"
+        case cancelled = "Cancelled"
     }
 
     public let id: FlightID

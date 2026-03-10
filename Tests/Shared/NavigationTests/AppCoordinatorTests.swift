@@ -5,7 +5,7 @@ import Testing
 @Suite("AppCoordinator")
 struct AppCoordinatorTests {
 
-    @Test("Coordinator aplica reducer y actualiza store cuando recibe LoginSuccess")
+    @Test("Coordinator applies reducer and updates store when it receives LoginSuccess")
     func coordinatorUpdatesStoreOnLoginSuccess() async {
         let bus = DefaultNavigationEventBus()
         let store = AppStateStore()
@@ -23,7 +23,7 @@ struct AppCoordinatorTests {
         #expect(result.passengerID == passengerID)
     }
 
-    @Test("Coordinator aplica reducer y actualiza store cuando recibe Logout")
+    @Test("Coordinator applies reducer and updates store when it receives Logout")
     func coordinatorUpdatesStoreOnLogout() async {
         let bus = DefaultNavigationEventBus()
         let store = AppStateStore(
@@ -41,7 +41,7 @@ struct AppCoordinatorTests {
         #expect(result.passengerID == nil)
     }
 
-    @Test("Coordinator aplica secuencia de eventos correctamente")
+    @Test("Coordinator processes event sequence correctly")
     func coordinatorProcessesEventSequence() async {
         let bus = DefaultNavigationEventBus()
         let store = AppStateStore()
