@@ -1,1 +1,0 @@
-// AppComposition tests — pendiente
