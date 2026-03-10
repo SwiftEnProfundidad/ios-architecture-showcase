@@ -1,0 +1,5 @@
+/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/BoardingPass/application/use-cases/GetBoardingPassUseCase.swift
+/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/BoardingPass/domain/entities/BoardingPassData.swift
+/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/BoardingPass/domain/errors/BoardingPassError.swift
+/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/BoardingPass/domain/repositories/BoardingPassRepositoryProtocol.swift
+/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/BoardingPass/infrastructure/repositories/InMemoryBoardingPassRepository.swift

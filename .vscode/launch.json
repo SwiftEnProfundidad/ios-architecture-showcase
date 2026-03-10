@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:ios-architecture-showcase}",
+            "name": "Debug iOSArchitectureShowcaseApp",
+            "target": "iOSArchitectureShowcaseApp",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug iOSArchitectureShowcaseApp"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:ios-architecture-showcase}",
+            "name": "Release iOSArchitectureShowcaseApp",
+            "target": "iOSArchitectureShowcaseApp",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release iOSArchitectureShowcaseApp"
+        }
+    ]
+}

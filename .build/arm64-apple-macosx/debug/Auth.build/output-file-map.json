@@ -1,0 +1,61 @@
+{
+  "": {
+    "swift-dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/master.swiftdeps"
+  },
+  "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/Auth/application/use-cases/LoginUseCase.swift": {
+    "dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/LoginUseCase.d",
+    "object": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/LoginUseCase.swift.o",
+    "swiftmodule": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/LoginUseCase~partial.swiftmodule",
+    "swift-dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/LoginUseCase.swiftdeps",
+    "diagnostics": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/LoginUseCase.dia"
+  },
+  "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/Auth/application/use-cases/LogoutUseCase.swift": {
+    "dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/LogoutUseCase.d",
+    "object": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/LogoutUseCase.swift.o",
+    "swiftmodule": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/LogoutUseCase~partial.swiftmodule",
+    "swift-dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/LogoutUseCase.swiftdeps",
+    "diagnostics": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/LogoutUseCase.dia"
+  },
+  "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/Auth/domain/entities/AuthSession.swift": {
+    "dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/AuthSession.d",
+    "object": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/AuthSession.swift.o",
+    "swiftmodule": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/AuthSession~partial.swiftmodule",
+    "swift-dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/AuthSession.swiftdeps",
+    "diagnostics": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/AuthSession.dia"
+  },
+  "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/Auth/domain/errors/AuthError.swift": {
+    "dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/AuthError.d",
+    "object": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/AuthError.swift.o",
+    "swiftmodule": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/AuthError~partial.swiftmodule",
+    "swift-dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/AuthError.swiftdeps",
+    "diagnostics": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/AuthError.dia"
+  },
+  "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/Auth/domain/repositories/AuthGatewayProtocol.swift": {
+    "dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/AuthGatewayProtocol.d",
+    "object": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/AuthGatewayProtocol.swift.o",
+    "swiftmodule": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/AuthGatewayProtocol~partial.swiftmodule",
+    "swift-dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/AuthGatewayProtocol.swiftdeps",
+    "diagnostics": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/AuthGatewayProtocol.dia"
+  },
+  "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/Auth/domain/repositories/SessionStoreProtocol.swift": {
+    "dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/SessionStoreProtocol.d",
+    "object": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/SessionStoreProtocol.swift.o",
+    "swiftmodule": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/SessionStoreProtocol~partial.swiftmodule",
+    "swift-dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/SessionStoreProtocol.swiftdeps",
+    "diagnostics": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/SessionStoreProtocol.dia"
+  },
+  "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/Auth/infrastructure/repositories/InMemoryAuthGateway.swift": {
+    "dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/InMemoryAuthGateway.d",
+    "object": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/InMemoryAuthGateway.swift.o",
+    "swiftmodule": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/InMemoryAuthGateway~partial.swiftmodule",
+    "swift-dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/InMemoryAuthGateway.swiftdeps",
+    "diagnostics": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/InMemoryAuthGateway.dia"
+  },
+  "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/Auth/infrastructure/repositories/InMemorySessionStore.swift": {
+    "dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/InMemorySessionStore.d",
+    "object": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/InMemorySessionStore.swift.o",
+    "swiftmodule": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/InMemorySessionStore~partial.swiftmodule",
+    "swift-dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/InMemorySessionStore.swiftdeps",
+    "diagnostics": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/Auth.build/InMemorySessionStore.dia"
+  }
+}

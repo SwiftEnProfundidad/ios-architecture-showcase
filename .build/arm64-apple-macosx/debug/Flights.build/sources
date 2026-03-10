@@ -1,0 +1,10 @@
+/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/Flights/application/use-cases/GetFlightDetailUseCase.swift
+/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/Flights/application/use-cases/ListFlightsUseCase.swift
+/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/Flights/domain/entities/Flight.swift
+/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/Flights/domain/entities/FlightDetail.swift
+/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/Flights/domain/entities/WeatherInfo.swift
+/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/Flights/domain/errors/FlightError.swift
+/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/Flights/domain/repositories/FlightRepositoryProtocol.swift
+/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/Flights/domain/repositories/WeatherRepositoryProtocol.swift
+/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/Flights/infrastructure/repositories/InMemoryFlightRepository.swift
+/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/Flights/infrastructure/repositories/InMemoryWeatherRepository.swift

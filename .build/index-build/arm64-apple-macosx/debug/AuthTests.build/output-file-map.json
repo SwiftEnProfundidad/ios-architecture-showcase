@@ -1,0 +1,40 @@
+{
+  "": {
+    "swift-dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/index-build/arm64-apple-macosx/debug/AuthTests.build/master.swiftdeps"
+  },
+  "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Tests/Features/AuthTests/LoginUseCaseTests.swift": {
+    "dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/index-build/arm64-apple-macosx/debug/AuthTests.build/LoginUseCaseTests.d",
+    "object": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/index-build/arm64-apple-macosx/debug/AuthTests.build/LoginUseCaseTests.swift.o",
+    "swiftmodule": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/index-build/arm64-apple-macosx/debug/AuthTests.build/LoginUseCaseTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/index-build/arm64-apple-macosx/debug/AuthTests.build/LoginUseCaseTests.swiftdeps",
+    "diagnostics": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/index-build/arm64-apple-macosx/debug/AuthTests.build/LoginUseCaseTests.dia"
+  },
+  "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Tests/Features/AuthTests/LogoutUseCaseTests.swift": {
+    "dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/index-build/arm64-apple-macosx/debug/AuthTests.build/LogoutUseCaseTests.d",
+    "object": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/index-build/arm64-apple-macosx/debug/AuthTests.build/LogoutUseCaseTests.swift.o",
+    "swiftmodule": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/index-build/arm64-apple-macosx/debug/AuthTests.build/LogoutUseCaseTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/index-build/arm64-apple-macosx/debug/AuthTests.build/LogoutUseCaseTests.swiftdeps",
+    "diagnostics": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/index-build/arm64-apple-macosx/debug/AuthTests.build/LogoutUseCaseTests.dia"
+  },
+  "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Tests/Features/AuthTests/Spies/AuthGatewaySpy.swift": {
+    "dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/index-build/arm64-apple-macosx/debug/AuthTests.build/AuthGatewaySpy.d",
+    "object": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/index-build/arm64-apple-macosx/debug/AuthTests.build/AuthGatewaySpy.swift.o",
+    "swiftmodule": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/index-build/arm64-apple-macosx/debug/AuthTests.build/AuthGatewaySpy~partial.swiftmodule",
+    "swift-dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/index-build/arm64-apple-macosx/debug/AuthTests.build/AuthGatewaySpy.swiftdeps",
+    "diagnostics": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/index-build/arm64-apple-macosx/debug/AuthTests.build/AuthGatewaySpy.dia"
+  },
+  "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Tests/Features/AuthTests/Spies/NavigationEventBusSpy.swift": {
+    "dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/index-build/arm64-apple-macosx/debug/AuthTests.build/NavigationEventBusSpy.d",
+    "object": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/index-build/arm64-apple-macosx/debug/AuthTests.build/NavigationEventBusSpy.swift.o",
+    "swiftmodule": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/index-build/arm64-apple-macosx/debug/AuthTests.build/NavigationEventBusSpy~partial.swiftmodule",
+    "swift-dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/index-build/arm64-apple-macosx/debug/AuthTests.build/NavigationEventBusSpy.swiftdeps",
+    "diagnostics": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/index-build/arm64-apple-macosx/debug/AuthTests.build/NavigationEventBusSpy.dia"
+  },
+  "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Tests/Features/AuthTests/Spies/SessionStoreSpy.swift": {
+    "dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/index-build/arm64-apple-macosx/debug/AuthTests.build/SessionStoreSpy.d",
+    "object": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/index-build/arm64-apple-macosx/debug/AuthTests.build/SessionStoreSpy.swift.o",
+    "swiftmodule": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/index-build/arm64-apple-macosx/debug/AuthTests.build/SessionStoreSpy~partial.swiftmodule",
+    "swift-dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/index-build/arm64-apple-macosx/debug/AuthTests.build/SessionStoreSpy.swiftdeps",
+    "diagnostics": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/index-build/arm64-apple-macosx/debug/AuthTests.build/SessionStoreSpy.dia"
+  }
+}
