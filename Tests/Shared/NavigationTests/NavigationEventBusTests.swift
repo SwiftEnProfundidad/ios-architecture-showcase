@@ -5,7 +5,7 @@ import Testing
 @Suite("NavigationEventBus")
 struct NavigationEventBusTests {
 
-    @Test("Evento publicado es recibido por el suscriptor")
+    @Test("Published event is received by the subscriber")
     func publishedEventIsReceivedBySubscriber() async {
         let bus = DefaultNavigationEventBus()
         let passengerID = PassengerID("PAX-001")
@@ -28,7 +28,7 @@ struct NavigationEventBusTests {
         #expect(received == expected)
     }
 
-    @Test("Múltiples eventos se reciben en orden")
+    @Test("Multiple events are received in order")
     func multipleEventsReceivedInOrder() async {
         let bus = DefaultNavigationEventBus()
         let flightID = FlightID("IB3456")

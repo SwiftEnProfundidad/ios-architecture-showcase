@@ -8,7 +8,7 @@ private typealias SUT = LoginUseCase<AuthGatewaySpy, SessionStoreSpy>
 @Suite("LoginUseCase")
 struct LoginUseCaseTests {
 
-    @Test("Dado credenciales válidas, cuando login, entonces devuelve pasajero y publica LoginSuccess")
+    @Test("Given valid credentials, when login, then returns passenger and publishes LoginSuccess")
     func loginWithValidCredentialsPublishesLoginSuccess() async throws {
         let (sut, gateway, bus) = makeSUT()
         let passengerID = PassengerID("PAX-001")
@@ -22,7 +22,7 @@ struct LoginUseCaseTests {
         #expect(publishedEvent == .loginSuccess(passengerID: passengerID, token: "tok-abc"))
     }
 
-    @Test("Dado credenciales inválidas, cuando login, entonces lanza AuthError.invalidCredentials")
+    @Test("Given invalid credentials, when login, then throws AuthError.invalidCredentials")
     func loginWithInvalidCredentialsThrows() async {
         let (sut, gateway, _) = makeSUT()
         await gateway.stub(result: .failure(.invalidCredentials))
@@ -32,7 +32,7 @@ struct LoginUseCaseTests {
         }
     }
 
-    @Test("Dado email con formato inválido, cuando login, entonces lanza AuthError.invalidEmailFormat sin llamar al gateway")
+    @Test("Given invalid email format, when login, then throws AuthError.invalidEmailFormat without calling the gateway")
     func loginWithInvalidEmailFormatThrowsWithoutCallingGateway() async throws {
         let (sut, gateway, _) = makeSUT()
 
@@ -44,7 +44,7 @@ struct LoginUseCaseTests {
         #expect(callCount == 0)
     }
 
-    @Test("Dado login exitoso, el token queda almacenado en el SessionStore")
+    @Test("Given successful login, the token is stored in the SessionStore")
     func loginStoresTokenInSessionStore() async throws {
         let (sut, gateway, _, sessionStore) = makeSUTWithStore()
         let passengerID = PassengerID("PAX-001")

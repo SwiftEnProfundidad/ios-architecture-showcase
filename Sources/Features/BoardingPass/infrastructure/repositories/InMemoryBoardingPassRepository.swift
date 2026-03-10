@@ -8,7 +8,7 @@ public struct InMemoryBoardingPassRepository: BoardingPassRepositoryProtocol {
         return BoardingPassData(
             flightID: flightID,
             passengerID: PassengerID("PAX-001"),
-            passengerName: "Carlos Merlos",
+            passengerName: "Juan Carlos Merlos Albarracín",
             seat: "12A",
             gate: "B7",
             boardingDeadline: "09:45",

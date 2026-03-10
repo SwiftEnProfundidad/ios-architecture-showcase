@@ -5,7 +5,7 @@ import Testing
 @Suite("ListFlightsUseCase")
 struct ListFlightsUseCaseTests {
 
-    @Test("Dado pasajero con vuelos, cuando lista, entonces devuelve todos sus vuelos")
+    @Test("Given passenger with flights, when listing, then returns all their flights")
     func listFlightsReturnsAllFlights() async throws {
         let passengerID = PassengerID("PAX-001")
         let expectedFlights = [
@@ -23,7 +23,7 @@ struct ListFlightsUseCaseTests {
         #expect(flights[1].id == FlightID("IB002"))
     }
 
-    @Test("Dado error de red, cuando lista, entonces lanza FlightError.network")
+    @Test("Given network error, when listing, then throws FlightError.network")
     func listFlightsThrowsOnNetworkError() async {
         let repository = FlightRepositorySpy()
         await repository.stubError(FlightError.network)
@@ -34,7 +34,7 @@ struct ListFlightsUseCaseTests {
         }
     }
 
-    @Test("Refresco concurrente de múltiples vuelos usa TaskGroup")
+    @Test("Concurrent refresh of multiple flights uses TaskGroup")
     func refreshMultipleFlightsConcurrently() async throws {
         let passengerID = PassengerID("PAX-001")
         let flightIDs = [FlightID("IB001"), FlightID("IB002"), FlightID("IB003")]

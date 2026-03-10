@@ -6,7 +6,7 @@ import Testing
 @Suite("LogoutUseCase")
 struct LogoutUseCaseTests {
 
-    @Test("Cuando logout, el token se elimina del SessionStore y se publica Logout")
+    @Test("When logout, the token is removed from the SessionStore and Logout is published")
     func logoutClearsTokenAndPublishesEvent() async {
         let sessionStore = SessionStoreSpy()
         await sessionStore.save(token: "tok-abc")
