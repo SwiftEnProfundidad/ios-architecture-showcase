@@ -1,5 +1,3 @@
-import SharedKernel
-import SharedNavigation
 
 public struct LoginUseCase<Gateway: AuthGatewayProtocol, Store: SessionStoreProtocol>: Sendable {
     private let gateway: Gateway

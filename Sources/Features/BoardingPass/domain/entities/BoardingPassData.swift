@@ -1,4 +1,3 @@
-import SharedKernel
 
 public struct BoardingPassData: Sendable, Equatable {
     public let flightID: FlightID

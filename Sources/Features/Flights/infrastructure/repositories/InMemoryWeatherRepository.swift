@@ -1,4 +1,3 @@
-import SharedKernel
 
 public struct InMemoryWeatherRepository: WeatherRepositoryProtocol {
     public init() {}

@@ -1,4 +1,3 @@
-import SharedKernel
 
 public struct ListFlightsUseCase<Repository: FlightRepositoryProtocol>: Sendable {
     private let repository: Repository

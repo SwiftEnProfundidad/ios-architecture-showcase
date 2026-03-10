@@ -1,5 +1,4 @@
 import Foundation
-import SharedKernel
 
 public struct InMemoryAuthGateway: AuthGatewayProtocol {
     private let validEmail = "carlos@iberia.com"

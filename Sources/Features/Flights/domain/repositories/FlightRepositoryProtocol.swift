@@ -1,4 +1,3 @@
-import SharedKernel
 
 public protocol FlightRepositoryProtocol: Sendable {
     func fetchAll(passengerID: PassengerID) async throws -> [Flight]
