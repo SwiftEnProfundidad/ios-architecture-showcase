@@ -14,7 +14,7 @@ let package = Package(
         .library(name: "Auth", targets: ["Auth"]),
         .library(name: "Flights", targets: ["Flights"]),
         .library(name: "BoardingPass", targets: ["BoardingPass"]),
-        .executable(name: "iOSArchitectureShowcaseApp", targets: ["AppComposition"])
+        .library(name: "AppComposition", targets: ["AppComposition"])
     ],
     targets: [
         .target(
@@ -46,11 +46,17 @@ let package = Package(
             path: "Sources/Features/BoardingPass",
             swiftSettings: strictConcurrency
         ),
-        .executableTarget(
+        .target(
             name: "AppComposition",
             dependencies: ["SharedKernel", "SharedNavigation", "Auth", "Flights", "BoardingPass"],
             path: "Sources/AppComposition",
             resources: [.process("Localizable.xcstrings")],
+            swiftSettings: strictConcurrency
+        ),
+        .executableTarget(
+            name: "App",
+            dependencies: ["AppComposition", "SharedKernel", "SharedNavigation", "Auth", "Flights", "BoardingPass"],
+            path: "Sources/App",
             swiftSettings: strictConcurrency
         ),
         .testTarget(
