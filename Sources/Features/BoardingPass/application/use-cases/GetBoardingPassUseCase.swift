@@ -1,5 +1,3 @@
-import SharedKernel
-import SharedNavigation
 
 public struct GetBoardingPassUseCase<Repository: BoardingPassRepositoryProtocol>: Sendable {
     private let repository: Repository

@@ -1,0 +1,74 @@
+name: iOSArchitectureShowcase
+options:
+  bundleIdPrefix: com.swiftenprofundidad
+  deploymentTarget:
+    iOS: "17.0"
+  xcodeVersion: "16.2"
+  createIntermediateGroups: true
+  groupSortPosition: top
+  defaultConfig: Debug
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    ENABLE_TESTABILITY: YES
+    DEBUG_INFORMATION_FORMAT: dwarf-with-dsym
+    PRODUCT_BUNDLE_IDENTIFIER: com.swiftenprofundidad.iOSArchitectureShowcase
+
+configs:
+  Debug: debug
+  Release: release
+
+targets:
+  iOSArchitectureShowcase:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: Sources/App
+      - path: Sources/AppComposition
+      - path: Sources/Features/Auth
+      - path: Sources/Features/Flights
+      - path: Sources/Features/BoardingPass
+      - path: Sources/Shared
+    resources:
+      - path: Sources/AppComposition/Localizable.xcstrings
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.swiftenprofundidad.iOSArchitectureShowcase
+        INFOPLIST_FILE: SupportingFiles/Info.plist
+        SWIFT_EMIT_LOC_STRINGS: YES
+        DEVELOPMENT_TEAM: ""
+    preBuildScripts: []
+
+  iOSArchitectureShowcaseTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: Tests
+    dependencies:
+      - target: iOSArchitectureShowcase
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.swiftenprofundidad.iOSArchitectureShowcaseTests
+        GENERATE_INFOPLIST_FILE: YES
+
+schemes:
+  iOSArchitectureShowcase:
+    build:
+      targets:
+        iOSArchitectureShowcase: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - name: iOSArchitectureShowcaseTests
+          parallelizable: true
+          randomExecutionOrder: true
+    profile:
+      config: Release
+    archive:
+      config: Release

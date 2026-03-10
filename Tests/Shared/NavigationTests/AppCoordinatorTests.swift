@@ -1,6 +1,5 @@
 import Testing
-@testable import SharedNavigation
-@testable import SharedKernel
+@testable import iOSArchitectureShowcase
 
 @Suite("AppCoordinator")
 struct AppCoordinatorTests {

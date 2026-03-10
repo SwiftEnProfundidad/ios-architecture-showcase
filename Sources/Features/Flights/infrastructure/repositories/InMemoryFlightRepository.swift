@@ -1,4 +1,3 @@
-import SharedKernel
 
 public struct InMemoryFlightRepository: FlightRepositoryProtocol {
     private let flights: [Flight]
