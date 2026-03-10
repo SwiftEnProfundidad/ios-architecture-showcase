@@ -1,13 +1,31 @@
-# SPM
-.build/
-.swiftpm/
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
 
 # Xcode
-*.xcuserstate
 xcuserdata/
+*.xcuserstate
 DerivedData/
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.moved-aside
+*.xccheckout
+*.xcscmblueprint
 *.xcodeproj/project.xcworkspace/xcuserdata/
 *.xcodeproj/xcuserdata/
 
-# macOS
-.DS_Store
+# SPM build artifacts (not needed with xcodeproj as primary build)
+.build/
+.swiftpm/
+
+# VS Code
+.vscode/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
