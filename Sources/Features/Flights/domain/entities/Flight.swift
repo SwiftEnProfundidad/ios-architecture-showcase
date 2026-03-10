@@ -1,4 +1,3 @@
-import SharedKernel
 
 public struct Flight: Sendable, Equatable, Identifiable {
     public enum Status: String, Sendable, Equatable {

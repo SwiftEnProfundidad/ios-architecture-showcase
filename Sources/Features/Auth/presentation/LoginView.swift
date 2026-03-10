@@ -51,14 +51,9 @@ public struct LoginView: View {
 
     @ViewBuilder
     private func errorText(_ message: String) -> some View {
-        let base = Text(message)
+        Text(message)
             .foregroundStyle(.red)
             .font(.callout)
-        #if os(iOS)
-        base.accessibilityLiveRegion(.polite)
-        #else
-        base
-        #endif
     }
 
     @ViewBuilder

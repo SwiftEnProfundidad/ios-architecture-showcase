@@ -1,4 +1,3 @@
-import SharedNavigation
 
 public struct LogoutUseCase<Store: SessionStoreProtocol>: Sendable {
     private let sessionStore: Store

@@ -1,4 +1,3 @@
-import SharedKernel
 
 public struct InMemoryBoardingPassRepository: BoardingPassRepositoryProtocol {
     public init() {}

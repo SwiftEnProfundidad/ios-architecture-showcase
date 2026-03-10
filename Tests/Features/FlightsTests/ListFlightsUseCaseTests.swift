@@ -1,6 +1,5 @@
 import Testing
-@testable import Flights
-@testable import SharedKernel
+@testable import iOSArchitectureShowcase
 
 @Suite("ListFlightsUseCase")
 struct ListFlightsUseCaseTests {

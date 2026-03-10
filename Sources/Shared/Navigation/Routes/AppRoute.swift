@@ -1,4 +1,3 @@
-import SharedKernel
 
 public enum AppRoute: Sendable, Equatable {
     case login

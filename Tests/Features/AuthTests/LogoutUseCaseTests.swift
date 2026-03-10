@@ -1,7 +1,5 @@
 import Testing
-@testable import Auth
-@testable import SharedKernel
-@testable import SharedNavigation
+@testable import iOSArchitectureShowcase
 
 @Suite("LogoutUseCase")
 struct LogoutUseCaseTests {
