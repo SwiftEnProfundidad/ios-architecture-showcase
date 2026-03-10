@@ -1,5 +1,4 @@
 import Observation
-import Auth
 import SharedKernel
 import SharedNavigation
 
