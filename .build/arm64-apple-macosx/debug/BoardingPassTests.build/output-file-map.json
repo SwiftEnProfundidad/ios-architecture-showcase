@@ -1,0 +1,26 @@
+{
+  "": {
+    "swift-dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/BoardingPassTests.build/master.swiftdeps"
+  },
+  "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Tests/Features/BoardingPassTests/GetBoardingPassUseCaseTests.swift": {
+    "dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/BoardingPassTests.build/GetBoardingPassUseCaseTests.d",
+    "object": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/BoardingPassTests.build/GetBoardingPassUseCaseTests.swift.o",
+    "swiftmodule": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/BoardingPassTests.build/GetBoardingPassUseCaseTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/BoardingPassTests.build/GetBoardingPassUseCaseTests.swiftdeps",
+    "diagnostics": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/BoardingPassTests.build/GetBoardingPassUseCaseTests.dia"
+  },
+  "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Tests/Features/BoardingPassTests/Spies/BoardingPassRepositorySpy.swift": {
+    "dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/BoardingPassTests.build/BoardingPassRepositorySpy.d",
+    "object": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/BoardingPassTests.build/BoardingPassRepositorySpy.swift.o",
+    "swiftmodule": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/BoardingPassTests.build/BoardingPassRepositorySpy~partial.swiftmodule",
+    "swift-dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/BoardingPassTests.build/BoardingPassRepositorySpy.swiftdeps",
+    "diagnostics": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/BoardingPassTests.build/BoardingPassRepositorySpy.dia"
+  },
+  "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Tests/Features/BoardingPassTests/Spies/NavigationEventBusSpy.swift": {
+    "dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/BoardingPassTests.build/NavigationEventBusSpy.d",
+    "object": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/BoardingPassTests.build/NavigationEventBusSpy.swift.o",
+    "swiftmodule": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/BoardingPassTests.build/NavigationEventBusSpy~partial.swiftmodule",
+    "swift-dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/BoardingPassTests.build/NavigationEventBusSpy.swiftdeps",
+    "diagnostics": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/BoardingPassTests.build/NavigationEventBusSpy.dia"
+  }
+}

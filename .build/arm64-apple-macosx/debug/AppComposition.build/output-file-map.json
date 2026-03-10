@@ -1,0 +1,19 @@
+{
+  "": {
+    "swift-dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/AppComposition.build/master.swiftdeps"
+  },
+  "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/AppComposition/CompositionRoot.swift": {
+    "dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/AppComposition.build/CompositionRoot.d",
+    "object": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/AppComposition.build/CompositionRoot.swift.o",
+    "swiftmodule": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/AppComposition.build/CompositionRoot~partial.swiftmodule",
+    "swift-dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/AppComposition.build/CompositionRoot.swiftdeps",
+    "diagnostics": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/AppComposition.build/CompositionRoot.dia"
+  },
+  "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/AppComposition/main.swift": {
+    "dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/AppComposition.build/main.d",
+    "object": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/AppComposition.build/main.swift.o",
+    "swiftmodule": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/AppComposition.build/main~partial.swiftmodule",
+    "swift-dependencies": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/AppComposition.build/main.swiftdeps",
+    "diagnostics": "/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/.build/arm64-apple-macosx/debug/AppComposition.build/main.dia"
+  }
+}
