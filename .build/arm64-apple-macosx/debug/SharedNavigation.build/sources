@@ -1,8 +1,0 @@
-/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Shared/Navigation/EventBus/AppCoordinator.swift
-/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Shared/Navigation/EventBus/AppStateStore.swift
-/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Shared/Navigation/EventBus/DefaultNavigationEventBus.swift
-/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Shared/Navigation/EventBus/NavigationEventBus.swift
-/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Shared/Navigation/Routes/AppReducer.swift
-/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Shared/Navigation/Routes/AppRoute.swift
-/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Shared/Navigation/Routes/AppState.swift
-/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Shared/Navigation/Routes/NavigationEvent.swift

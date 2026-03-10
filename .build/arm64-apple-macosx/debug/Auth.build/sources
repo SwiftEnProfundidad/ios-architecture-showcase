@@ -1,8 +1,0 @@
-/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/Auth/application/use-cases/LoginUseCase.swift
-/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/Auth/application/use-cases/LogoutUseCase.swift
-/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/Auth/domain/entities/AuthSession.swift
-/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/Auth/domain/errors/AuthError.swift
-/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/Auth/domain/repositories/AuthGatewayProtocol.swift
-/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/Auth/domain/repositories/SessionStoreProtocol.swift
-/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/Auth/infrastructure/repositories/InMemoryAuthGateway.swift
-/Users/juancarlosmerlosalbarracin/Developer/Projects/ios-architecture-showcase/Sources/Features/Auth/infrastructure/repositories/InMemorySessionStore.swift
