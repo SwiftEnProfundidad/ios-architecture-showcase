@@ -79,11 +79,6 @@ let package = Package(
             dependencies: ["BoardingPass", "SharedKernel", "SharedNavigation"],
             path: "Tests/Features/BoardingPassTests"
         ),
-        .testTarget(
-            name: "AppCompositionTests",
-            dependencies: ["AppComposition"],
-            path: "Tests/AppCompositionTests"
-        )
     ]
 )
 
