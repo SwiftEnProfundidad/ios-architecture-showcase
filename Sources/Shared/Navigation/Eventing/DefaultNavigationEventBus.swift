@@ -26,18 +26,12 @@ private actor NavigationEventBusState {
 
     func makeStream() -> AsyncStream<NavigationEvent> {
         let id = UUID()
-        return AsyncStream(NavigationEvent.self) { continuation in
-            Task {
-                self.register(id: id, continuation: continuation)
-                continuation.onTermination = { [id] _ in
-                    Task { await self.unregister(id: id) }
-                }
-            }
+        let stream = AsyncStream.makeStream(of: NavigationEvent.self)
+        continuations[id] = stream.continuation
+        stream.continuation.onTermination = { [id] _ in
+            Task { await self.unregister(id: id) }
         }
-    }
-
-    private func register(id: UUID, continuation: AsyncStream<NavigationEvent>.Continuation) {
-        continuations[id] = continuation
+        return stream.stream
     }
 
     private func unregister(id: UUID) {
