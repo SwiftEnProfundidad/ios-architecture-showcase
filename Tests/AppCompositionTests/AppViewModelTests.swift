@@ -9,48 +9,48 @@ struct AppViewModelTests {
 
     @Test("AppViewModel reflects store updates after coordinator processes an event")
     func appViewModelReflectsStateChanges() async {
-        let bus = DefaultNavigationEventBus()
-        let store = AppStateStore()
-        let coordinator = AppCoordinator(bus: bus, store: store)
-        let viewModel = AppViewModel(store: store)
+        let tracked = makeSUT()
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
         let expiresAt = fixedDate(hour: 12, minute: 0)
         let session = AppSession(
             passengerID: PassengerID("PAX-001"),
             token: "tok-abc",
             expiresAt: expiresAt
         )
-        viewModel.startObservingState()
-        defer { viewModel.stopObservingState() }
+        context.viewModel.startObservingState()
+        defer { context.viewModel.stopObservingState() }
 
-        await coordinator.start()
-        await bus.publish(.sessionStarted(session))
-        await bus.publish(.requestProtectedPath([.primaryDetail(contextID: "IB3456")]))
+        await context.coordinator.start()
+        await context.bus.publish(.sessionStarted(session))
+        await context.bus.publish(.requestProtectedPath([.primaryDetail(contextID: "IB3456")]))
 
         await eventually {
-            viewModel.rootRoute == .authenticatedHome &&
-            viewModel.session?.passengerID == PassengerID("PAX-001") &&
-            viewModel.path == [.primaryDetail(contextID: "IB3456")]
+            context.viewModel.rootRoute == .authenticatedHome &&
+            context.viewModel.session?.passengerID == PassengerID("PAX-001") &&
+            context.viewModel.path == [.primaryDetail(contextID: "IB3456")]
         }
 
-        #expect(viewModel.rootRoute == .authenticatedHome)
-        #expect(viewModel.session?.expiresAt == expiresAt)
-        #expect(viewModel.path == [.primaryDetail(contextID: "IB3456")])
+        #expect(context.viewModel.rootRoute == .authenticatedHome)
+        #expect(context.viewModel.session?.expiresAt == expiresAt)
+        #expect(context.viewModel.path == [.primaryDetail(contextID: "IB3456")])
     }
 
     @Test("AppViewModel stops observing once cancelled")
     func appViewModelStopsReflectingStateAfterCancellation() async {
-        let store = AppStateStore()
-        let viewModel = AppViewModel(store: store)
+        let tracked = makeStoppedObserverSUT()
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
         let session = AppSession(
             passengerID: PassengerID("PAX-001"),
             token: "tok-stop",
             expiresAt: fixedDate(hour: 12, minute: 0)
         )
 
-        viewModel.startObservingState()
-        viewModel.stopObservingState()
+        context.viewModel.startObservingState()
+        context.viewModel.stopObservingState()
 
-        await store.apply(
+        await context.store.apply(
             AppState(
                 rootRoute: .authenticatedHome,
                 session: session,
@@ -60,9 +60,9 @@ struct AppViewModelTests {
 
         await Task.yield()
 
-        #expect(viewModel.rootRoute == .login)
-        #expect(viewModel.session == nil)
-        #expect(viewModel.path.isEmpty)
+        #expect(context.viewModel.rootRoute == .login)
+        #expect(context.viewModel.session == nil)
+        #expect(context.viewModel.path.isEmpty)
     }
 
     private func eventually(
@@ -73,4 +73,39 @@ struct AppViewModelTests {
             await Task.yield()
         }
     }
+
+    private func makeSUT(
+        sourceLocation: SourceLocation = #_sourceLocation
+    ) -> TrackedTestContext<AppViewModelObservedContext> {
+        let bus = DefaultNavigationEventBus()
+        let store = AppStateStore()
+        let coordinator = AppCoordinator(bus: bus, store: store)
+        let viewModel = AppViewModel(store: store)
+        _ = sourceLocation
+        return makeTestContext(
+            AppViewModelObservedContext(bus: bus, coordinator: coordinator, viewModel: viewModel)
+        )
+    }
+
+    private func makeStoppedObserverSUT(
+        sourceLocation: SourceLocation = #_sourceLocation
+    ) -> TrackedTestContext<AppViewModelStoppedObserverContext> {
+        let store = AppStateStore()
+        let viewModel = AppViewModel(store: store)
+        _ = sourceLocation
+        return makeTestContext(
+            AppViewModelStoppedObserverContext(store: store, viewModel: viewModel)
+        )
+    }
+}
+
+private struct AppViewModelObservedContext {
+    let bus: DefaultNavigationEventBus
+    let coordinator: DefaultAppCoordinator
+    let viewModel: AppViewModel
+}
+
+private struct AppViewModelStoppedObserverContext {
+    let store: AppStateStore
+    let viewModel: AppViewModel
 }

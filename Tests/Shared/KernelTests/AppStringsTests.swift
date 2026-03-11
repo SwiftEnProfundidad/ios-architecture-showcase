@@ -5,8 +5,9 @@ import Testing
 struct AppStringsTests {
     @Test("AppStrings resolves localized keys")
     func resolvesLocalizedKeys() {
-        let title = AppStrings.localized("auth.login.title")
-        let productName = AppStrings.localized("auth.login.productName")
+        let sut = makeSUT()
+        let title = sut.localized("auth.login.title")
+        let productName = sut.localized("auth.login.productName")
 
         #expect(title.isEmpty == false)
         #expect(title != "auth.login.title")
@@ -15,7 +16,8 @@ struct AppStringsTests {
 
     @Test("AppStrings interpolates localized arguments")
     func interpolatesArguments() {
-        let message = AppStrings.localized(
+        let sut = makeSUT()
+        let message = sut.localized(
             "flights.row.accessibility",
             "IB3456",
             "MAD",
@@ -30,10 +32,15 @@ struct AppStringsTests {
 
     @Test("AppStrings formats shared UI strings without hardcoded fallbacks")
     func formatsSharedUIStrings() {
-        let route = AppStrings.localized("flights.route", "MAD", "BCN")
-        let labelValue = AppStrings.localized("shared.accessibility.labelValue", "Gate", "J12")
+        let sut = makeSUT()
+        let route = sut.localized("flights.route", "MAD", "BCN")
+        let labelValue = sut.localized("shared.accessibility.labelValue", "Gate", "J12")
 
         #expect(route == "MAD → BCN")
         #expect(labelValue == "Gate: J12")
+    }
+
+    private func makeSUT() -> AppStrings.Type {
+        AppStrings.self
     }
 }

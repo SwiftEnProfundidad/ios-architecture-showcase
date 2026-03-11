@@ -7,16 +7,8 @@ struct ProtectedNavigationPolicyTests {
 
     @Test("Expired protected navigation invalidates persistence and resets state")
     func expiredProtectedNavigationInvalidatesPersistence() throws {
-        let sut = ProtectedNavigationPolicy()
-        let expiredState = AppState(
-            rootRoute: .authenticatedHome,
-            session: AppSession(
-                passengerID: PassengerID("PAX-001"),
-                token: "tok-expired",
-                expiresAt: .distantPast
-            ),
-            path: []
-        )
+        let sut = makeSUT()
+        let expiredState = makeExpiredProtectedState()
 
         let decision = sut.evaluate(
             current: expiredState,
@@ -30,12 +22,8 @@ struct ProtectedNavigationPolicyTests {
 
     @Test("Valid protected navigation keeps the session and does not invalidate persistence")
     func validProtectedNavigationKeepsSession() throws {
-        let sut = ProtectedNavigationPolicy()
-        let session = AppSession(
-            passengerID: PassengerID("PAX-001"),
-            token: "tok-valid",
-            expiresAt: fixedDate(hour: 12, minute: 0)
-        )
+        let sut = makeSUT()
+        let session = makeValidProtectedSession()
 
         let decision = sut.evaluate(
             current: AppState(
@@ -54,5 +42,29 @@ struct ProtectedNavigationPolicyTests {
             .secondaryAttachment(contextID: "IB3456")
         ])
         #expect(resolvedDecision.shouldInvalidatePersistedSession == false)
+    }
+
+    private func makeSUT() -> ProtectedNavigationPolicy {
+        ProtectedNavigationPolicy()
+    }
+
+    private func makeExpiredProtectedState() -> AppState {
+        AppState(
+            rootRoute: .authenticatedHome,
+            session: AppSession(
+                passengerID: PassengerID("PAX-001"),
+                token: "tok-expired",
+                expiresAt: .distantPast
+            ),
+            path: []
+        )
+    }
+
+    private func makeValidProtectedSession() -> AppSession {
+        AppSession(
+            passengerID: PassengerID("PAX-001"),
+            token: "tok-valid",
+            expiresAt: fixedDate(hour: 12, minute: 0)
+        )
     }
 }

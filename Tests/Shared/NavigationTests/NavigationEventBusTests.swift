@@ -7,7 +7,9 @@ struct NavigationEventBusTests {
 
     @Test("Published event is received by the subscriber")
     func publishedEventIsReceivedBySubscriber() async {
-        let (token, bus) = makeSUT()
+        let tracked = makeSUT()
+        defer { tracked.assertNoLeaks() }
+        let bus = tracked.context.bus
         let expected = NavigationEvent.sessionStarted(
             AppSession(
                 passengerID: PassengerID("PAX-001"),
@@ -22,12 +24,13 @@ struct NavigationEventBusTests {
         let received = await iterator.next()
 
         #expect(received == expected)
-        _ = token
     }
 
     @Test("Multiple events are received in order")
     func multipleEventsReceivedInOrder() async {
-        let (token, bus) = makeSUT()
+        let tracked = makeSUT()
+        defer { tracked.assertNoLeaks() }
+        let bus = tracked.context.bus
         let events: [NavigationEvent] = [
             .requestProtectedPath([.primaryDetail(contextID: "IB3456")]),
             .requestProtectedPath([.primaryDetail(contextID: "IB3456"), .secondaryAttachment(contextID: "IB3456")]),
@@ -47,15 +50,20 @@ struct NavigationEventBusTests {
         ].compactMap { $0 }
 
         #expect(received == events)
-        _ = token
     }
 
     private func makeSUT(
         sourceLocation: SourceLocation = #_sourceLocation
-    ) -> (MemoryLeakToken, DefaultNavigationEventBus) {
-        let token = MemoryLeakToken()
+    ) -> TrackedTestContext<NavigationEventBusTestContext> {
         let bus = DefaultNavigationEventBus()
-        trackForMemoryLeaks(bus, token: token, sourceLocation: sourceLocation)
-        return (token, bus)
+        return makeLeakTrackedTestContext(
+            NavigationEventBusTestContext(bus: bus),
+            trackedInstances: bus,
+            sourceLocation: sourceLocation
+        )
     }
+}
+
+private struct NavigationEventBusTestContext {
+    let bus: DefaultNavigationEventBus
 }
