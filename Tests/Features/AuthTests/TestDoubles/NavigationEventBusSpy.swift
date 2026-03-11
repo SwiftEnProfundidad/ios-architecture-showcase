@@ -1,4 +1,4 @@
-@testable import iOSArchitectureShowcase
+import SharedNavigation
 
 actor NavigationEventBusSpy: NavigationEventPublishing {
     private(set) var lastPublishedEvent: NavigationEvent?
