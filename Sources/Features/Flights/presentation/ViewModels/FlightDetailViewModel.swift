@@ -1,18 +1,20 @@
 import Observation
+import SharedKernel
+import SharedNavigation
 
 @MainActor
 @Observable
-public final class FlightDetailViewModel {
+public final class FlightDetailViewModel<DetailUseCase: FlightDetailGetting> {
     public private(set) var detail: FlightDetail?
-    public private(set) var isLoading = false
+    public private(set) var isLoading = true
     public private(set) var errorMessage: String?
 
-    private let detailUseCase: GetFlightDetailUseCase<InMemoryFlightRepository, InMemoryWeatherRepository>
+    private let detailUseCase: DetailUseCase
     private let eventBus: NavigationEventPublishing
     private let flightID: FlightID
 
     public init(
-        detailUseCase: GetFlightDetailUseCase<InMemoryFlightRepository, InMemoryWeatherRepository>,
+        detailUseCase: DetailUseCase,
         eventBus: NavigationEventPublishing,
         flightID: FlightID
     ) {
@@ -27,16 +29,19 @@ public final class FlightDetailViewModel {
         defer { isLoading = false }
         do {
             detail = try await detailUseCase.execute(flightID: flightID)
+        } catch is CancellationError {
+            return
         } catch {
-            errorMessage = String(localized: "flights.error.detail")
+            errorMessage = AppStrings.localized("flights.error.detail")
         }
     }
 
     public func requestBoardingPass() async {
-        await eventBus.publish(.showBoardingPass(flightID: flightID))
-    }
-
-    public func goBack() async {
-        await eventBus.publish(.backToFlightDetail(flightID: flightID))
+        await eventBus.publish(
+            .requestProtectedPath([
+                .primaryDetail(contextID: flightID.value),
+                .secondaryAttachment(contextID: flightID.value)
+            ])
+        )
     }
 }
