@@ -1,5 +1,6 @@
 # macOS
 .DS_Store
+**/.DS_Store
 .AppleDouble
 .LSOverride
 
@@ -16,13 +17,19 @@ DerivedData/
 *.xcscmblueprint
 *.xcodeproj/project.xcworkspace/xcuserdata/
 *.xcodeproj/xcuserdata/
+*.xcarchive/
+*.ipa
 
-# SPM build artifacts (not needed with xcodeproj as primary build)
+# SPM / Swift build artifacts
 .build/
 .swiftpm/
 
-# VS Code
+# IDE
 .vscode/
+.idea/
+*.swp
+.codex-artifacts/
+**/.$*.bkp
 
 # Fastlane
 fastlane/report.xml
