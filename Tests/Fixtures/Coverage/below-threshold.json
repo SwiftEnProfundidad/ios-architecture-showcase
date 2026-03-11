@@ -1,0 +1,37 @@
+{
+  "data": [
+    {
+      "files": [
+        {
+          "filename": "/repo/Sources/Features/Flights/FlightListViewModel.swift",
+          "summary": {
+            "lines": {
+              "count": 50,
+              "covered": 35,
+              "percent": 70
+            }
+          }
+        },
+        {
+          "filename": "/repo/Sources/Features/Flights/ListFlightsUseCase.swift",
+          "summary": {
+            "lines": {
+              "count": 50,
+              "covered": 35,
+              "percent": 70
+            }
+          }
+        }
+      ],
+      "totals": {
+        "lines": {
+          "count": 100,
+          "covered": 70,
+          "percent": 70
+        }
+      }
+    }
+  ],
+  "type": "llvm.coverage.json.export",
+  "version": "2.0.1"
+}

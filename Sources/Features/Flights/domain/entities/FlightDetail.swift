@@ -1,3 +1,5 @@
+import SharedKernel
+
 public struct FlightDetail: Sendable, Equatable {
     public let flight: Flight
     public let weather: WeatherInfo?

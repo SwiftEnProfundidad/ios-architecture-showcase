@@ -1,144 +1,188 @@
 # iOS Architecture Showcase
 
 [![CI](https://github.com/SwiftEnProfundidad/ios-architecture-showcase/actions/workflows/ci.yml/badge.svg)](https://github.com/SwiftEnProfundidad/ios-architecture-showcase/actions/workflows/ci.yml)
-[![Swift 6](https://img.shields.io/badge/Swift-6.0-orange.svg)](https://swift.org/)
-[![Platform](https://img.shields.io/badge/platform-iOS%2017%2B%20%7C%20macOS%2014%2B-blue.svg)](https://developer.apple.com/)
+[![Swift](https://img.shields.io/badge/Swift%206.2-orange.svg)](https://swift.org/)
+[![Platform](https://img.shields.io/badge/platform-iOS%2017%2B-lightgrey.svg)](https://developer.apple.com/ios/)
 
-Proyecto de demostración que implementa una app iOS de gestión de vuelos y tarjeta de embarque. Construido con disciplina de ingeniería enterprise: **BDD → TDD → código de producción**, Clean Architecture feature-first y event-driven navigation inspirada en TCA, sin dependencias de terceros.
+Enterprise-grade iOS showcase for passenger authentication, flight browsing, and boarding pass delivery. The repository follows `BDD -> TDD -> production code`, clean feature-first architecture, event-driven navigation, strict Swift concurrency, and zero third-party dependencies.
 
----
+## Repository contract
 
-## Stack técnico demostrado
+- Functional source of truth: `docs/features/`
+- Architectural/module contract: `Package.swift`
+- Xcode wiring source of truth: `project.yml`
+- Generated Xcode artifact: `iOSArchitectureShowcase.xcodeproj`
+- Official validation command: `./scripts/validate.sh`
+- Reviewer handoff: `docs/reviewer-guide.md`
 
-| Tecnología | Implementación |
+## Start here in 3 minutes
+
+If you want the shortest possible review path:
+
+1. Run `./scripts/validate.sh`.
+2. Open `docs/reviewer-guide.md`.
+3. Open `docs/features/`.
+4. Inspect `Package.swift` and `project.yml`.
+5. Launch the app and follow the evaluation login flow.
+
+## Primary review artifacts
+
+The main reviewer-facing package is intentionally limited to:
+
+- `README.md`
+- `docs/reviewer-guide.md`
+- `docs/features/`
+- `Package.swift`
+- `project.yml`
+- `./scripts/validate.sh`
+
+## Architecture diagrams
+
+Editable diagrams live in `docs/architecture/*.drawio`. The `PNG` previews below are generated from those sources and reflect the current repository graph.
+
+### Layered overview
+
+![Layered architecture overview](docs/architecture/architecture-overview.drawio.png)
+
+### Auth feature detail
+
+![Auth feature detail](docs/architecture/Auth%20Feature%20Detail.drawio.png)
+
+### Flights feature detail
+
+![Flights feature detail](docs/architecture/flights-feature-detail.drawio.png)
+
+## Bounded contexts
+
+| Context | Responsibility |
 |---|---|
-| **Swift 6.0** | `swift-tools-version: 6.0`, strict concurrency activado |
-| **SwiftUI** | `@Observable`, `@MainActor`, `NavigationStack`, `navigationDestination` |
-| **UIKit interop** | `UIViewControllerRepresentable` en `QRCodeView` (CoreImage QR) |
-| **async/await** | Todos los use cases, repositorios y ViewModels |
-| **Structured concurrency** | `async let` en `GetFlightDetailUseCase`, `TaskGroup` en `ListFlightsUseCase.refreshAll` |
-| **actors** | `AppStateStore`, `AppCoordinator`, `DefaultNavigationEventBus` (state), `InMemorySessionStore`, spies de test |
-| **Sendable** | Todos los tipos de dominio, protocolos de repositorio y eventos |
-| **@MainActor** | ViewModels y `AppCoordinator` (justificado: actualizan UI) |
-| **Arquitectura Hexagonal** | Ports en domain (`AuthGatewayProtocol`, `FlightRepositoryProtocol`), adapters en infrastructure |
-| **Clean Architecture modular** | Feature-first: Auth / Flights / BoardingPass / SharedNavigation / SharedKernel |
-| **SOLID** | SRP: un use case = una responsabilidad; ISP: protocolos segregados por capacidad |
-| **Protocol-Oriented Programming** | Todos los contratos son protocolos `Sendable`; generics en use cases |
-| **Dependency Injection** | Constructor injection vía `CompositionRoot` (sin Singletons) |
-| **MVVM** | `@Observable @MainActor` ViewModels; vistas sin lógica de negocio |
-| **Event-driven navigation (TCA-inspired)** | `NavigationEvent` → `AppReducer` → `AppStateStore` → `AppViewModel` |
-| **XCTest** | Tests de actores e infraestructura (SessionStore, FlightCache) |
-| **Swift Testing** | `@Test`, `#expect`, `@Suite` en todos los tests de dominio y aplicación |
-| **GitHub Actions CI** | `swift build` + `swift test --parallel` en macOS 15 / Xcode 16 |
-| **String Catalogs** | `Localizable.xcstrings` con todas las cadenas de UI |
-| **Accessibility** | `accessibilityLabel`, `accessibilityAddTraits` en todas las vistas |
+| `AuthFeature` | Remote login over HTTP, session creation, and secure persistence |
+| `FlightsFeature` | Paginated flight browsing, concurrent refresh, flight detail, and cache fallback |
+| `BoardingPassFeature` | Boarding pass retrieval and native QR rendering |
+| `SharedNavigation` | Event bus, reducer, state store, routes, and coordinator |
+| `SharedKernel` | Shared IDs, minimal entities/contracts, and localized strings |
+| `AppComposition` | Composition root, runtime wiring, session restoration, and scene assembly |
 
----
+## Repository map
 
-## Arquitectura de navegación (TCA-inspired sin TCA)
-
-```
-NavigationEvent (enum Sendable)
-    │
-    ▼
-DefaultNavigationEventBus (actor + AsyncStream)
-    │
-    ▼
-AppCoordinator (actor — escucha stream)
-    │
-    ▼
-AppReducer (struct puro — reduce(state, event) → state)
-    │
-    ▼
-AppStateStore (actor — guarda estado)
-    │
-    ▼
-AppViewModel (@MainActor @Observable — expone activeRoute)
-    │
-    ▼
-RootView (switch sobre activeRoute → SwiftUI)
-```
-
-| Concepto TCA | Equivalente en este proyecto |
-|---|---|
-| `Store` | `AppStateStore` (actor) |
-| `Reducer` | `AppReducer` (función pura, testable aisladamente) |
-| `Action` | `NavigationEvent` (enum `Sendable`) |
-| `State` | `AppState` (struct `Sendable`, inmutable) |
-
-Sin dependencia de terceros — 100% vanilla Swift 6.
-
----
-
-## Estructura del proyecto
-
-```
+```text
+Package.swift
 Sources/
-  Shared/
-    Kernel/              ← PassengerID, FlightID (value objects compartidos)
-    Navigation/
-      Routes/            ← NavigationEvent, AppRoute, AppState, AppReducer
-      EventBus/          ← DefaultNavigationEventBus, AppStateStore, AppCoordinator
+  App/
+  AppComposition/
   Features/
     Auth/
-      domain/            ← AuthSession, AuthError, AuthGatewayProtocol, SessionStoreProtocol
-      application/       ← LoginUseCase, LogoutUseCase
-      infrastructure/    ← InMemoryAuthGateway, InMemorySessionStore
-      presentation/      ← AuthViewModel, LoginView
     Flights/
-      domain/            ← Flight, WeatherInfo, FlightDetail, FlightError, protocols
-      application/       ← ListFlightsUseCase (TaskGroup), GetFlightDetailUseCase (async let)
-      infrastructure/    ← InMemoryFlightRepository, InMemoryWeatherRepository
-      presentation/      ← FlightListViewModel, FlightDetailViewModel, views
     BoardingPass/
-      domain/            ← BoardingPassData, BoardingPassError, protocol
-      application/       ← GetBoardingPassUseCase
-      infrastructure/    ← InMemoryBoardingPassRepository
-      presentation/      ← BoardingPassViewModel, BoardingPassView, QRCodeView (UIKit)
-  Presentation/
-    Navigation/          ← AppViewModel, RootView, DefaultViewFactory
-  AppComposition/        ← CompositionRoot, main.swift
+  Shared/
+    Kernel/
+    Navigation/
 Tests/
-  Shared/NavigationTests/    ← AppReducerTests, NavigationEventBusTests, AppCoordinatorTests
-  Features/AuthTests/        ← LoginUseCaseTests, LogoutUseCaseTests
-  Features/FlightsTests/     ← ListFlightsUseCaseTests, GetFlightDetailUseCaseTests
-  Features/BoardingPassTests/ ← GetBoardingPassUseCaseTests
-docs/features/               ← auth.feature, flights.feature, boarding-pass.feature, navigation.feature
+docs/
+  architecture/
+  features/
+project.yml
+scripts/validate.sh
 ```
 
----
+## What the app demonstrates
 
-## Quick start
+- Swift 6.2 with strict concurrency, actors, `AsyncStream`, `async let`, and `TaskGroup`
+- Feature-first clean architecture without feature-to-feature imports
+- A single navigation source of truth: `NavigationEvent -> AppReducer -> AppStateStore -> AppViewModel -> RootView`
+- Runtime-authentication over `URLSession`, secure session persistence in Keychain, and local bootstrap fallback for evaluation
+- A 26-flight evaluation portfolio with 10-flight incremental pages, bottom inline pagination spinner, cache-backed offline fallback, pull to refresh, and perceptible skeleton loading
+- Adaptive light/dark presentation using native SwiftUI materials and semantic contrast
+- Reviewer-facing documentation in English and localized runtime copy through String Catalogs
+- Swift Testing coverage across domain, application, navigation, and presentation
+- Coverage gate enforced at `>= 85%` in local validation and CI
+
+## Architecture guarantees
+
+- `AppComposition` is the only module allowed to know all features at once.
+- `AuthFeature`, `FlightsFeature`, and `BoardingPassFeature` do not import each other.
+- Shared cross-feature surface is restricted to `SharedKernel` and `SharedNavigation`.
+- The same validation entrypoint is used locally and in CI.
+- Quality claims are backed by executable evidence, not by README-only promises.
+
+## Local validation
 
 ```bash
-# Build
-swift build -c debug
-
-# Tests
-swift test --parallel
+./scripts/validate.sh
 ```
 
-Requisitos: Xcode 16+ / Swift 6.0+, macOS 14+.
+The script runs:
 
----
+1. `swift build -c debug`
+2. `swift test --parallel --enable-code-coverage`
+3. `python3 scripts/coverage_gate.py --input-json <swift test --show-coverage-path> --threshold 85`
+4. `xcodegen generate`
+5. `xcodebuild -project iOSArchitectureShowcase.xcodeproj -scheme iOSArchitectureShowcase -destination "platform=iOS Simulator,name=<first available iPhone>" build test`
 
-## Credenciales de demo
+Local requirements:
 
-```
+- Swift 6.2 compatible toolchain
+- Xcode 26.3 with an available iOS simulator
+- `xcodegen` installed
+- `drawio` available if you want to re-export diagram previews
+
+## Reviewer quick path
+
+If you want a slightly more detailed review flow:
+
+1. Read the architecture overview and the two feature detail diagrams above.
+2. Run `./scripts/validate.sh` to verify build, tests, coverage gate, Xcode generation, and simulator build/test in one pass.
+3. Open `docs/features/` to see the BDD source of truth for auth, flights, boarding pass, navigation, and testing strategy.
+4. Inspect `Package.swift` and `project.yml` to confirm modular boundaries, Swift 6.2, strict concurrency, and Xcode wiring.
+5. Start the app and exercise the showcase flow: evaluation login, paginated flights, pull to refresh, detail, boarding pass, and logout.
+6. Open `docs/reviewer-guide.md` if you want a shorter reviewer-facing summary of scope and guarantees.
+
+## BDD coverage
+
+- `docs/features/auth.feature`
+- `docs/features/flights.feature`
+- `docs/features/boarding-pass.feature`
+- `docs/features/navigation.feature`
+- `docs/features/testing.feature`
+
+The specs cover successful and failed login, session restoration and expiry, paginated flight browsing, offline cache fallback, concurrent refresh, typed navigation, and boarding pass access rules.
+
+## Testing scope for this technical assessment
+
+- High-value automated coverage is prioritized over exhaustive automation.
+- The repository enforces `BDD`, `unit`, `integration`, `regression`, render smoke, and a real coverage gate.
+- The delivery deliberately does not include a broad `UI`, `performance`, or accessibility-automation suite.
+- That omission is intentional for the scope of this technical assessment, not an accidental testing gap.
+
+## Runtime authentication
+
+Production runtime does not depend on `InMemory` repositories:
+
+- Sessions are persisted in Keychain.
+- Login uses `RemoteAuthGateway` over `URLSessionHTTPClient`.
+- If `AUTH_BASE_URL` is configured in `SupportingFiles/Info.plist`, the app authenticates against that backend.
+- If `AUTH_BASE_URL` is empty, the app uses a local HTTP bootstrap through `URLProtocol` while exercising the same transport contract.
+- In bootstrap mode, the login screen exposes a one-tap evaluation path through `Use evaluation account`.
+
+## Evaluation credentials
+
+```text
 Email: carlos@iberia.com
 Password: Secure123!
 ```
 
----
+## Fast functional smoke path
 
-## Principios aplicados
+If you want the shortest possible product walkthrough:
 
-- **BDD → TDD**: feature files Gherkin en `docs/features/` antes de cualquier código; tests en rojo antes de producción
-- **Feature-first**: cada bounded context (Auth, Flights, BoardingPass) es independiente
-- **Cero dependencias externas**: Foundation + SwiftUI + CoreImage
-- **Cero warnings**: strict concurrency completo
-- **Cero `any`**: generics con protocolos de frontera
-- **Cero `DispatchQueue`**: async/await estructurado en todo el codebase
-- **Cero Singletons**: inyección de dependencias por constructor
-- **String Catalogs**: sin strings hardcodeadas en UI
-- **Accessibility**: labels y traits en todas las vistas
+1. Launch the app.
+2. Confirm the cold start lands on login.
+3. Tap `Use evaluation account`.
+4. Tap `Sign in`.
+5. Scroll the flight list until the next 10-flight page loads.
+6. Pull to refresh once.
+7. Open a flight detail.
+8. Open the boarding pass.
+9. Log out and confirm the app returns to login.
+
+In local bootstrap mode, the showcase intentionally starts from login so the evaluation flow is always visible to the reviewer.

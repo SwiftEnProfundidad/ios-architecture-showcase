@@ -1,15 +1,23 @@
+import SharedKernel
 
-public struct LogoutUseCase<Store: SessionStoreProtocol>: Sendable {
+public protocol LogoutExecuting: SessionEnding {
+    func execute() async
+}
+
+public struct LogoutUseCase<Store: SessionClearing>: Sendable {
     private let sessionStore: Store
-    private let eventBus: NavigationEventPublishing
 
-    public init(sessionStore: Store, eventBus: NavigationEventPublishing) {
+    public init(sessionStore: Store) {
         self.sessionStore = sessionStore
-        self.eventBus = eventBus
     }
 
     public func execute() async {
         await sessionStore.clear()
-        await eventBus.publish(.logout)
+    }
+}
+
+extension LogoutUseCase: LogoutExecuting {
+    public func endSession() async {
+        await execute()
     }
 }

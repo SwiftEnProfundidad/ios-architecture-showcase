@@ -1,11 +1,13 @@
+import Foundation
+import SharedKernel
 
 public struct Flight: Sendable, Equatable, Identifiable {
-    public enum Status: String, Sendable, Equatable {
-        case onTime = "On Time"
-        case delayed = "Delayed"
-        case boarding = "Boarding"
-        case departed = "Departed"
-        case cancelled = "Cancelled"
+    public enum Status: Sendable, Equatable {
+        case onTime
+        case delayed
+        case boarding
+        case departed
+        case cancelled
     }
 
     public let id: FlightID
@@ -14,7 +16,8 @@ public struct Flight: Sendable, Equatable, Identifiable {
     public let origin: String
     public let destination: String
     public let status: Status
-    public let scheduledDeparture: String
+    public let scheduledDeparture: Date
+    public let departureTimeZoneIdentifier: String
     public let gate: String
 
     public init(
@@ -24,7 +27,8 @@ public struct Flight: Sendable, Equatable, Identifiable {
         origin: String,
         destination: String,
         status: Status,
-        scheduledDeparture: String,
+        scheduledDeparture: Date,
+        departureTimeZoneIdentifier: String,
         gate: String
     ) {
         self.id = id
@@ -34,21 +38,15 @@ public struct Flight: Sendable, Equatable, Identifiable {
         self.destination = destination
         self.status = status
         self.scheduledDeparture = scheduledDeparture
+        self.departureTimeZoneIdentifier = departureTimeZoneIdentifier
         self.gate = gate
     }
-}
 
-public extension Flight {
-    static func stub(id: FlightID, passengerID: PassengerID) -> Flight {
-        Flight(
-            id: id,
-            passengerID: passengerID,
-            number: id.value,
-            origin: "MAD",
-            destination: "BCN",
-            status: .onTime,
-            scheduledDeparture: "10:30",
-            gate: "A12"
+    public func formattedScheduledDeparture(locale: Locale = .current) -> String {
+        OperationalTimeFormatter.hourMinute(
+            from: scheduledDeparture,
+            timeZoneIdentifier: departureTimeZoneIdentifier,
+            locale: locale
         )
     }
 }
