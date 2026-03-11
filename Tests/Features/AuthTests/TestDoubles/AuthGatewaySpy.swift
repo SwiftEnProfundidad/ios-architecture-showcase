@@ -1,4 +1,6 @@
-@testable import iOSArchitectureShowcase
+import AuthFeature
+import Foundation
+import SharedKernel
 
 actor AuthGatewaySpy: AuthGatewayProtocol {
     private var stubbedResult: Result<AuthSession, AuthError> = .failure(.invalidCredentials)

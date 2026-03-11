@@ -1,13 +1,14 @@
+public protocol LoginExecuting: Sendable {
+    func execute(email: String, password: String) async throws -> AuthSession
+}
 
-public struct LoginUseCase<Gateway: AuthGatewayProtocol, Store: SessionStoreProtocol>: Sendable {
+public struct LoginUseCase<Gateway: AuthGatewayProtocol, Store: SessionPersisting>: Sendable {
     private let gateway: Gateway
     private let sessionStore: Store
-    private let eventBus: NavigationEventPublishing
 
-    public init(gateway: Gateway, sessionStore: Store, eventBus: NavigationEventPublishing) {
+    public init(gateway: Gateway, sessionStore: Store) {
         self.gateway = gateway
         self.sessionStore = sessionStore
-        self.eventBus = eventBus
     }
 
     public func execute(email: String, password: String) async throws -> AuthSession {
@@ -15,8 +16,7 @@ public struct LoginUseCase<Gateway: AuthGatewayProtocol, Store: SessionStoreProt
             throw AuthError.invalidEmailFormat
         }
         let session = try await gateway.authenticate(email: email, password: password)
-        await sessionStore.save(token: session.token)
-        await eventBus.publish(.loginSuccess(passengerID: session.passengerID, token: session.token))
+        try await sessionStore.save(session: session)
         return session
     }
 
@@ -24,3 +24,5 @@ public struct LoginUseCase<Gateway: AuthGatewayProtocol, Store: SessionStoreProt
         email.contains("@") && email.contains(".")
     }
 }
+
+extension LoginUseCase: LoginExecuting {}
