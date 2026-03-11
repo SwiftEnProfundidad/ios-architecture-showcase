@@ -9,46 +9,60 @@ struct GetFlightDetailUseCaseTests {
 
     @Test("When loading detail, flight and weather are loaded concurrently with async let")
     func detailLoadsFlightAndWeatherConcurrently() async throws {
-        let (token, sut, flightRepository, weatherRepository) = makeSUT()
+        let tracked = makeSUT()
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
         let flightID = FlightID("IB3456")
         let flight = Flight.stub(id: flightID, passengerID: PassengerID("PAX-001"))
         let weather = WeatherInfo.stub(description: "Sunny", temperatureCelsius: 22)
-        await flightRepository.stub(flights: [flight])
-        await weatherRepository.stub(weather: weather, forFlightID: flightID)
+        await context.flightRepository.stub(flights: [flight])
+        await context.weatherRepository.stub(weather: weather, forFlightID: flightID)
 
-        let detail = try await sut.execute(flightID: flightID)
+        let detail = try await context.sut.execute(flightID: flightID)
 
         #expect(detail.flight.id == flightID)
         #expect(detail.weather?.description == "Sunny")
-        _ = token
     }
 
     @Test("When weather fails, the detail is returned anyway without weather")
     func detailReturnsWithoutWeatherIfWeatherFails() async throws {
-        let (token, sut, flightRepository, weatherRepository) = makeSUT()
+        let tracked = makeSUT()
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
         let flightID = FlightID("IB3456")
         let flight = Flight.stub(id: flightID, passengerID: PassengerID("PAX-001"))
-        await flightRepository.stub(flights: [flight])
-        await weatherRepository.stubError(forFlightID: flightID)
+        await context.flightRepository.stub(flights: [flight])
+        await context.weatherRepository.stubError(forFlightID: flightID)
 
-        let detail = try await sut.execute(flightID: flightID)
+        let detail = try await context.sut.execute(flightID: flightID)
 
         #expect(detail.flight.id == flightID)
         #expect(detail.weather == nil)
-        _ = token
     }
 
     private func makeSUT(
         sourceLocation: SourceLocation = #_sourceLocation
-    ) -> (MemoryLeakToken, SUT, FlightDetailReadingSpy, WeatherRepositorySpy) {
-        let token = MemoryLeakToken()
+    ) -> TrackedTestContext<GetFlightDetailUseCaseTestContext> {
         let flightRepository = FlightDetailReadingSpy()
         let weatherRepository = WeatherRepositorySpy()
         let sut = SUT(flightRepository: flightRepository, weatherRepository: weatherRepository)
-        trackForMemoryLeaks(flightRepository, token: token, sourceLocation: sourceLocation)
-        trackForMemoryLeaks(weatherRepository, token: token, sourceLocation: sourceLocation)
-        return (token, sut, flightRepository, weatherRepository)
+        return makeLeakTrackedTestContext(
+            GetFlightDetailUseCaseTestContext(
+                sut: sut,
+                flightRepository: flightRepository,
+                weatherRepository: weatherRepository
+            ),
+            trackedInstances: flightRepository,
+            weatherRepository,
+            sourceLocation: sourceLocation
+        )
     }
+}
+
+private struct GetFlightDetailUseCaseTestContext {
+    let sut: SUT
+    let flightRepository: FlightDetailReadingSpy
+    let weatherRepository: WeatherRepositorySpy
 }
 
 actor FlightDetailReadingSpy: FlightDetailReading {

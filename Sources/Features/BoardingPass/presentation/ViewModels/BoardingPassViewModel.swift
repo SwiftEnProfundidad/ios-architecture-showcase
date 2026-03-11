@@ -22,12 +22,14 @@ public final class BoardingPassViewModel<UseCase: BoardingPassGetting> {
     public func load() async {
         isLoading = true
         errorMessage = nil
+        boardingPass = nil
         defer { isLoading = false }
         do {
             boardingPass = try await useCase.execute(flightID: flightID)
         } catch is CancellationError {
             return
         } catch {
+            boardingPass = nil
             errorMessage = AppStrings.localized("boardingpass.error.load")
         }
     }

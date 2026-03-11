@@ -13,16 +13,15 @@ public final class FlightListViewModel<ListExecutor: ListFlightsExecuting, Sessi
     public private(set) var errorMessage: String?
     public private(set) var staleMessage: String?
     public var isShowingInitialSkeleton: Bool {
-        isLoading && flights.isEmpty && errorMessage == nil
+        screenState.isShowingInitialSkeleton
     }
 
     private let listUseCase: ListExecutor
     private let sessionController: SessionController
     private let eventBus: NavigationEventPublishing
     private let passengerID: PassengerID
-    private let minimumInitialSkeletonNanoseconds: UInt64
-    private let minimumNextPageSpinnerNanoseconds: UInt64
-    private var nextPage = 1
+    private let loadingFeedbackPolicy: FlightListLoadingFeedbackPolicy
+    private var screenState = FlightListScreenState()
 
     public init(
         listUseCase: ListExecutor,
@@ -36,8 +35,10 @@ public final class FlightListViewModel<ListExecutor: ListFlightsExecuting, Sessi
         self.sessionController = sessionController
         self.eventBus = eventBus
         self.passengerID = passengerID
-        self.minimumInitialSkeletonNanoseconds = minimumInitialSkeletonNanoseconds
-        self.minimumNextPageSpinnerNanoseconds = minimumNextPageSpinnerNanoseconds
+        self.loadingFeedbackPolicy = FlightListLoadingFeedbackPolicy(
+            minimumInitialSkeletonNanoseconds: minimumInitialSkeletonNanoseconds,
+            minimumNextPageSpinnerNanoseconds: minimumNextPageSpinnerNanoseconds
+        )
     }
 
     public convenience init<LogoutExecutor: SessionEnding>(
@@ -70,7 +71,7 @@ public final class FlightListViewModel<ListExecutor: ListFlightsExecuting, Sessi
     }
 
     public func loadNextPage() async {
-        await loadPage(nextPage, reset: false)
+        await loadPage(screenState.nextPage, reset: false)
     }
 
     public func refresh() async {
@@ -81,22 +82,25 @@ public final class FlightListViewModel<ListExecutor: ListFlightsExecuting, Sessi
             await load()
             return
         }
-        let previousStaleMessage = staleMessage
-        isLoading = true
-        errorMessage = nil
-        staleMessage = nil
-        defer { isLoading = false }
+        let previousStaleMessage = screenState.beginRefresh()
+        syncPublishedState()
+        defer {
+            screenState.finishRefresh()
+            syncPublishedState()
+        }
         do {
             let refreshedFlights = try await listUseCase.refreshAll(flightIDs: flights.map(\.id))
             guard await sessionController.ensureActiveSession() else { return }
-            flights = refreshedFlights
-            staleMessage = nil
+            screenState.applyRefresh(refreshedFlights)
+            syncPublishedState()
         } catch is CancellationError {
-            staleMessage = previousStaleMessage
+            screenState.restoreStaleMessage(previousStaleMessage)
+            syncPublishedState()
             return
         } catch {
-            staleMessage = previousStaleMessage
-            errorMessage = AppStrings.localized("flights.error.load")
+            screenState.restoreStaleMessage(previousStaleMessage)
+            screenState.applyLoadFailure()
+            syncPublishedState()
         }
     }
 
@@ -118,50 +122,34 @@ public final class FlightListViewModel<ListExecutor: ListFlightsExecuting, Sessi
         guard await sessionController.ensureActiveSession() else { return }
         let isInitialPresentation = reset && flights.isEmpty
         if reset {
-            guard !isLoading else { return }
-            isLoading = true
+            guard screenState.beginInitialLoad() else { return }
         } else {
-            guard !isLoading else { return }
-            guard !isLoadingNextPage else { return }
-            guard canLoadMorePages else { return }
-            isLoadingNextPage = true
+            guard screenState.beginNextPageLoad() else { return }
         }
+        syncPublishedState()
         defer {
-            if reset {
-                isLoading = false
-            } else {
-                isLoadingNextPage = false
-            }
-        }
-        errorMessage = nil
-        if reset {
-            staleMessage = nil
+            screenState.finishLoad(reset: reset)
+            syncPublishedState()
         }
         let clock = ContinuousClock()
         let loadStartedAt = clock.now
         do {
             let result = try await listUseCase.execute(passengerID: passengerID, page: page)
-            try await awaitMinimumLoadingFeedbackIfNeeded(
+            try await loadingFeedbackPolicy.awaitMinimumFeedback(
                 isInitialPresentation: isInitialPresentation,
                 isNextPageLoad: reset == false,
                 clock: clock,
                 loadStartedAt: loadStartedAt
             )
             guard await sessionController.ensureActiveSession() else { return }
-            flights = reset ? result.flights : mergedFlights(existing: flights, incoming: result.flights)
-            nextPage = result.page + 1
-            canLoadMorePages = result.hasMorePages
-            if result.isStale {
-                staleMessage = AppStrings.localized("flights.list.staleWarning")
-            } else if reset {
-                staleMessage = nil
-            }
+            screenState.applyPage(result, reset: reset)
+            syncPublishedState()
         } catch is CancellationError {
             return
         } catch {
             if isInitialPresentation {
                 do {
-                    try await awaitMinimumLoadingFeedbackIfNeeded(
+                    try await loadingFeedbackPolicy.awaitMinimumFeedback(
                         isInitialPresentation: true,
                         isNextPageLoad: false,
                         clock: clock,
@@ -173,40 +161,17 @@ public final class FlightListViewModel<ListExecutor: ListFlightsExecuting, Sessi
                     return
                 }
             }
-            errorMessage = AppStrings.localized("flights.error.load")
+            screenState.applyLoadFailure()
+            syncPublishedState()
         }
     }
 
-    private func awaitMinimumLoadingFeedbackIfNeeded(
-        isInitialPresentation: Bool,
-        isNextPageLoad: Bool,
-        clock: ContinuousClock,
-        loadStartedAt: ContinuousClock.Instant
-    ) async throws {
-        let minimumNanoseconds: UInt64
-        if isInitialPresentation {
-            minimumNanoseconds = minimumInitialSkeletonNanoseconds
-        } else if isNextPageLoad {
-            minimumNanoseconds = minimumNextPageSpinnerNanoseconds
-        } else {
-            minimumNanoseconds = 0
-        }
-        guard minimumNanoseconds > 0 else { return }
-        let minimumDuration = Duration.nanoseconds(Int64(minimumNanoseconds))
-        let elapsed = loadStartedAt.duration(to: clock.now)
-        guard elapsed < minimumDuration else { return }
-        try await Task.sleep(for: minimumDuration - elapsed)
-    }
-
-    private func mergedFlights(existing: [Flight], incoming: [Flight]) -> [Flight] {
-        var merged = existing
-        for flight in incoming {
-            if let index = merged.firstIndex(where: { $0.id == flight.id }) {
-                merged[index] = flight
-            } else {
-                merged.append(flight)
-            }
-        }
-        return merged
+    private func syncPublishedState() {
+        flights = screenState.flights
+        isLoading = screenState.isLoading
+        isLoadingNextPage = screenState.isLoadingNextPage
+        canLoadMorePages = screenState.canLoadMorePages
+        errorMessage = screenState.errorMessage
+        staleMessage = screenState.staleMessage
     }
 }

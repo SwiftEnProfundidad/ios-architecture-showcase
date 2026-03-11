@@ -10,42 +10,26 @@ struct FlightListSessionControllerTests {
 
     @Test("Expired session ends the stored session and publishes SessionExpired")
     func ensureActiveSessionInvalidatesExpiredSession() async {
-        let logoutUseCase = FlightListLogoutUseCaseSpy()
-        let bus = NavigationEventBusSpy()
-        let sut = FlightListSessionController(
-            logoutUseCase: logoutUseCase,
-            eventBus: bus,
-            sessionExpiresAt: Date.distantPast
-        )
+        let tracked = makeFlightListSessionControllerSUT(sessionExpiresAt: .distantPast)
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
 
-        let isActive = await sut.ensureActiveSession()
+        let isActive = await context.sut.ensureActiveSession()
 
         #expect(isActive == false)
-        #expect(await logoutUseCase.endSessionCallCount == 1)
-        #expect(await bus.lastPublishedEvent == .sessionEnded(.expired))
+        #expect(await context.logoutUseCase.endSessionCallCount == 1)
+        #expect(await context.bus.lastPublishedEvent == .sessionEnded(.expired))
     }
 
     @Test("Manual logout ends the stored session and publishes user initiated termination")
     func logoutPublishesUserInitiatedTermination() async {
-        let logoutUseCase = FlightListLogoutUseCaseSpy()
-        let bus = NavigationEventBusSpy()
-        let sut = FlightListSessionController(
-            logoutUseCase: logoutUseCase,
-            eventBus: bus,
-            sessionExpiresAt: Date.distantFuture
-        )
+        let tracked = makeFlightListSessionControllerSUT(sessionExpiresAt: .distantFuture)
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
 
-        await sut.logoutUser()
+        await context.sut.logoutUser()
 
-        #expect(await logoutUseCase.endSessionCallCount == 1)
-        #expect(await bus.lastPublishedEvent == .sessionEnded(.userInitiated))
-    }
-}
-
-private actor FlightListLogoutUseCaseSpy: SessionEnding {
-    private(set) var endSessionCallCount = 0
-
-    func endSession() async {
-        endSessionCallCount += 1
+        #expect(await context.logoutUseCase.endSessionCallCount == 1)
+        #expect(await context.bus.lastPublishedEvent == .sessionEnded(.userInitiated))
     }
 }

@@ -43,20 +43,17 @@
         <mxCell id="weatherEntity" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#38BDF8;strokeWidth=1.5;fontColor=#F1F5F9;fontSize=14;fontStyle=1;align=center" value="WeatherInfo" vertex="1">
           <mxGeometry height="44" width="190" x="420" y="240" as="geometry" />
         </mxCell>
-        <mxCell id="flightPort" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#38BDF8;strokeWidth=1.5;fontColor=#F1F5F9;fontSize=13;fontStyle=1;align=center" value="FlightRepository&#xa;(port)" vertex="1">
-          <mxGeometry height="56" width="120" x="660" y="140" as="geometry" />
+        <mxCell id="flightPort" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#38BDF8;strokeWidth=1.5;fontColor=#F1F5F9;fontSize=13;fontStyle=1;align=center" value="FlightPageReading&#xa;FlightDetailReading&#xa;FlightRefreshing" vertex="1">
+          <mxGeometry height="80" width="140" x="640" y="130" as="geometry" />
         </mxCell>
-        <mxCell id="weatherPort" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#38BDF8;strokeWidth=1.5;fontColor=#F1F5F9;fontSize=13;fontStyle=1;align=center" value="WeatherRepository&#xa;(port)" vertex="1">
-          <mxGeometry height="50" width="120" x="660" y="239" as="geometry" />
+        <mxCell id="weatherPort" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#38BDF8;strokeWidth=1.5;fontColor=#F1F5F9;fontSize=13;fontStyle=1;align=center" value="WeatherRepositoryProtocol" vertex="1">
+          <mxGeometry height="50" width="150" x="630" y="239" as="geometry" />
         </mxCell>
-        <mxCell id="listUC" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#F59E0B;strokeWidth=1.5;fontColor=#F1F5F9;fontSize=14;fontStyle=1;align=center" value="ListFlightsUseCase&#xa;page size = 5" vertex="1">
-          <mxGeometry height="64" width="200" x="487" y="430" as="geometry" />
+        <mxCell id="listUC" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#F59E0B;strokeWidth=1.5;fontColor=#F1F5F9;fontSize=14;fontStyle=1;align=center" value="ListFlightsUseCase&#xa;page size = 10&#xa;refreshAll via TaskGroup&#xa;+ stable ordering" vertex="1">
+          <mxGeometry height="84" width="220" x="477" y="420" as="geometry" />
         </mxCell>
         <mxCell id="detailUC" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#F59E0B;strokeWidth=1.5;fontColor=#F1F5F9;fontSize=14;fontStyle=1;align=center" value="GetFlightDetailUseCase&#xa;async let flight + weather" vertex="1">
           <mxGeometry height="64" width="200" x="487" y="550" as="geometry" />
-        </mxCell>
-        <mxCell id="refreshAll" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#F59E0B;strokeWidth=1.5;fontColor=#F1F5F9;fontSize=13;fontStyle=1;align=center;dashed=1" value="refreshAll TaskGroup&#xa;+ stable ordering" vertex="1">
-          <mxGeometry height="52" width="200" x="487" y="670" as="geometry" />
         </mxCell>
         <mxCell id="flightRepo" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#A78BFA;strokeWidth=1.5;fontColor=#F1F5F9;fontSize=13;fontStyle=1;align=center" value="CatalogFlightRepository&#xa;fetchPage / fetchByID / refresh" vertex="1">
           <mxGeometry height="64" width="290" x="910" y="150" as="geometry" />
@@ -73,7 +70,7 @@
         <mxCell id="weatherJson" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#F59E0B;strokeWidth=1.5;fontColor=#F1F5F9;fontSize=14;fontStyle=1;align=center" value="weather-catalog.json" vertex="1">
           <mxGeometry height="48" width="290" x="910" y="700" as="geometry" />
         </mxCell>
-        <mxCell id="compRoot" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#F59E0B;strokeWidth=1.5;fontColor=#F1F5F9;fontSize=14;fontStyle=1;align=center" value="CompositionRoot" vertex="1">
+        <mxCell id="compRoot" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#F59E0B;strokeWidth=1.5;fontColor=#F1F5F9;fontSize=14;fontStyle=1;align=center" value="FlightsFeatureAssembly" vertex="1">
           <mxGeometry height="48" width="180" x="184" y="1058" as="geometry" />
         </mxCell>
         <mxCell id="eventBus" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#475569;strokeWidth=1.5;fontColor=#F1F5F9;fontSize=14;fontStyle=1;align=center" value="DefaultNavigation&#xa;EventBus" vertex="1">
@@ -179,15 +176,6 @@
         </mxCell>
         <mxCell id="f15" edge="1" parent="1" source="compRoot" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;strokeWidth=2;endArrow=blockThin;endFill=1;dashed=1;dashPattern=8 4;exitX=1;exitY=0.5;entryX=0;entryY=0.5" target="eventBus">
           <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="f16" edge="1" parent="1" source="refreshAll" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;strokeWidth=2;endArrow=blockThin;endFill=0;dashed=1;dashPattern=8 4;exitX=0.5;exitY=1;entryX=1;entryY=0.25;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="flightRepo">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="587" y="780" />
-              <mxPoint x="1250" y="780" />
-              <mxPoint x="1250" y="166" />
-            </Array>
-          </mxGeometry>
         </mxCell>
         <mxCell id="f17" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#E2E8F0;strokeWidth=2;endArrow=blockThin;endFill=1;dashed=1;dashPattern=8 4;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="flightEntity">
           <mxGeometry relative="1" as="geometry">

@@ -26,12 +26,14 @@ public final class FlightDetailViewModel<DetailUseCase: FlightDetailGetting> {
     public func load() async {
         isLoading = true
         errorMessage = nil
+        detail = nil
         defer { isLoading = false }
         do {
             detail = try await detailUseCase.execute(flightID: flightID)
         } catch is CancellationError {
             return
         } catch {
+            detail = nil
             errorMessage = AppStrings.localized("flights.error.detail")
         }
     }

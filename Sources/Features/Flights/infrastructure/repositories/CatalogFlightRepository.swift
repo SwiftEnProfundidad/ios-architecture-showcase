@@ -7,8 +7,8 @@ public actor CatalogFlightRepository: FlightRepositoryProtocol {
     private let dataSource: CatalogFlightDataSource
     private let cacheStore: FlightCacheStore
     private let refreshMutator: EvaluationFlightRefreshMutator
-    private var catalogSnapshot: [Flight]?
-    private var didApplyRefreshMutation = false
+    private let pageProjector = FlightPageProjector()
+    private var state = CatalogFlightRepositoryState()
 
     public init(
         fileManager: FileManager = .default,
@@ -30,9 +30,9 @@ public actor CatalogFlightRepository: FlightRepositoryProtocol {
 
     public func fetchPage(passengerID: PassengerID, page: Int, pageSize: Int) async throws -> FlightListResult {
         do {
-            let flights = try loadCatalogFlights()
+            let flights = try state.loadCatalogFlights(using: dataSource)
             persistCacheIfPossible(flights)
-            return pagedResult(
+            return pageProjector.page(
                 flights: flights,
                 passengerID: passengerID,
                 page: page,
@@ -42,7 +42,7 @@ public actor CatalogFlightRepository: FlightRepositoryProtocol {
             )
         } catch {
             let cachedFlights = try loadCachedFlights()
-            let result = pagedResult(
+            let result = pageProjector.page(
                 flights: cachedFlights,
                 passengerID: passengerID,
                 page: page,
@@ -60,7 +60,7 @@ public actor CatalogFlightRepository: FlightRepositoryProtocol {
 
     public func fetchByID(_ id: FlightID) async throws -> Flight {
         do {
-            let flights = try loadCatalogFlights()
+            let flights = try state.loadCatalogFlights(using: dataSource)
             persistCacheIfPossible(flights)
             guard let flight = flights.first(where: { $0.id == id }) else {
                 logger.error("Flight detail not found for \(id.value, privacy: .public)")
@@ -80,30 +80,17 @@ public actor CatalogFlightRepository: FlightRepositoryProtocol {
     }
 
     public func refresh(_ id: FlightID) async throws -> Flight {
-        let catalogFlights = try loadCatalogFlights()
-        let refreshResult = refreshMutator.applyRefresh(
-            to: catalogFlights,
+        let flights = try state.refreshFlights(
             for: id,
-            didApplyMutation: didApplyRefreshMutation
+            using: dataSource,
+            refreshMutator: refreshMutator
         )
-        let flights = refreshResult.flights
-        didApplyRefreshMutation = refreshResult.didApplyMutation
-        catalogSnapshot = flights
         persistCacheIfPossible(flights)
         guard let refreshedFlight = flights.first(where: { $0.id == id }) else {
             logger.error("Refresh failed because flight \(id.value, privacy: .public) does not exist")
             throw FlightError.notFound
         }
         return refreshedFlight
-    }
-
-    private func loadCatalogFlights() throws -> [Flight] {
-        if let catalogSnapshot {
-            return catalogSnapshot
-        }
-        let flights = try dataSource.loadFlights()
-        catalogSnapshot = flights
-        return flights
     }
 
     private func loadCachedFlights() throws -> [Flight] {
@@ -116,38 +103,5 @@ public actor CatalogFlightRepository: FlightRepositoryProtocol {
         } catch {
             logger.error("Failed to persist local flight cache")
         }
-    }
-
-    private func pagedResult(
-        flights: [Flight],
-        passengerID: PassengerID,
-        page: Int,
-        pageSize: Int,
-        source: FlightDataSource,
-        isStale: Bool
-    ) -> FlightListResult {
-        let filteredFlights = flights
-            .filter { $0.passengerID == passengerID }
-            .sorted { $0.scheduledDeparture < $1.scheduledDeparture }
-        let safePage = max(page, 1)
-        let safePageSize = max(pageSize, 1)
-        let startIndex = (safePage - 1) * safePageSize
-        guard startIndex < filteredFlights.count else {
-            return FlightListResult(
-                flights: [],
-                source: source,
-                isStale: isStale,
-                page: safePage,
-                hasMorePages: false
-            )
-        }
-        let endIndex = min(startIndex + safePageSize, filteredFlights.count)
-        return FlightListResult(
-            flights: Array(filteredFlights[startIndex..<endIndex]),
-            source: source,
-            isStale: isStale,
-            page: safePage,
-            hasMorePages: endIndex < filteredFlights.count
-        )
     }
 }

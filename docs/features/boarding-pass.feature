@@ -22,6 +22,13 @@ Feature: Passenger boarding pass
     And navigation does not show invented data
     And the passenger can return to the flight detail
 
+  Scenario: Boarding pass clears stale content when a reload fails
+    Given the passenger already loaded a valid boarding pass
+    And a subsequent reload for that same flight fails
+    When the app finishes the failed reload
+    Then the previously shown boarding pass is cleared
+    And the app shows the controlled boarding pass error state
+
   Scenario: Attempt to access another passenger boarding pass
     Given a boarding pass exists for a different passenger
     When the passenger attempts to open it

@@ -16,6 +16,12 @@ Feature: Passenger flight list and detail
     And each row displays number, origin, destination, departure time, and status
     And the list order is deterministic
 
+  Scenario: Flight status presentation stays consistent across the list row
+    Given a flight has a known operational status
+    When the app renders its row and accessibility summary
+    Then the same localized status title is used in both places
+    And the status uses the semantic visual treatment assigned to that operational state
+
   Scenario: Passenger without booked flights
     Given the passenger has no active or upcoming flights
     When the app loads the flight list
@@ -137,6 +143,13 @@ Feature: Passenger flight list and detail
     Then the system rejects access to that resource
     And the app shows a controlled failure
     And no other passenger data is exposed
+
+  Scenario: Flight detail clears stale content when a reload fails
+    Given the passenger already loaded a valid flight detail
+    And a subsequent reload of that same detail fails
+    When the app finishes the failed reload
+    Then the previously shown flight detail is cleared
+    And the app shows the controlled detail error state
 
   Rule: Refresh must stay concurrent without breaking visual coherence or ordering
 
