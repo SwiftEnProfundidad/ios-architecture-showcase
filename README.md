@@ -25,6 +25,8 @@ If you want the shortest possible review path:
 4. Inspect `Package.swift` and `project.yml`.
 5. Launch the app and follow the evaluation login flow.
 
+## Primary review artifacts
+
 The main reviewer-facing package is intentionally limited to:
 
 - `README.md`
@@ -91,7 +93,7 @@ scripts/validate.sh
 - Runtime-authentication over `URLSession`, secure session persistence in Keychain, and local bootstrap fallback for evaluation
 - A 26-flight evaluation portfolio with 10-flight incremental pages, bottom inline pagination spinner, cache-backed offline fallback, pull to refresh, and perceptible skeleton loading
 - Adaptive light/dark presentation using native SwiftUI materials and semantic contrast
-- English-first reviewer-facing documentation and runtime copy with localized string catalog support
+- Reviewer-facing documentation in English and localized runtime copy through String Catalogs
 - Swift Testing coverage across domain, application, navigation, and presentation
 - Coverage gate enforced at `>= 85%` in local validation and CI
 
@@ -126,7 +128,7 @@ Local requirements:
 
 ## Reviewer quick path
 
-If you only have a few minutes to review the repository:
+If you want a slightly more detailed review flow:
 
 1. Read the architecture overview and the two feature detail diagrams above.
 2. Run `./scripts/validate.sh` to verify build, tests, coverage gate, Xcode generation, and simulator build/test in one pass.

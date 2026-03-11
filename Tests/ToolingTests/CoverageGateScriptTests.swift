@@ -4,7 +4,8 @@ import Testing
 struct CoverageGateEvaluatorTests {
     @Test("Given filtered production coverage above threshold, when the gate evaluates the report, then it succeeds")
     func succeedsAboveThreshold() throws {
-        let summary = try loadSummary(fixtureName: "above-threshold")
+        let sut = makeSUT()
+        let summary = try loadSummary(fixtureName: "above-threshold", evaluator: sut)
 
         #expect(summary.productionFiles == 2)
         #expect(summary.coveredLines == 54)
@@ -16,7 +17,8 @@ struct CoverageGateEvaluatorTests {
 
     @Test("Given filtered production coverage below threshold, when the gate evaluates the report, then it fails")
     func failsBelowThreshold() throws {
-        let summary = try loadSummary(fixtureName: "below-threshold")
+        let sut = makeSUT()
+        let summary = try loadSummary(fixtureName: "below-threshold", evaluator: sut)
 
         #expect(summary.productionFiles == 2)
         #expect(summary.coveredLines == 70)
@@ -28,7 +30,8 @@ struct CoverageGateEvaluatorTests {
 
     @Test("Given tests and generated files in the exported report, when the gate evaluates the report, then they are excluded from the metric")
     func excludesTestsAndGeneratedFiles() throws {
-        let summary = try loadSummary(fixtureName: "filters-generated-and-tests")
+        let sut = makeSUT()
+        let summary = try loadSummary(fixtureName: "filters-generated-and-tests", evaluator: sut)
 
         #expect(summary.productionFiles == 1)
         #expect(summary.coveredLines == 9)
@@ -37,7 +40,14 @@ struct CoverageGateEvaluatorTests {
         #expect(summary.meets(threshold: 85))
     }
 
-    private func loadSummary(fixtureName: String) throws -> CoverageSummary {
+    private func makeSUT() -> CoverageGateEvaluator.Type {
+        CoverageGateEvaluator.self
+    }
+
+    private func loadSummary(
+        fixtureName: String,
+        evaluator: CoverageGateEvaluator.Type
+    ) throws -> CoverageSummary {
         let fixtureURL = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()
             .deletingLastPathComponent()
@@ -47,6 +57,6 @@ struct CoverageGateEvaluatorTests {
             throw CoverageGateEvaluatorError.fixtureNotFound(fixtureName)
         }
 
-        return try CoverageGateEvaluator.loadSummary(from: fixtureURL)
+        return try evaluator.loadSummary(from: fixtureURL)
     }
 }

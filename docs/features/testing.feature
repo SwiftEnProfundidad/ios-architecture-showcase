@@ -59,3 +59,18 @@ Feature: Enterprise testing strategy and coverage governance
     When the test suite creates the composition entry points
     Then the login, list, detail, and boarding pass flows are assembled without crashing
     And the assembled screens can render in smoke tests
+
+  Rule: Test construction must stay consistent with enterprise testing conventions
+
+  Scenario: Building reference-type SUTs through factory helpers
+    Given the repository contains tests for view models, coordinators, channels, and other reference types
+    When a suite creates its subject under test
+    Then the suite uses a dedicated makeSUT helper
+    And the helper assembles the SUT together with the required collaborators
+    And the helper tracks reference-type instances for memory leaks
+
+  Scenario: Avoiding test-only visibility hacks for AppComposition
+    Given the AppComposition module exposes public runtime contracts required by the test target
+    When the tests import AppComposition
+    Then the suites do not rely on @testable imports
+    And the exercised public types remain reviewable through explicit module contracts

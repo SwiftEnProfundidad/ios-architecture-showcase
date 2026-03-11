@@ -1,13 +1,14 @@
 import SharedNavigation
 
-struct ProtectedPathCommandChannel {
+@MainActor
+public struct ProtectedPathCommandChannel {
     private let publish: @Sendable ([AppRoute]) async -> Void
 
-    init(publish: @escaping @Sendable ([AppRoute]) async -> Void) {
+    public init(publish: @escaping @Sendable ([AppRoute]) async -> Void) {
         self.publish = publish
     }
 
-    func synchronize(
+    public func synchronize(
         visiblePath: [AppRoute],
         projectedPath: [AppRoute]
     ) async {
