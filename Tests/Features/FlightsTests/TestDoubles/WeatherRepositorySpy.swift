@@ -1,4 +1,5 @@
-@testable import iOSArchitectureShowcase
+import FlightsFeature
+import SharedKernel
 
 actor WeatherRepositorySpy: WeatherRepositoryProtocol {
     private var stubbedWeather: [FlightID: WeatherInfo] = [:]

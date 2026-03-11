@@ -1,0 +1,132 @@
+[
+  {
+    "flightID": "IB1020",
+    "description": "Light mist",
+    "temperatureCelsius": 11
+  },
+  {
+    "flightID": "IB1188",
+    "description": "Scattered clouds",
+    "temperatureCelsius": 12
+  },
+  {
+    "flightID": "IB3456",
+    "description": "Sunny",
+    "temperatureCelsius": 13
+  },
+  {
+    "flightID": "IB7821",
+    "description": "High clouds",
+    "temperatureCelsius": 14
+  },
+  {
+    "flightID": "IB2201",
+    "description": "Light rain",
+    "temperatureCelsius": 15
+  },
+  {
+    "flightID": "IB4312",
+    "description": "Clear sky",
+    "temperatureCelsius": 16
+  },
+  {
+    "flightID": "IB5604",
+    "description": "Broken clouds",
+    "temperatureCelsius": 17
+  },
+  {
+    "flightID": "IB6710",
+    "description": "Crosswind advisory",
+    "temperatureCelsius": 18
+  },
+  {
+    "flightID": "IB7044",
+    "description": "Cool and dry",
+    "temperatureCelsius": 19
+  },
+  {
+    "flightID": "IB8301",
+    "description": "Warm sunshine",
+    "temperatureCelsius": 20
+  },
+  {
+    "flightID": "IB9102",
+    "description": "Passing showers",
+    "temperatureCelsius": 21
+  },
+  {
+    "flightID": "IB9920",
+    "description": "Sea breeze",
+    "temperatureCelsius": 22
+  },
+  {
+    "flightID": "IB1045",
+    "description": "Humid morning",
+    "temperatureCelsius": 23
+  },
+  {
+    "flightID": "IB1167",
+    "description": "Clear visibility",
+    "temperatureCelsius": 11
+  },
+  {
+    "flightID": "IB1284",
+    "description": "Afternoon haze",
+    "temperatureCelsius": 12
+  },
+  {
+    "flightID": "IB1406",
+    "description": "Soft breeze",
+    "temperatureCelsius": 13
+  },
+  {
+    "flightID": "IB1528",
+    "description": "Bright sunshine",
+    "temperatureCelsius": 14
+  },
+  {
+    "flightID": "IB1642",
+    "description": "Atlantic drizzle",
+    "temperatureCelsius": 15
+  },
+  {
+    "flightID": "IB1765",
+    "description": "Cloud breaks",
+    "temperatureCelsius": 16
+  },
+  {
+    "flightID": "IB1889",
+    "description": "Cold and clear",
+    "temperatureCelsius": 17
+  },
+  {
+    "flightID": "IB1944",
+    "description": "Low clouds",
+    "temperatureCelsius": 18
+  },
+  {
+    "flightID": "IB2051",
+    "description": "Mild rain",
+    "temperatureCelsius": 19
+  },
+  {
+    "flightID": "IB2173",
+    "description": "Fresh wind",
+    "temperatureCelsius": 20
+  },
+  {
+    "flightID": "IB2296",
+    "description": "Dry and bright",
+    "temperatureCelsius": 21
+  },
+  {
+    "flightID": "IB2418",
+    "description": "Windy intervals",
+    "temperatureCelsius": 22
+  },
+  {
+    "flightID": "IB2539",
+    "description": "Cool sunshine",
+    "temperatureCelsius": 23
+  }
+]

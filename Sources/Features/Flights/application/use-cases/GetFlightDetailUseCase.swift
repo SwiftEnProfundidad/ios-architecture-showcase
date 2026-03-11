@@ -1,6 +1,11 @@
+import SharedKernel
+
+public protocol FlightDetailGetting: Sendable {
+    func execute(flightID: FlightID) async throws -> FlightDetail
+}
 
 public struct GetFlightDetailUseCase<
-    FlightRepo: FlightRepositoryProtocol,
+    FlightRepo: FlightDetailReading,
     WeatherRepo: WeatherRepositoryProtocol
 >: Sendable {
     private let flightRepository: FlightRepo
@@ -13,11 +18,19 @@ public struct GetFlightDetailUseCase<
 
     public func execute(flightID: FlightID) async throws -> FlightDetail {
         async let flight = flightRepository.fetchByID(flightID)
-        async let weather = fetchWeatherIgnoringFailure(flightID: flightID)
-        return FlightDetail(flight: try await flight, weather: await weather)
+        async let weather = fetchWeatherIgnoringRecoverableFailure(flightID: flightID)
+        return FlightDetail(flight: try await flight, weather: try await weather)
     }
 
-    private func fetchWeatherIgnoringFailure(flightID: FlightID) async -> WeatherInfo? {
-        try? await weatherRepository.fetchWeather(forFlightID: flightID)
+    private func fetchWeatherIgnoringRecoverableFailure(flightID: FlightID) async throws -> WeatherInfo? {
+        do {
+            return try await weatherRepository.fetchWeather(forFlightID: flightID)
+        } catch is CancellationError {
+            throw CancellationError()
+        } catch {
+            return nil
+        }
     }
 }
+
+extension GetFlightDetailUseCase: FlightDetailGetting {}
