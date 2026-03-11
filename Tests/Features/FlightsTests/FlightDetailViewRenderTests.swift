@@ -8,29 +8,25 @@ import Testing
 struct FlightDetailViewRenderTests {
     @Test("Flight detail renders the loading skeleton")
     func rendersLoadingState() async throws {
-        let executor = SuspendedFlightDetailExecutor(
-            detail: FlightDetail(
-                flight: Flight.stub(id: FlightID("IB3456"), passengerID: PassengerID("PAX-001")),
-                weather: .stub(description: "Sunny", temperatureCelsius: 22)
-            )
+        let detail = FlightDetail(
+            flight: Flight.stub(id: FlightID("IB3456"), passengerID: PassengerID("PAX-001")),
+            weather: .stub(description: "Sunny", temperatureCelsius: 22)
         )
-        let viewModel = FlightDetailViewModel(
-            detailUseCase: executor,
-            eventBus: NavigationEventBusSpy(),
-            flightID: FlightID("IB3456")
-        )
+        let tracked = makeSUT(suspendedDetail: detail)
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
 
         let task = Task {
-            await viewModel.load()
+            await context.viewModel.load()
         }
         await Task.yield()
 
-        let data = try renderedPNG(from: FlightDetailView(viewModel: viewModel))
+        let data = try renderedPNG(from: FlightDetailView(viewModel: context.viewModel))
 
-        #expect(viewModel.isLoading)
+        #expect(context.viewModel.isLoading)
         #expect(data.count > 1_000)
 
-        await executor.resume()
+        await context.executor.resume()
         await task.value
     }
 
@@ -40,33 +36,68 @@ struct FlightDetailViewRenderTests {
             flight: Flight.stub(id: FlightID("IB3456"), passengerID: PassengerID("PAX-001")),
             weather: .stub(description: "Sunny", temperatureCelsius: 22)
         )
-        let viewModel = FlightDetailViewModel(
-            detailUseCase: ImmediateFlightDetailExecutor(result: .success(detail)),
-            eventBus: NavigationEventBusSpy(),
-            flightID: detail.flight.id
-        )
+        let tracked = makeSUT(result: .success(detail), flightID: detail.flight.id)
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
 
-        await viewModel.load()
-        let data = try renderedPNG(from: FlightDetailView(viewModel: viewModel), colorScheme: .dark)
+        await context.viewModel.load()
+        let data = try renderedPNG(from: FlightDetailView(viewModel: context.viewModel), colorScheme: .dark)
 
-        #expect(viewModel.detail == detail)
+        #expect(context.viewModel.detail == detail)
         #expect(data.count > 1_000)
     }
 
     @Test("Flight detail renders the error state")
     func rendersErrorState() async throws {
-        let viewModel = FlightDetailViewModel(
-            detailUseCase: ImmediateFlightDetailExecutor(result: .failure(FlightError.network)),
-            eventBus: NavigationEventBusSpy(),
+        let tracked = makeSUT(
+            result: .failure(FlightError.network),
             flightID: FlightID("IB3456")
         )
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
 
-        await viewModel.load()
-        let data = try renderedPNG(from: FlightDetailView(viewModel: viewModel))
+        await context.viewModel.load()
+        let data = try renderedPNG(from: FlightDetailView(viewModel: context.viewModel))
 
-        #expect(viewModel.errorMessage == AppStrings.localized("flights.error.detail"))
+        #expect(context.viewModel.errorMessage == AppStrings.localized("flights.error.detail"))
         #expect(data.count > 1_000)
     }
+
+    private func makeSUT(
+        suspendedDetail: FlightDetail
+    ) -> TrackedTestContext<FlightDetailViewRenderContext<SuspendedFlightDetailExecutor>> {
+        let executor = SuspendedFlightDetailExecutor(detail: suspendedDetail)
+        let eventBus = NavigationEventBusSpy()
+        let sut = FlightDetailViewModel(
+            detailUseCase: executor,
+            eventBus: eventBus,
+            flightID: suspendedDetail.flight.id
+        )
+        return makeTestContext(
+            FlightDetailViewRenderContext(viewModel: sut, executor: executor)
+        )
+    }
+
+    private func makeSUT(
+        result: Result<FlightDetail, Error>,
+        flightID: FlightID
+    ) -> TrackedTestContext<FlightDetailViewRenderContext<ImmediateFlightDetailExecutor>> {
+        let executor = ImmediateFlightDetailExecutor(result: result)
+        let eventBus = NavigationEventBusSpy()
+        let sut = FlightDetailViewModel(
+            detailUseCase: executor,
+            eventBus: eventBus,
+            flightID: flightID
+        )
+        return makeTestContext(
+            FlightDetailViewRenderContext(viewModel: sut, executor: executor)
+        )
+    }
+}
+
+private struct FlightDetailViewRenderContext<Executor: FlightDetailGetting> {
+    let viewModel: FlightDetailViewModel<Executor>
+    let executor: Executor
 }
 
 private actor SuspendedFlightDetailExecutor: FlightDetailGetting {

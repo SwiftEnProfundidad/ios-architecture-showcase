@@ -102,23 +102,8 @@ public struct FlightListView<ListExecutor: ListFlightsExecuting, SessionControll
             flight.number,
             flight.origin,
             flight.destination,
-            localizedStatus(flight.status)
+            FlightStatusPresentation(status: flight.status).title
         )
-    }
-
-    private func localizedStatus(_ status: Flight.Status) -> String {
-        switch status {
-        case .onTime:
-            AppStrings.localized("flights.status.onTime")
-        case .delayed:
-            AppStrings.localized("flights.status.delayed")
-        case .boarding:
-            AppStrings.localized("flights.status.boarding")
-        case .departed:
-            AppStrings.localized("flights.status.departed")
-        case .cancelled:
-            AppStrings.localized("flights.status.cancelled")
-        }
     }
 
     private var skeletonList: some View {
@@ -225,38 +210,15 @@ private struct FlightRowView: View {
     }
 
     private func statusBadge(_ status: Flight.Status) -> some View {
-        Text(localizedStatus(status))
+        let presentation = FlightStatusPresentation(status: status)
+
+        return Text(presentation.title)
             .font(.caption.bold())
             .padding(.horizontal, 8)
             .padding(.vertical, 2)
-            .background(statusColor(status).opacity(0.15))
-            .foregroundStyle(statusColor(status))
+            .background(presentation.tint.color.opacity(0.15))
+            .foregroundStyle(presentation.tint.color)
             .clipShape(.rect(cornerRadius: 6))
-    }
-
-    private func statusColor(_ status: Flight.Status) -> Color {
-        switch status {
-        case .onTime: .green
-        case .boarding: .blue
-        case .delayed: .orange
-        case .departed: .gray
-        case .cancelled: .red
-        }
-    }
-
-    private func localizedStatus(_ status: Flight.Status) -> String {
-        switch status {
-        case .onTime:
-            AppStrings.localized("flights.status.onTime")
-        case .delayed:
-            AppStrings.localized("flights.status.delayed")
-        case .boarding:
-            AppStrings.localized("flights.status.boarding")
-        case .departed:
-            AppStrings.localized("flights.status.departed")
-        case .cancelled:
-            AppStrings.localized("flights.status.cancelled")
-        }
     }
 }
 

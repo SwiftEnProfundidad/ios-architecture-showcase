@@ -7,28 +7,25 @@ import Testing
 struct BoardingPassViewRenderTests {
     @Test("Boarding pass renders the loading skeleton")
     func rendersLoadingState() async throws {
-        let executor = SuspendedBoardingPassExecutor(
-            pass: BoardingPassData.stub(
-                flightID: FlightID("IB3456"),
-                passengerID: PassengerID("PAX-001")
-            )
+        let pass = BoardingPassData.stub(
+            flightID: FlightID("IB3456"),
+            passengerID: PassengerID("PAX-001")
         )
-        let viewModel = BoardingPassViewModel(
-            useCase: executor,
-            flightID: FlightID("IB3456")
-        )
+        let tracked = makeSUT(suspendedPass: pass)
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
 
         let task = Task {
-            await viewModel.load()
+            await context.viewModel.load()
         }
         await Task.yield()
 
-        let data = try renderedPNG(from: BoardingPassView(viewModel: viewModel))
+        let data = try renderedPNG(from: BoardingPassView(viewModel: context.viewModel))
 
-        #expect(viewModel.isLoading)
+        #expect(context.viewModel.isLoading)
         #expect(data.count > 1_000)
 
-        await executor.resume()
+        await context.executor.resume()
         await task.value
     }
 
@@ -38,31 +35,64 @@ struct BoardingPassViewRenderTests {
             flightID: FlightID("IB3456"),
             passengerID: PassengerID("PAX-001")
         )
-        let viewModel = BoardingPassViewModel(
-            useCase: ImmediateBoardingPassExecutor(result: .success(pass)),
-            flightID: pass.flightID
-        )
+        let tracked = makeSUT(result: .success(pass), flightID: pass.flightID)
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
 
-        await viewModel.load()
-        let data = try renderedPNG(from: BoardingPassView(viewModel: viewModel), colorScheme: .dark)
+        await context.viewModel.load()
+        let data = try renderedPNG(from: BoardingPassView(viewModel: context.viewModel), colorScheme: .dark)
 
-        #expect(viewModel.boardingPass == pass)
+        #expect(context.viewModel.boardingPass == pass)
         #expect(data.count > 1_000)
     }
 
     @Test("Boarding pass renders the error state")
     func rendersErrorState() async throws {
-        let viewModel = BoardingPassViewModel(
-            useCase: ImmediateBoardingPassExecutor(result: .failure(BoardingPassError.notFound)),
+        let tracked = makeSUT(
+            result: .failure(BoardingPassError.notFound),
             flightID: FlightID("IB3456")
         )
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
 
-        await viewModel.load()
-        let data = try renderedPNG(from: BoardingPassView(viewModel: viewModel))
+        await context.viewModel.load()
+        let data = try renderedPNG(from: BoardingPassView(viewModel: context.viewModel))
 
-        #expect(viewModel.errorMessage == AppStrings.localized("boardingpass.error.load"))
+        #expect(context.viewModel.errorMessage == AppStrings.localized("boardingpass.error.load"))
         #expect(data.count > 1_000)
     }
+
+    private func makeSUT(
+        suspendedPass: BoardingPassData
+    ) -> TrackedTestContext<BoardingPassViewRenderContext<SuspendedBoardingPassExecutor>> {
+        let executor = SuspendedBoardingPassExecutor(pass: suspendedPass)
+        let sut = BoardingPassViewModel(
+            useCase: executor,
+            flightID: suspendedPass.flightID
+        )
+        return makeTestContext(
+            BoardingPassViewRenderContext(viewModel: sut, executor: executor)
+        )
+    }
+
+    private func makeSUT(
+        result: Result<BoardingPassData, Error>,
+        flightID: FlightID
+    ) -> TrackedTestContext<BoardingPassViewRenderContext<ImmediateBoardingPassExecutor>> {
+        let executor = ImmediateBoardingPassExecutor(result: result)
+        let sut = BoardingPassViewModel(
+            useCase: executor,
+            flightID: flightID
+        )
+        return makeTestContext(
+            BoardingPassViewRenderContext(viewModel: sut, executor: executor)
+        )
+    }
+}
+
+private struct BoardingPassViewRenderContext<Executor: BoardingPassGetting> {
+    let viewModel: BoardingPassViewModel<Executor>
+    let executor: Executor
 }
 
 private actor SuspendedBoardingPassExecutor: BoardingPassGetting {

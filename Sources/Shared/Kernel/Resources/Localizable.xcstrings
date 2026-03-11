@@ -2,7 +2,6 @@
   "sourceLanguage" : "en",
   "strings" : {
     "auth.error.invalidCredentials" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -19,7 +18,6 @@
       }
     },
     "auth.error.invalidEmailFormat" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -36,7 +34,6 @@
       }
     },
     "auth.error.network" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -53,7 +50,6 @@
       }
     },
     "auth.error.sessionExpired" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -70,7 +66,6 @@
       }
     },
     "auth.error.unexpected" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -87,7 +82,6 @@
       }
     },
     "auth.login.cta" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -104,7 +98,6 @@
       }
     },
     "auth.login.cta.accessibility" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -121,7 +114,6 @@
       }
     },
     "auth.login.email" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -138,7 +130,6 @@
       }
     },
     "auth.login.email.accessibility" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -155,7 +146,6 @@
       }
     },
     "auth.login.navigationTitle" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -172,7 +162,6 @@
       }
     },
     "auth.login.password" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -189,7 +178,6 @@
       }
     },
     "auth.login.password.accessibility" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -205,8 +193,23 @@
         }
       }
     },
+    "auth.login.productName" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iOS Architecture Showcase"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iOS Architecture Showcase"
+          }
+        }
+      }
+    },
     "auth.login.quickAccess" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -223,7 +226,6 @@
       }
     },
     "auth.login.quickAccess.accessibility" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -240,7 +242,6 @@
       }
     },
     "auth.login.title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -256,25 +257,7 @@
         }
       }
     },
-    "auth.login.productName" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iOS Architecture Showcase"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iOS Architecture Showcase"
-          }
-        }
-      }
-    },
     "boardingpass.boardingDeadline" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -291,7 +274,6 @@
       }
     },
     "boardingpass.error.load" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -308,7 +290,6 @@
       }
     },
     "boardingpass.error.title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -325,7 +306,6 @@
       }
     },
     "boardingpass.gate" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -342,7 +322,6 @@
       }
     },
     "boardingpass.loading" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -359,7 +338,6 @@
       }
     },
     "boardingpass.navigationTitle" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -376,7 +354,6 @@
       }
     },
     "boardingpass.qr.accessibility" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -393,7 +370,6 @@
       }
     },
     "boardingpass.seat" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -410,7 +386,6 @@
       }
     },
     "flights.detail.boardingPassCTA" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -427,7 +402,6 @@
       }
     },
     "flights.detail.boardingPassCTA.accessibility" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -444,7 +418,6 @@
       }
     },
     "flights.detail.departureTitle" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -461,7 +434,6 @@
       }
     },
     "flights.detail.error.title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -478,7 +450,6 @@
       }
     },
     "flights.detail.gateTitle" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -495,7 +466,6 @@
       }
     },
     "flights.detail.loading" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -512,7 +482,6 @@
       }
     },
     "flights.detail.navigationTitle" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -528,8 +497,23 @@
         }
       }
     },
+    "flights.detail.weather.summary" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · %@°C"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · %@°C"
+          }
+        }
+      }
+    },
     "flights.detail.weather.title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -545,25 +529,7 @@
         }
       }
     },
-    "flights.detail.weather.summary" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ · %@°C"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ · %@°C"
-          }
-        }
-      }
-    },
     "flights.error.detail" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -580,7 +546,6 @@
       }
     },
     "flights.error.load" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -597,7 +562,6 @@
       }
     },
     "flights.list.error.title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -614,7 +578,6 @@
       }
     },
     "flights.list.loading" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -631,7 +594,6 @@
       }
     },
     "flights.list.loadingMore" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -648,7 +610,6 @@
       }
     },
     "flights.list.logout" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -665,7 +626,6 @@
       }
     },
     "flights.list.logout.accessibility" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -682,7 +642,6 @@
       }
     },
     "flights.list.navigationTitle" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -699,7 +658,6 @@
       }
     },
     "flights.list.staleWarning" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -715,8 +673,23 @@
         }
       }
     },
+    "flights.route" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ → %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ → %@"
+          }
+        }
+      }
+    },
     "flights.row.accessibility" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -732,25 +705,7 @@
         }
       }
     },
-    "flights.route" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ → %@"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ → %@"
-          }
-        }
-      }
-    },
     "flights.status.boarding" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -767,7 +722,6 @@
       }
     },
     "flights.status.cancelled" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -784,7 +738,6 @@
       }
     },
     "flights.status.delayed" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -801,7 +754,6 @@
       }
     },
     "flights.status.departed" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -818,7 +770,6 @@
       }
     },
     "flights.status.onTime" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -835,7 +786,6 @@
       }
     },
     "shared.accessibility.labelValue" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

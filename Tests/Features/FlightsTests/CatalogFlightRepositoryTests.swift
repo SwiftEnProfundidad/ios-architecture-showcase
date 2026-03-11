@@ -11,7 +11,9 @@ struct CatalogFlightRepositoryTests {
         let fileManager = FileManager.default
         let cacheDirectoryURL = fileManager.temporaryDirectory
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
-        let repository = CatalogFlightRepository(cacheDirectoryURL: cacheDirectoryURL)
+        let tracked = makeSUT(cacheDirectoryURL: cacheDirectoryURL)
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
         let passengerID = PassengerID("PAX-001")
         defer {
             try? fileManager.removeItem(at: cacheDirectoryURL)
@@ -22,7 +24,7 @@ struct CatalogFlightRepositoryTests {
         var hasMorePages = true
 
         while hasMorePages {
-            let result = try await repository.fetchPage(
+            let result = try await context.sut.fetchPage(
                 passengerID: passengerID,
                 page: currentPage,
                 pageSize: 10
@@ -43,7 +45,9 @@ struct CatalogFlightRepositoryTests {
         let fileManager = FileManager.default
         let fixtureURL = fileManager.temporaryDirectory
             .appendingPathComponent(UUID().uuidString, isDirectory: false)
-        let repository = CatalogFlightRepository(cacheDirectoryURL: fixtureURL)
+        let tracked = makeSUT(cacheDirectoryURL: fixtureURL)
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
         let passengerID = PassengerID("PAX-001")
 
         try Data("occupied".utf8).write(to: fixtureURL, options: .atomic)
@@ -51,7 +55,7 @@ struct CatalogFlightRepositoryTests {
             try? fileManager.removeItem(at: fixtureURL)
         }
 
-        let result = try await repository.fetchPage(
+        let result = try await context.sut.fetchPage(
             passengerID: passengerID,
             page: 1,
             pageSize: 10
@@ -61,4 +65,20 @@ struct CatalogFlightRepositoryTests {
         #expect(result.isStale == false)
         #expect(result.flights.count == 10)
     }
+
+    private func makeSUT(
+        cacheDirectoryURL: URL,
+        sourceLocation: SourceLocation = #_sourceLocation
+    ) -> TrackedTestContext<CatalogFlightRepositoryTestContext> {
+        let sut = CatalogFlightRepository(cacheDirectoryURL: cacheDirectoryURL)
+        return makeLeakTrackedTestContext(
+            CatalogFlightRepositoryTestContext(sut: sut),
+            trackedInstances: sut,
+            sourceLocation: sourceLocation
+        )
+    }
+}
+
+private struct CatalogFlightRepositoryTestContext {
+    let sut: CatalogFlightRepository
 }
