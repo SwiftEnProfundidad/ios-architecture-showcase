@@ -6,7 +6,7 @@ import Testing
 struct CatalogBoardingPassRepositoryTests {
     @Test("Boarding pass repository returns the boarding pass for an existing flight")
     func fetchesBoardingPass() async throws {
-        let tracked = makeSUT()
+        let tracked = makeCatalogBoardingPassRepositorySUT()
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
 
@@ -18,7 +18,7 @@ struct CatalogBoardingPassRepositoryTests {
 
     @Test("Boarding pass repository throws not found for an unknown flight")
     func throwsWhenMissing() async {
-        let tracked = makeSUT()
+        let tracked = makeCatalogBoardingPassRepositorySUT()
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
 
@@ -26,16 +26,4 @@ struct CatalogBoardingPassRepositoryTests {
             try await context.sut.fetch(forFlightID: FlightID("IB9999"))
         }
     }
-
-    private func makeSUT(
-    ) -> TrackedTestContext<CatalogBoardingPassRepositoryTestContext> {
-        let sut = CatalogBoardingPassRepository()
-        return makeTestContext(
-            CatalogBoardingPassRepositoryTestContext(sut: sut),
-        )
-    }
-}
-
-private struct CatalogBoardingPassRepositoryTestContext {
-    let sut: CatalogBoardingPassRepository
 }

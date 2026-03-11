@@ -9,7 +9,7 @@ struct AppViewModelTests {
 
     @Test("AppViewModel reflects store updates after coordinator processes an event")
     func appViewModelReflectsStateChanges() async {
-        let tracked = makeSUT()
+        let tracked = makeObservedAppViewModelSUT()
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
         let expiresAt = fixedDate(hour: 12, minute: 0)
@@ -38,7 +38,7 @@ struct AppViewModelTests {
 
     @Test("AppViewModel stops observing once cancelled")
     func appViewModelStopsReflectingStateAfterCancellation() async {
-        let tracked = makeStoppedObserverSUT()
+        let tracked = makeStoppedObserverAppViewModelSUT()
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
         let session = AppSession(
@@ -73,39 +73,4 @@ struct AppViewModelTests {
             await Task.yield()
         }
     }
-
-    private func makeSUT(
-        sourceLocation: SourceLocation = #_sourceLocation
-    ) -> TrackedTestContext<AppViewModelObservedContext> {
-        let bus = DefaultNavigationEventBus()
-        let store = AppStateStore()
-        let coordinator = AppCoordinator(bus: bus, store: store)
-        let viewModel = AppViewModel(store: store)
-        _ = sourceLocation
-        return makeTestContext(
-            AppViewModelObservedContext(bus: bus, coordinator: coordinator, viewModel: viewModel)
-        )
-    }
-
-    private func makeStoppedObserverSUT(
-        sourceLocation: SourceLocation = #_sourceLocation
-    ) -> TrackedTestContext<AppViewModelStoppedObserverContext> {
-        let store = AppStateStore()
-        let viewModel = AppViewModel(store: store)
-        _ = sourceLocation
-        return makeTestContext(
-            AppViewModelStoppedObserverContext(store: store, viewModel: viewModel)
-        )
-    }
-}
-
-private struct AppViewModelObservedContext {
-    let bus: DefaultNavigationEventBus
-    let coordinator: DefaultAppCoordinator
-    let viewModel: AppViewModel
-}
-
-private struct AppViewModelStoppedObserverContext {
-    let store: AppStateStore
-    let viewModel: AppViewModel
 }

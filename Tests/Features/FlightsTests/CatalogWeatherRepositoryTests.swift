@@ -6,7 +6,7 @@ import Testing
 struct CatalogWeatherRepositoryTests {
     @Test("Weather repository returns weather for an existing flight")
     func fetchesWeather() async throws {
-        let tracked = makeSUT()
+        let tracked = makeCatalogWeatherRepositorySUT()
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
 
@@ -17,7 +17,7 @@ struct CatalogWeatherRepositoryTests {
 
     @Test("Weather repository throws not found for an unknown flight")
     func throwsWhenMissing() async {
-        let tracked = makeSUT()
+        let tracked = makeCatalogWeatherRepositorySUT()
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
 
@@ -25,16 +25,4 @@ struct CatalogWeatherRepositoryTests {
             try await context.sut.fetchWeather(forFlightID: FlightID("IB9999"))
         }
     }
-
-    private func makeSUT(
-    ) -> TrackedTestContext<CatalogWeatherRepositoryTestContext> {
-        let sut = CatalogWeatherRepository()
-        return makeTestContext(
-            CatalogWeatherRepositoryTestContext(sut: sut),
-        )
-    }
-}
-
-private struct CatalogWeatherRepositoryTestContext {
-    let sut: CatalogWeatherRepository
 }

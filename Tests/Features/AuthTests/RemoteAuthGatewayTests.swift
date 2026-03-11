@@ -3,8 +3,6 @@ import Foundation
 import SharedKernel
 import Testing
 
-private typealias SUT = RemoteAuthGateway<HTTPClientSpy>
-
 @Suite("RemoteAuthGateway")
 struct RemoteAuthGatewayTests {
 
@@ -13,7 +11,7 @@ struct RemoteAuthGatewayTests {
         let decoder = JSONEncoder()
         decoder.dateEncodingStrategy = .iso8601
         let expiresAt = fixedDate(hour: 12, minute: 0)
-        let tracked = makeSUT()
+        let tracked = makeRemoteAuthGatewaySUT()
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
 
@@ -40,7 +38,7 @@ struct RemoteAuthGatewayTests {
 
     @Test("401 response maps to invalid credentials")
     func unauthorizedMapsToInvalidCredentials() async {
-        let tracked = makeSUT()
+        let tracked = makeRemoteAuthGatewaySUT()
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
         await context.client.stub(result: .success(HTTPResponse(statusCode: 401, data: Data())))
@@ -52,7 +50,7 @@ struct RemoteAuthGatewayTests {
 
     @Test("Transport failures map to network error")
     func transportFailuresMapToNetworkError() async {
-        let tracked = makeSUT()
+        let tracked = makeRemoteAuthGatewaySUT()
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
         await context.client.stub(result: .failure(.transport))
@@ -61,41 +59,4 @@ struct RemoteAuthGatewayTests {
             try await context.sut.authenticate(email: "carlos@iberia.com", password: "Secure123!")
         }
     }
-
-    private func makeSUT(
-        sourceLocation: SourceLocation = #_sourceLocation
-    ) -> TrackedTestContext<RemoteAuthGatewayTestContext> {
-        let client = HTTPClientSpy()
-        let sut = SUT(client: client, baseURL: authBaseURL)
-        return makeLeakTrackedTestContext(
-            RemoteAuthGatewayTestContext(sut: sut, client: client),
-            trackedInstances: client,
-            sourceLocation: sourceLocation
-        )
-    }
 }
-
-private struct RemoteAuthGatewayTestContext {
-    let sut: SUT
-    let client: HTTPClientSpy
-}
-
-private actor HTTPClientSpy: HTTPClient {
-    private var result: Result<HTTPResponse, HTTPClientError> = .failure(.transport)
-
-    func stub(result: Result<HTTPResponse, HTTPClientError>) {
-        self.result = result
-    }
-
-    func execute(_ request: HTTPRequest) async throws -> HTTPResponse {
-        try result.get()
-    }
-}
-
-private struct LoginPayload: Codable {
-    let passengerID: String
-    let token: String
-    let expiresAt: Date
-}
-
-private let authBaseURL = URL(string: "https://auth.example.com") ?? URL(filePath: "/auth-example")

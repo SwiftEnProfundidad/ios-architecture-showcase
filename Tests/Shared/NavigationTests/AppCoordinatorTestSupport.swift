@@ -8,6 +8,11 @@ struct AppCoordinatorTestContext {
     let store: AppStateStore
 }
 
+struct ExpiredProtectedNavigationCoordinatorContext {
+    let tracked: TrackedTestContext<AppCoordinatorTestContext>
+    let cleaner: SessionInvalidationSpy
+}
+
 func makeAppCoordinatorSUT(
     initial: AppState = .initial,
     sessionInvalidator: (@Sendable () async -> Void)? = nil,
@@ -40,6 +45,26 @@ func makeAuthenticatedCoordinatorState() -> AppState {
         ),
         path: []
     )
+}
+
+func makeExpiredProtectedNavigationCoordinatorSUT() -> ExpiredProtectedNavigationCoordinatorContext {
+    let cleaner = SessionInvalidationSpy()
+    let expiredState = AppState(
+        rootRoute: .authenticatedHome,
+        session: AppSession(
+            passengerID: PassengerID("PAX-001"),
+            token: "tok-abc",
+            expiresAt: .distantPast
+        ),
+        path: []
+    )
+    let tracked = makeAppCoordinatorSUT(
+        initial: expiredState,
+        sessionInvalidator: {
+            await cleaner.invalidate()
+        }
+    )
+    return ExpiredProtectedNavigationCoordinatorContext(tracked: tracked, cleaner: cleaner)
 }
 
 func nextCoordinatorStateUpdate(

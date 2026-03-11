@@ -9,24 +9,7 @@ struct FlightListViewModelLoadingTests {
 
     @Test("Given stale cache result, when loading, then stale warning is exposed")
     func loadExposesStaleWarning() async {
-        let passengerID = PassengerID("PAX-001")
-        let tracked = await makeConfiguredSessionBoundFlightListViewModelSUT(
-            passengerID: passengerID,
-            sourceLocation: #_sourceLocation,
-            configure: { listUseCase in
-                await listUseCase.stubPage(
-                    result: makePageResult(
-                        flightIDs: ["IB3456"],
-                        passengerID: passengerID,
-                        source: .cache,
-                        isStale: true,
-                        page: 1,
-                        hasMorePages: false
-                    ),
-                    for: 1
-                )
-            }
-        )
+        let tracked = await makeStaleCacheFlightListLoadingSUT(sourceLocation: #_sourceLocation)
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
 
@@ -38,23 +21,7 @@ struct FlightListViewModelLoadingTests {
 
     @Test("Given first page is still loading, when state is observed, then the initial skeleton state is exposed")
     func loadExposesInitialSkeletonStateWhileFirstPageIsPending() async {
-        let passengerID = PassengerID("PAX-001")
-        let tracked = makeSessionBoundFlightListViewModelSUT(
-                listUseCase: SlowListFlightsUseCaseSpy(
-                    result: makePageResult(
-                        flightIDs: ["IB1001"],
-                        passengerID: passengerID,
-                        source: .remote,
-                        isStale: false,
-                        page: 1,
-                        hasMorePages: true
-                    )
-                ),
-                logoutUseCase: LogoutUseCaseSpy(),
-                passengerID: passengerID,
-                sessionExpiresAt: .distantFuture,
-                sourceLocation: #_sourceLocation
-        )
+        let tracked = makePendingFirstPageFlightListLoadingSUT(sourceLocation: #_sourceLocation)
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
 
@@ -72,24 +39,7 @@ struct FlightListViewModelLoadingTests {
 
     @Test("Given configured minimum skeleton duration, when first page resolves immediately, then the skeleton remains visible until the minimum time elapses")
     func loadKeepsSkeletonVisibleForMinimumDuration() async {
-        let passengerID = PassengerID("PAX-001")
-        let tracked = makeSessionBoundFlightListViewModelSUT(
-                listUseCase: InstantListFlightsUseCaseSpy(
-                    result: makePageResult(
-                        flightIDs: ["IB1001"],
-                        passengerID: passengerID,
-                        source: .remote,
-                        isStale: false,
-                        page: 1,
-                        hasMorePages: true
-                    )
-                ),
-                logoutUseCase: LogoutUseCaseSpy(),
-                passengerID: passengerID,
-                sessionExpiresAt: .distantFuture,
-                minimumInitialSkeletonNanoseconds: 250_000_000,
-                sourceLocation: #_sourceLocation
-        )
+        let tracked = makeMinimumSkeletonFlightListLoadingSUT(sourceLocation: #_sourceLocation)
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
         let clock = ContinuousClock()
@@ -104,24 +54,7 @@ struct FlightListViewModelLoadingTests {
 
     @Test("Given long list, when loading first page, then exposes first block and pagination state")
     func loadUsesFirstPageAndPaginationState() async {
-        let passengerID = PassengerID("PAX-001")
-        let tracked = await makeConfiguredSessionBoundFlightListViewModelSUT(
-            passengerID: passengerID,
-            sourceLocation: #_sourceLocation,
-            configure: { listUseCase in
-                await listUseCase.stubPage(
-                    result: makeRangePageResult(
-                        range: 1...10,
-                        passengerID: passengerID,
-                        source: .remote,
-                        isStale: false,
-                        page: 1,
-                        hasMorePages: true
-                    ),
-                    for: 1
-                )
-            }
-        )
+        let tracked = await makeFirstPagePaginationFlightListLoadingSUT(sourceLocation: #_sourceLocation)
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
 

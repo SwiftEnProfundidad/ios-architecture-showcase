@@ -7,8 +7,8 @@ struct ProtectedNavigationPolicyTests {
 
     @Test("Expired protected navigation invalidates persistence and resets state")
     func expiredProtectedNavigationInvalidatesPersistence() throws {
-        let sut = makeSUT()
-        let expiredState = makeExpiredProtectedState()
+        let sut = makeProtectedNavigationPolicySUT()
+        let expiredState = makeExpiredProtectedNavigationState()
 
         let decision = sut.evaluate(
             current: expiredState,
@@ -22,49 +22,21 @@ struct ProtectedNavigationPolicyTests {
 
     @Test("Valid protected navigation keeps the session and does not invalidate persistence")
     func validProtectedNavigationKeepsSession() throws {
-        let sut = makeSUT()
-        let session = makeValidProtectedSession()
+        let sut = makeProtectedNavigationPolicySUT()
+        let validState = makeValidProtectedNavigationState()
 
         let decision = sut.evaluate(
-            current: AppState(
-                rootRoute: .authenticatedHome,
-                session: session,
-                path: []
-            ),
+            current: validState,
             event: .requestProtectedPath([.secondaryAttachment(contextID: "IB3456")])
         )
         let resolvedDecision = try #require(decision)
 
         #expect(resolvedDecision.nextState.rootRoute == .authenticatedHome)
-        #expect(resolvedDecision.nextState.session == session)
+        #expect(resolvedDecision.nextState.session == validState.session)
         #expect(resolvedDecision.nextState.path == [
             .primaryDetail(contextID: "IB3456"),
             .secondaryAttachment(contextID: "IB3456")
         ])
         #expect(resolvedDecision.shouldInvalidatePersistedSession == false)
-    }
-
-    private func makeSUT() -> ProtectedNavigationPolicy {
-        ProtectedNavigationPolicy()
-    }
-
-    private func makeExpiredProtectedState() -> AppState {
-        AppState(
-            rootRoute: .authenticatedHome,
-            session: AppSession(
-                passengerID: PassengerID("PAX-001"),
-                token: "tok-expired",
-                expiresAt: .distantPast
-            ),
-            path: []
-        )
-    }
-
-    private func makeValidProtectedSession() -> AppSession {
-        AppSession(
-            passengerID: PassengerID("PAX-001"),
-            token: "tok-valid",
-            expiresAt: fixedDate(hour: 12, minute: 0)
-        )
     }
 }
