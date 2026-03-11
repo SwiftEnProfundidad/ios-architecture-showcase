@@ -9,7 +9,7 @@ import Testing
 struct RootViewRenderTests {
     @Test("Root view renders the login route")
     func rendersLoginRoute() throws {
-        let tracked = makeAppViewModelRenderingSUT()
+        let tracked = makeRootViewRenderingSUT()
         defer { tracked.assertNoLeaks() }
         let viewModel = tracked.context.viewModel
 
@@ -29,7 +29,7 @@ struct RootViewRenderTests {
 
     @Test("Root view renders the authenticated route")
     func rendersAuthenticatedRoute() async throws {
-        let tracked = makeObservedNavigationSUT()
+        let tracked = makeObservedRootNavigationSUT()
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
         let session = AppSession(
@@ -68,34 +68,4 @@ struct RootViewRenderTests {
         #expect(context.viewModel.rootRoute == .authenticatedHome)
         #expect(data.count > 1_000)
     }
-
-    private func makeAppViewModelRenderingSUT() -> TrackedTestContext<AppViewModelRenderingContext> {
-        let store = AppStateStore()
-        let viewModel = AppViewModel(store: store)
-        return makeTestContext(
-            AppViewModelRenderingContext(viewModel: viewModel)
-        )
-    }
-
-    private func makeObservedNavigationSUT(
-        sourceLocation: SourceLocation = #_sourceLocation
-    ) -> TrackedTestContext<ObservedNavigationTestContext> {
-        let bus = DefaultNavigationEventBus()
-        let store = AppStateStore()
-        let viewModel = AppViewModel(store: store)
-        _ = sourceLocation
-        return makeTestContext(
-            ObservedNavigationTestContext(bus: bus, store: store, viewModel: viewModel)
-        )
-    }
-}
-
-private struct AppViewModelRenderingContext {
-    let viewModel: AppViewModel
-}
-
-private struct ObservedNavigationTestContext {
-    let bus: DefaultNavigationEventBus
-    let store: AppStateStore
-    let viewModel: AppViewModel
 }

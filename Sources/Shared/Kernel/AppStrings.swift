@@ -1,7 +1,10 @@
 import Foundation
 
 public enum AppStrings {
+    private static let sourceCatalogReferences = StringCatalogSourceReferences.all
+
     public static func localized(_ key: String) -> String {
+        let _ = sourceCatalogReferences
         let resolved = String(localized: String.LocalizationValue(key), bundle: .module)
         if resolved != key {
             return resolved

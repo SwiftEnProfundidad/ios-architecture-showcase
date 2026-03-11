@@ -8,44 +8,7 @@ struct FlightListViewModelRefreshTests {
 
     @Test("Given paginated list, when refreshing, then visible flights are refreshed and length is preserved")
     func refreshPreservesLoadedLength() async {
-        let tracked = await makeSUT(
-            configure: { listUseCase in
-                await listUseCase.stubPage(
-                    result: makePageResult(
-                        flightIDs: ["IB1001", "IB1002"],
-                        passengerID: defaultFlightListPassengerID,
-                        source: .remote,
-                        isStale: false,
-                        page: 1,
-                        hasMorePages: true
-                    ),
-                    for: 1
-                )
-                await listUseCase.stubPage(
-                    result: makePageResult(
-                        flightIDs: ["IB1003", "IB1004"],
-                        passengerID: defaultFlightListPassengerID,
-                        source: .remote,
-                        isStale: false,
-                        page: 2,
-                        hasMorePages: false
-                    ),
-                    for: 2
-                )
-                await listUseCase.stubRefreshResult(
-                    makeFlights(
-                        idsAndStatuses: [
-                            ("IB1001", .boarding),
-                            ("IB1002", .onTime),
-                            ("IB1003", .onTime),
-                            ("IB1004", .delayed)
-                        ],
-                        passengerID: defaultFlightListPassengerID
-                    )
-                )
-            },
-            sourceLocation: #_sourceLocation
-        )
+        let tracked = await makePaginatedRefreshFlightListViewModelSUT(sourceLocation: #_sourceLocation)
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
 
@@ -62,23 +25,7 @@ struct FlightListViewModelRefreshTests {
 
     @Test("Given stale cached flights, when refresh fails, then the stale warning remains visible")
     func refreshPreservesStaleWarningAfterFailure() async {
-        let tracked = await makeSUT(
-            configure: { listUseCase in
-                await listUseCase.stubPage(
-                    result: makePageResult(
-                        flightIDs: ["IB1001"],
-                        passengerID: defaultFlightListPassengerID,
-                        source: .cache,
-                        isStale: true,
-                        page: 1,
-                        hasMorePages: false
-                    ),
-                    for: 1
-                )
-                await listUseCase.stubRefreshError(FlightListFailure())
-            },
-            sourceLocation: #_sourceLocation
-        )
+        let tracked = await makeStaleRefreshFailureFlightListViewModelSUT(sourceLocation: #_sourceLocation)
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
 
@@ -88,17 +35,5 @@ struct FlightListViewModelRefreshTests {
         #expect(context.sut.flights.map { $0.id.value } == ["IB1001"])
         #expect(context.sut.errorMessage == AppStrings.localized("flights.error.load"))
         #expect(context.sut.staleMessage == AppStrings.localized("flights.list.staleWarning"))
-    }
-
-    private func makeSUT(
-        passengerID: PassengerID = defaultFlightListPassengerID,
-        configure: (ListFlightsUseCaseSpy) async -> Void,
-        sourceLocation: SourceLocation
-    ) async -> TrackedTestContext<SessionBoundFlightListViewModelTestContext<ListFlightsUseCaseSpy, LogoutUseCaseSpy>> {
-        await makeConfiguredSessionBoundFlightListViewModelSUT(
-            passengerID: passengerID,
-            sourceLocation: sourceLocation,
-            configure: configure
-        )
     }
 }

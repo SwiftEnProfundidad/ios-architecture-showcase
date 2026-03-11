@@ -7,7 +7,7 @@ struct NavigationEventBusTests {
 
     @Test("Published event is received by the subscriber")
     func publishedEventIsReceivedBySubscriber() async {
-        let tracked = makeSUT()
+        let tracked = makeNavigationEventBusSUT()
         defer { tracked.assertNoLeaks() }
         let bus = tracked.context.bus
         let expected = NavigationEvent.sessionStarted(
@@ -28,7 +28,7 @@ struct NavigationEventBusTests {
 
     @Test("Multiple events are received in order")
     func multipleEventsReceivedInOrder() async {
-        let tracked = makeSUT()
+        let tracked = makeNavigationEventBusSUT()
         defer { tracked.assertNoLeaks() }
         let bus = tracked.context.bus
         let events: [NavigationEvent] = [
@@ -51,19 +51,4 @@ struct NavigationEventBusTests {
 
         #expect(received == events)
     }
-
-    private func makeSUT(
-        sourceLocation: SourceLocation = #_sourceLocation
-    ) -> TrackedTestContext<NavigationEventBusTestContext> {
-        let bus = DefaultNavigationEventBus()
-        return makeLeakTrackedTestContext(
-            NavigationEventBusTestContext(bus: bus),
-            trackedInstances: bus,
-            sourceLocation: sourceLocation
-        )
-    }
-}
-
-private struct NavigationEventBusTestContext {
-    let bus: DefaultNavigationEventBus
 }

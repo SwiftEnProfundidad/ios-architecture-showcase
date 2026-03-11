@@ -355,6 +355,325 @@ func makeFlights(
 }
 
 @MainActor
+func makeStaleCacheFlightListLoadingSUT(
+    passengerID: PassengerID = defaultFlightListPassengerID,
+    sourceLocation: SourceLocation = #_sourceLocation
+) async -> TrackedTestContext<SessionBoundFlightListViewModelTestContext<ListFlightsUseCaseSpy, LogoutUseCaseSpy>> {
+    await makeConfiguredSessionBoundFlightListViewModelSUT(
+        passengerID: passengerID,
+        sourceLocation: sourceLocation,
+        configure: { listUseCase in
+            await listUseCase.stubPage(
+                result: makePageResult(
+                    flightIDs: ["IB3456"],
+                    passengerID: passengerID,
+                    source: .cache,
+                    isStale: true,
+                    page: 1,
+                    hasMorePages: false
+                ),
+                for: 1
+            )
+        }
+    )
+}
+
+@MainActor
+func makePendingFirstPageFlightListLoadingSUT(
+    passengerID: PassengerID = defaultFlightListPassengerID,
+    sourceLocation: SourceLocation = #_sourceLocation
+) -> TrackedTestContext<SessionBoundFlightListViewModelTestContext<SlowListFlightsUseCaseSpy, LogoutUseCaseSpy>> {
+    makeSessionBoundFlightListViewModelSUT(
+        listUseCase: SlowListFlightsUseCaseSpy(
+            result: makePageResult(
+                flightIDs: ["IB1001"],
+                passengerID: passengerID,
+                source: .remote,
+                isStale: false,
+                page: 1,
+                hasMorePages: true
+            )
+        ),
+        logoutUseCase: LogoutUseCaseSpy(),
+        passengerID: passengerID,
+        sessionExpiresAt: .distantFuture,
+        sourceLocation: sourceLocation
+    )
+}
+
+@MainActor
+func makeMinimumSkeletonFlightListLoadingSUT(
+    passengerID: PassengerID = defaultFlightListPassengerID,
+    sourceLocation: SourceLocation = #_sourceLocation
+) -> TrackedTestContext<SessionBoundFlightListViewModelTestContext<InstantListFlightsUseCaseSpy, LogoutUseCaseSpy>> {
+    makeSessionBoundFlightListViewModelSUT(
+        listUseCase: InstantListFlightsUseCaseSpy(
+            result: makePageResult(
+                flightIDs: ["IB1001"],
+                passengerID: passengerID,
+                source: .remote,
+                isStale: false,
+                page: 1,
+                hasMorePages: true
+            )
+        ),
+        logoutUseCase: LogoutUseCaseSpy(),
+        passengerID: passengerID,
+        sessionExpiresAt: .distantFuture,
+        minimumInitialSkeletonNanoseconds: 250_000_000,
+        sourceLocation: sourceLocation
+    )
+}
+
+@MainActor
+func makeFirstPagePaginationFlightListLoadingSUT(
+    passengerID: PassengerID = defaultFlightListPassengerID,
+    sourceLocation: SourceLocation = #_sourceLocation
+) async -> TrackedTestContext<SessionBoundFlightListViewModelTestContext<ListFlightsUseCaseSpy, LogoutUseCaseSpy>> {
+    await makeConfiguredSessionBoundFlightListViewModelSUT(
+        passengerID: passengerID,
+        sourceLocation: sourceLocation,
+        configure: { listUseCase in
+            await listUseCase.stubPage(
+                result: makeRangePageResult(
+                    range: 1...10,
+                    passengerID: passengerID,
+                    source: .remote,
+                    isStale: false,
+                    page: 1,
+                    hasMorePages: true
+                ),
+                for: 1
+            )
+        }
+    )
+}
+
+@MainActor
+func makePaginatedRefreshFlightListViewModelSUT(
+    passengerID: PassengerID = defaultFlightListPassengerID,
+    sourceLocation: SourceLocation = #_sourceLocation
+) async -> TrackedTestContext<SessionBoundFlightListViewModelTestContext<ListFlightsUseCaseSpy, LogoutUseCaseSpy>> {
+    await makeConfiguredSessionBoundFlightListViewModelSUT(
+        passengerID: passengerID,
+        sourceLocation: sourceLocation,
+        configure: { listUseCase in
+            await listUseCase.stubPage(
+                result: makePageResult(
+                    flightIDs: ["IB1001", "IB1002"],
+                    passengerID: passengerID,
+                    source: .remote,
+                    isStale: false,
+                    page: 1,
+                    hasMorePages: true
+                ),
+                for: 1
+            )
+            await listUseCase.stubPage(
+                result: makePageResult(
+                    flightIDs: ["IB1003", "IB1004"],
+                    passengerID: passengerID,
+                    source: .remote,
+                    isStale: false,
+                    page: 2,
+                    hasMorePages: false
+                ),
+                for: 2
+            )
+            await listUseCase.stubRefreshResult(
+                makeFlights(
+                    idsAndStatuses: [
+                        ("IB1001", .boarding),
+                        ("IB1002", .onTime),
+                        ("IB1003", .onTime),
+                        ("IB1004", .delayed)
+                    ],
+                    passengerID: passengerID
+                )
+            )
+        }
+    )
+}
+
+@MainActor
+func makeStaleRefreshFailureFlightListViewModelSUT(
+    passengerID: PassengerID = defaultFlightListPassengerID,
+    sourceLocation: SourceLocation = #_sourceLocation
+) async -> TrackedTestContext<SessionBoundFlightListViewModelTestContext<ListFlightsUseCaseSpy, LogoutUseCaseSpy>> {
+    await makeConfiguredSessionBoundFlightListViewModelSUT(
+        passengerID: passengerID,
+        sourceLocation: sourceLocation,
+        configure: { listUseCase in
+            await listUseCase.stubPage(
+                result: makePageResult(
+                    flightIDs: ["IB1001"],
+                    passengerID: passengerID,
+                    source: .cache,
+                    isStale: true,
+                    page: 1,
+                    hasMorePages: false
+                ),
+                for: 1
+            )
+            await listUseCase.stubRefreshError(FlightListFailure())
+        }
+    )
+}
+
+@MainActor
+func makeExpiredSessionFlightListViewModelSUT(
+    passengerID: PassengerID = defaultFlightListPassengerID,
+    sourceLocation: SourceLocation = #_sourceLocation
+) -> TrackedTestContext<SessionBoundFlightListViewModelTestContext<ListFlightsUseCaseSpy, LogoutUseCaseSpy>> {
+    makeSessionBoundFlightListViewModelSUT(
+        listUseCase: ListFlightsUseCaseSpy(),
+        logoutUseCase: LogoutUseCaseSpy(),
+        passengerID: passengerID,
+        sessionExpiresAt: .distantPast,
+        sourceLocation: sourceLocation
+    )
+}
+
+@MainActor
+func makeExpiringDuringLoadFlightListViewModelSUT(
+    passengerID: PassengerID = defaultFlightListPassengerID,
+    sourceLocation: SourceLocation = #_sourceLocation
+) -> TrackedTestContext<SessionBoundFlightListViewModelTestContext<SlowExpiringListFlightsUseCaseSpy, LogoutUseCaseSpy>> {
+    makeSessionBoundFlightListViewModelSUT(
+        listUseCase: SlowExpiringListFlightsUseCaseSpy(
+            result: FlightListResult(
+                flights: [Flight.stub(id: FlightID("IB1001"), passengerID: passengerID)],
+                source: .remote,
+                isStale: false,
+                page: 1,
+                hasMorePages: false
+            ),
+            delayNanoseconds: 150_000_000
+        ),
+        logoutUseCase: LogoutUseCaseSpy(),
+        passengerID: passengerID,
+        sessionExpiresAt: Date().addingTimeInterval(0.05),
+        sourceLocation: sourceLocation
+    )
+}
+
+@MainActor
+struct ExpiringRefreshFlightListViewModelScenario {
+    let tracked: TrackedTestContext<
+        SessionBoundFlightListViewModelTestContext<RefreshDelayListFlightsUseCaseSpy, LogoutUseCaseSpy>
+    >
+    let currentDate: CurrentDateStub
+}
+
+@MainActor
+func makeExpiringDuringRefreshFlightListViewModelSUT(
+    passengerID: PassengerID = defaultFlightListPassengerID,
+    sourceLocation: SourceLocation = #_sourceLocation
+) -> ExpiringRefreshFlightListViewModelScenario {
+    let currentDate = CurrentDateStub(value: .now)
+    let tracked = makeSessionBoundFlightListViewModelSUT(
+        listUseCase: RefreshDelayListFlightsUseCaseSpy(
+            pageResult: FlightListResult(
+                flights: [Flight.stub(id: FlightID("IB1001"), passengerID: passengerID, status: .onTime)],
+                source: .remote,
+                isStale: false,
+                page: 1,
+                hasMorePages: false
+            ),
+            refreshedFlights: [Flight.stub(id: FlightID("IB1001"), passengerID: passengerID, status: .delayed)],
+            delayNanoseconds: 300_000_000
+        ),
+        logoutUseCase: LogoutUseCaseSpy(),
+        passengerID: passengerID,
+        sessionExpiresAt: currentDate.value.addingTimeInterval(0.15),
+        currentDateProvider: { currentDate.value },
+        sourceLocation: sourceLocation
+    )
+    return ExpiringRefreshFlightListViewModelScenario(tracked: tracked, currentDate: currentDate)
+}
+
+@MainActor
+func makeCachedSecondPageFlightListViewModelSUT(
+    passengerID: PassengerID = defaultFlightListPassengerID,
+    sourceLocation: SourceLocation = #_sourceLocation
+) async -> TrackedTestContext<SessionBoundFlightListViewModelTestContext<ListFlightsUseCaseSpy, LogoutUseCaseSpy>> {
+    await makePaginatedFlightListViewModelSUT(
+        passengerID: passengerID,
+        firstPage: makeRangePageResult(
+            range: 1...10,
+            passengerID: passengerID,
+            source: .remote,
+            isStale: false,
+            page: 1,
+            hasMorePages: true
+        ),
+        secondPage: makeRangePageResult(
+            range: 11...20,
+            passengerID: passengerID,
+            source: .cache,
+            isStale: true,
+            page: 2,
+            hasMorePages: true
+        ),
+        sourceLocation: sourceLocation
+    )
+}
+
+@MainActor
+func makeFirstPageOnlyFlightListViewModelSUT(
+    passengerID: PassengerID = defaultFlightListPassengerID,
+    sourceLocation: SourceLocation = #_sourceLocation
+) async -> TrackedTestContext<SessionBoundFlightListViewModelTestContext<ListFlightsUseCaseSpy, LogoutUseCaseSpy>> {
+    await makePaginatedFlightListViewModelSUT(
+        passengerID: passengerID,
+        firstPage: makeRangePageResult(
+            range: 1...10,
+            passengerID: passengerID,
+            source: .remote,
+            isStale: false,
+            page: 1,
+            hasMorePages: true
+        ),
+        secondPage: makeRangePageResult(
+            range: 11...12,
+            passengerID: passengerID,
+            source: .remote,
+            isStale: false,
+            page: 2,
+            hasMorePages: false
+        ),
+        sourceLocation: sourceLocation
+    )
+}
+
+@MainActor
+func makeInlineSpinnerPaginationFlightListViewModelSUT(
+    passengerID: PassengerID = defaultFlightListPassengerID,
+    sourceLocation: SourceLocation = #_sourceLocation
+) -> TrackedTestContext<SessionBoundFlightListViewModelTestContext<SuspendedNextPageListFlightsUseCaseSpy, LogoutUseCaseSpy>> {
+    makeSuspendedPaginationFlightListViewModelSUT(
+        passengerID: passengerID,
+        firstPage: makeRangePageResult(
+            range: 1...10,
+            passengerID: passengerID,
+            source: .remote,
+            isStale: false,
+            page: 1,
+            hasMorePages: true
+        ),
+        secondPage: makeRangePageResult(
+            range: 11...20,
+            passengerID: passengerID,
+            source: .remote,
+            isStale: false,
+            page: 2,
+            hasMorePages: false
+        ),
+        sourceLocation: sourceLocation
+    )
+}
+
+@MainActor
 func makePaginatedFlightListViewModelSUT(
     passengerID: PassengerID = defaultFlightListPassengerID,
     firstPage: FlightListResult,

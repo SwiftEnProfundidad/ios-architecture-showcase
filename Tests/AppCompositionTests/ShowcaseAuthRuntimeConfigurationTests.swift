@@ -9,7 +9,7 @@ struct ShowcaseAuthRuntimeConfigurationTests {
 
     @Test("Empty AUTH_BASE_URL configures the bootstrap HTTP transport")
     func emptyBaseURLConfiguresBootstrapTransport() {
-        let configuration = makeSUT()
+        let configuration = makeShowcaseAuthRuntimeConfigurationSUT()
         let configuredProtocolNames = configuration.session.configuration.protocolClasses?.map {
             String(describing: $0)
         } ?? []
@@ -25,7 +25,7 @@ struct ShowcaseAuthRuntimeConfigurationTests {
         var components = URLComponents()
         components.scheme = "https"
         components.host = "api.iberia.com"
-        let configuration = makeConfiguredSUT(
+        let configuration = makeConfiguredShowcaseAuthRuntimeConfigurationSUT(
             baseURL: components.url ?? URL(filePath: "/"),
             session: URLSession(configuration: .ephemeral),
             evaluationCredentials: nil,
@@ -39,7 +39,7 @@ struct ShowcaseAuthRuntimeConfigurationTests {
 
     @Test("Bootstrap HTTP transport authenticates the evaluation credentials")
     func bootstrapTransportAuthenticatesEvaluationCredentials() async throws {
-        let configuration = makeSUT()
+        let configuration = makeShowcaseAuthRuntimeConfigurationSUT()
         let gateway = RemoteAuthGateway(
             client: URLSessionHTTPClient(session: configuration.session),
             baseURL: configuration.baseURL
@@ -53,23 +53,5 @@ struct ShowcaseAuthRuntimeConfigurationTests {
         #expect(session.passengerID == PassengerID("PAX-001"))
         #expect(session.token.isEmpty == false)
         #expect(session.expiresAt > .now)
-    }
-
-    private func makeSUT() -> ShowcaseAuthRuntimeConfiguration {
-        ShowcaseAuthRuntimeConfiguration.live(evaluationCredentials: .default)
-    }
-
-    private func makeConfiguredSUT(
-        baseURL: URL,
-        session: URLSession,
-        evaluationCredentials: ShowcaseEvaluationCredentials?,
-        launchPolicy: SessionLaunchPolicy
-    ) -> ShowcaseAuthRuntimeConfiguration {
-        ShowcaseAuthRuntimeConfiguration(
-            baseURL: baseURL,
-            session: session,
-            evaluationCredentials: evaluationCredentials,
-            launchPolicy: launchPolicy
-        )
     }
 }

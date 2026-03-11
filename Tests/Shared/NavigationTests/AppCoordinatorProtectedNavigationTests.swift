@@ -23,22 +23,8 @@ struct AppCoordinatorProtectedNavigationTests {
 
     @Test("Coordinator clears persisted session when protected navigation detects an expired session")
     func coordinatorClearsPersistedSessionOnExpiredProtectedNavigation() async {
-        let cleaner = SessionInvalidationSpy()
-        let expiredState = AppState(
-            rootRoute: .authenticatedHome,
-            session: AppSession(
-                passengerID: PassengerID("PAX-001"),
-                token: "tok-abc",
-                expiresAt: .distantPast
-            ),
-            path: []
-        )
-        let tracked = makeAppCoordinatorSUT(
-            initial: expiredState,
-            sessionInvalidator: {
-                await cleaner.invalidate()
-            }
-        )
+        let scenario = makeExpiredProtectedNavigationCoordinatorSUT()
+        let tracked = scenario.tracked
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
         await context.coordinator.start()
@@ -48,7 +34,7 @@ struct AppCoordinatorProtectedNavigationTests {
         }
 
         #expect(result == .initial)
-        #expect(await cleaner.callCount == 1)
+        #expect(await scenario.cleaner.callCount == 1)
         await context.coordinator.stop()
     }
 }

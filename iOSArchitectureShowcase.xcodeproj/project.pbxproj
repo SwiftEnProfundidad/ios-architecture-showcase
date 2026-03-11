@@ -9,11 +9,14 @@
 /* Begin PBXBuildFile section */
 		00DF02D1DEA3A8F1D92D566D /* AuthViewModelLoginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3078B92AEE53BB559CAF9D91 /* AuthViewModelLoginTests.swift */; };
 		02F9413F20604E7547379DA1 /* filters-generated-and-tests.json in Resources */ = {isa = PBXBuildFile; fileRef = CE58BD5098AF932A4B19E183 /* filters-generated-and-tests.json */; };
+		04FC656A78E89F96C543C416 /* FlightDetailViewRenderTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21687B3BBBA5868D9297EEAE /* FlightDetailViewRenderTestSupport.swift */; };
 		06564F18A38AD103EA5AA1A1 /* ListFlightsUseCaseRefreshTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830322D37DD3025FD231BE18 /* ListFlightsUseCaseRefreshTests.swift */; };
 		0A2403FA3B07831D32873928 /* MemoryLeakTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A687F58465F96B0FA3C2235 /* MemoryLeakTracker.swift */; };
 		0E17FBB7268643E6241ECE09 /* SharedNavigation in Frameworks */ = {isa = PBXBuildFile; productRef = BF6768340C61BB4C01A66A86 /* SharedNavigation */; };
 		107036A98C7A231EDDFC8C70 /* FlightsFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 1E4C6CDF47452EC0C3B8DEC3 /* FlightsFeature */; };
+		10A4C6045A42421A36151D9E /* RemoteAuthGatewayTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2817DFE657C81B36E0B143 /* RemoteAuthGatewayTestSupport.swift */; };
 		10ABBAFC8EE97BD7C862405C /* below-threshold.json in Resources */ = {isa = PBXBuildFile; fileRef = D3C00CEAD8F9FDAC26649C0B /* below-threshold.json */; };
+		13DCC6E28A264079541C1AD7 /* BoardingPassViewRenderTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC814A0AE776CB1DA9023BD /* BoardingPassViewRenderTestSupport.swift */; };
 		14D69548F77B9ED798363E18 /* ProtectedPathCommandChannelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819AAD47AD6661D39D4F521D /* ProtectedPathCommandChannelTests.swift */; };
 		1F06B5408F2A51A12D18D546 /* BoardingPassViewModelTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60813BB4D0EDE19F99B6FF4A /* BoardingPassViewModelTestSupport.swift */; };
 		1FA5AF9B63DB5EF210430769 /* GetBoardingPassUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46BF773AB67D11E39C08FD7 /* GetBoardingPassUseCaseTests.swift */; };
@@ -27,9 +30,12 @@
 		35DAF56DD3586BE67FF41456 /* FlightFixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8764C9344DA452235FCA9DD /* FlightFixtures.swift */; };
 		371355112F5787D382C8B2F5 /* AppStringsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E4847952591AF5D27DB3AC /* AppStringsTests.swift */; };
 		3D84B2D0C09B3CB199D32104 /* FlightListViewModelTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C373FF7FB2B38D57EF52AF0A /* FlightListViewModelTestSupport.swift */; };
+		3E13526F7397D86980B754FA /* GetFlightDetailUseCaseTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BE8D0F5F552B44D4F3C019 /* GetFlightDetailUseCaseTestSupport.swift */; };
 		4086B997A6A8E8520E18AB5A /* FlightDetailViewRenderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505E37574458216D6CAD94E4 /* FlightDetailViewRenderTests.swift */; };
+		4197775AC4920059DB6CFB5A /* NavigationEventBusTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7C4AA47B7B8847F2B1F3DB /* NavigationEventBusTestSupport.swift */; };
 		44F206AC2E47E5AA580CE0B4 /* BoardingPassRepositorySpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219BE63A59B8E42E1A3EA696 /* BoardingPassRepositorySpy.swift */; };
 		462A3BC09A0BACAA1D82895B /* BoardingPassOperationalTimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92CD87CBDADFF86F315085D /* BoardingPassOperationalTimeTests.swift */; };
+		466E3B3CBA293B165354F89C /* CompositionRootSmokeTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1C6470FDCD50D5A663EF49 /* CompositionRootSmokeTestSupport.swift */; };
 		4673F75CA02895C758531909 /* AppCoordinatorProtectedNavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C0472A65B449DB711C3A5B /* AppCoordinatorProtectedNavigationTests.swift */; };
 		4959A3E1A978DD5E2AA15C69 /* FlightDetailViewModelTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95957995D0B9CA0A0F4F4683 /* FlightDetailViewModelTestSupport.swift */; };
 		4D35A11C4AB93827E553EC61 /* SharedKernel in Frameworks */ = {isa = PBXBuildFile; productRef = 6ACDDE72595B705B0121AA3A /* SharedKernel */; };
@@ -44,8 +50,11 @@
 		6D2A361FD4A085CE71ACB82F /* BoardingPassViewRenderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D672487BDBC884345718DE33 /* BoardingPassViewRenderTests.swift */; };
 		7248B24B87FCE04953F62D3C /* AuthFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 0E7C53DE37F7530BA7806A7C /* AuthFeature */; };
 		72DDB2BBE730ECCF597CEC73 /* ShowcaseAuthRuntimeConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93A7331B4174C2DA223A592 /* ShowcaseAuthRuntimeConfigurationTests.swift */; };
+		74095BB895652543A1F1ABBB /* ShowcaseAuthRuntimeConfigurationTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141A0982A553FAA4515B26AC /* ShowcaseAuthRuntimeConfigurationTestSupport.swift */; };
 		7515F9D596201118865B1C82 /* ProtectedNavigationPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA4D805D78EFAF32A672EEE /* ProtectedNavigationPolicyTests.swift */; };
+		757DA044E1FF17F97C7ED84A /* KeychainSessionStoreTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0BA00BA467CFFC522AEB7C /* KeychainSessionStoreTestSupport.swift */; };
 		75971B41DD8CFC9F8082AC28 /* CompositionRootSmokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B3C283BBE020692A51207F /* CompositionRootSmokeTests.swift */; };
+		75E3149A92D51FCA198092D2 /* ProtectedNavigationPolicyTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBBCFB02708176FA811F1CD /* ProtectedNavigationPolicyTestSupport.swift */; };
 		77E9A27A7B542127F739F998 /* iOSArchitectureShowcaseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB4D4894587CCC510942F70 /* iOSArchitectureShowcaseApp.swift */; };
 		795439E18847D04A2599FE8B /* LoginUseCaseTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F74FF7ECD52B42D7BA6B9C /* LoginUseCaseTestSupport.swift */; };
 		7A23A21E028FA391093BCA56 /* FlightDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0119D1057EE6A269775480C9 /* FlightDetailViewModelTests.swift */; };
@@ -65,7 +74,9 @@
 		AF1283BFAABE4E5B754CB8FB /* AppComposition in Frameworks */ = {isa = PBXBuildFile; productRef = 47C926FE73034A789B54AA38 /* AppComposition */; };
 		B68B293F3EC49C4B844B32BC /* AppReducerTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754D438A7E0B3806D3226E6B /* AppReducerTestSupport.swift */; };
 		BB6D1B0B6E38E64BFC9502E8 /* SessionBootstrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C0FF61A19977937E0C89148 /* SessionBootstrapperTests.swift */; };
+		BB9A8B6E49EBEB872AB5E8A5 /* LogoutUseCaseTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444F86FBE5966B05F3A6F6F9 /* LogoutUseCaseTestSupport.swift */; };
 		BCA70A2FBBA6F5AD144166EF /* FlightListViewRenderStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25D4E902C05D6DA3367AD8 /* FlightListViewRenderStateTests.swift */; };
+		BCEE5AA2779193D5A83C4EA5 /* CatalogWeatherRepositoryTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B348F648E9F0594CCAE49B /* CatalogWeatherRepositoryTestSupport.swift */; };
 		C12566BEEB609F53A2FDE990 /* FlightOperationalTimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CDAD61602B9ED77C6B5B424 /* FlightOperationalTimeTests.swift */; };
 		C65382E34B52BA796A5E03B9 /* AuthViewModelInputTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80342B50D155A93CD83B6FBC /* AuthViewModelInputTests.swift */; };
 		C684FD639EC70216A70C910D /* AuthGatewaySpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87CAF67ACACAC7B2649C5B9 /* AuthGatewaySpy.swift */; };
@@ -75,50 +86,69 @@
 		D6377C8555583F2C96ECBEA4 /* KeychainSessionStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E615AD55E156469C3A86C5BB /* KeychainSessionStoreTests.swift */; };
 		D91BC16B32BE64C288E6840D /* CoverageGateEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44979152A0B494332E5FC73D /* CoverageGateEvaluator.swift */; };
 		D9917CE4780B81543CE8E7A2 /* ValidateScriptContractTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834BE1F92F17847470700A6D /* ValidateScriptContractTests.swift */; };
+		DE0AC6658474BF282FB1B875 /* AppViewModelTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB15FE9F9246E03565D9DA3E /* AppViewModelTestSupport.swift */; };
 		DE47F07F9BBB875F059C55BB /* BoardingPassFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 3F8524181BB91EDD429F9D28 /* BoardingPassFeature */; };
 		E498B7624842D2F1F529E08F /* LoginEmailFieldConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2B6C8FC5D3280EA4924C58 /* LoginEmailFieldConfigurationTests.swift */; };
 		E675C1D6230D10926C7586E6 /* RemoteAuthGatewayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2627134046B2A5BBC4C2C17 /* RemoteAuthGatewayTests.swift */; };
 		E8E424A3F1462056F4EAA340 /* FlightListViewModelSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3748362B82603BF777EAF17 /* FlightListViewModelSessionTests.swift */; };
 		EAA258EA67E8C5BC97881EC9 /* SessionStoreSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E6C03018F6C071494A2344 /* SessionStoreSpy.swift */; };
+		ED90A6BF9051A76DEFA1C44A /* RootViewRenderTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = A87401081F0BA10E4B00E3A5 /* RootViewRenderTestSupport.swift */; };
+		EDEEBACBD55487F58D84B6B3 /* CatalogBoardingPassRepositoryTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509838B32F4729B722F1FDC2 /* CatalogBoardingPassRepositoryTestSupport.swift */; };
+		EF2C1E47C7A93C37F4521845 /* LoginViewRenderTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404A6CCB58714C6B32D7EF94 /* LoginViewRenderTestSupport.swift */; };
 		F03BDDE561F7F8BC78274620 /* AppReducerProtectedPathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9DEB1D99C448D5400F866D /* AppReducerProtectedPathTests.swift */; };
 		F0D5FB84EB52DD2013147DB4 /* FlightListViewModelPaginationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45987BD6930287F1FD7712C1 /* FlightListViewModelPaginationTests.swift */; };
+		F4E37A9E3A279BA872932584 /* SessionBootstrapperTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47768F7901314D54C39C48CD /* SessionBootstrapperTestSupport.swift */; };
+		F56E84D942B501A0064D5F5C /* GetBoardingPassUseCaseTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB8052C329139336B4F841 /* GetBoardingPassUseCaseTestSupport.swift */; };
 		F590B3914E034469C132E4A9 /* GetFlightDetailUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 752C3A1FCFEF4435E0DBE182 /* GetFlightDetailUseCaseTests.swift */; };
 		F5E0FCC0D0321EDFB832826E /* FlightRepositorySpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BC8B9D2393532F921FAE90 /* FlightRepositorySpy.swift */; };
 		F7847FBDD0673FC9AC0AF15A /* LoginUseCaseExecutionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CDA47A534E81604971127C /* LoginUseCaseExecutionTests.swift */; };
+		FBF7D5B7AD9BB315D9FC75BC /* CatalogFlightRepositoryTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05FB48F3334053E30AAC38F7 /* CatalogFlightRepositoryTestSupport.swift */; };
 		FE37616577FF6B0FC5A5A3C6 /* FlightListSessionControllerTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = B499077C229D0247BC9C3F8E /* FlightListSessionControllerTestSupport.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0119D1057EE6A269775480C9 /* FlightDetailViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightDetailViewModelTests.swift; sourceTree = "<group>"; };
 		05D7D4A275327E0A39A54FDD /* LoginUseCasePersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUseCasePersistenceTests.swift; sourceTree = "<group>"; };
+		05FB48F3334053E30AAC38F7 /* CatalogFlightRepositoryTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogFlightRepositoryTestSupport.swift; sourceTree = "<group>"; };
 		06F74FF7ECD52B42D7BA6B9C /* LoginUseCaseTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUseCaseTestSupport.swift; sourceTree = "<group>"; };
 		0ED93F8320CCF6CE66CD3666 /* NavigationEventBusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationEventBusTests.swift; sourceTree = "<group>"; };
 		0F208280EEF2FC63B16AF9F9 /* AppViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModelTests.swift; sourceTree = "<group>"; };
 		1296AF3C0CC64D9905E5ED17 /* AppCoordinatorTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorTestSupport.swift; sourceTree = "<group>"; };
+		12B348F648E9F0594CCAE49B /* CatalogWeatherRepositoryTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogWeatherRepositoryTestSupport.swift; sourceTree = "<group>"; };
 		12C0472A65B449DB711C3A5B /* AppCoordinatorProtectedNavigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorProtectedNavigationTests.swift; sourceTree = "<group>"; };
 		13B9A31EC32458F9D5D22B32 /* ToolchainContractTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolchainContractTests.swift; sourceTree = "<group>"; };
+		141A0982A553FAA4515B26AC /* ShowcaseAuthRuntimeConfigurationTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowcaseAuthRuntimeConfigurationTestSupport.swift; sourceTree = "<group>"; };
+		1B1C6470FDCD50D5A663EF49 /* CompositionRootSmokeTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionRootSmokeTestSupport.swift; sourceTree = "<group>"; };
 		1CA8A7B666FDC8A1E2EA1172 /* iOSArchitectureShowcaseTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = iOSArchitectureShowcaseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CDAD61602B9ED77C6B5B424 /* FlightOperationalTimeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightOperationalTimeTests.swift; sourceTree = "<group>"; };
+		1EC814A0AE776CB1DA9023BD /* BoardingPassViewRenderTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardingPassViewRenderTestSupport.swift; sourceTree = "<group>"; };
+		21687B3BBBA5868D9297EEAE /* FlightDetailViewRenderTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightDetailViewRenderTestSupport.swift; sourceTree = "<group>"; };
 		219BE63A59B8E42E1A3EA696 /* BoardingPassRepositorySpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardingPassRepositorySpy.swift; sourceTree = "<group>"; };
 		22CDA47A534E81604971127C /* LoginUseCaseExecutionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUseCaseExecutionTests.swift; sourceTree = "<group>"; };
 		23CE519DB6D67A111B2750F7 /* LoginViewRenderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewRenderTests.swift; sourceTree = "<group>"; };
 		2B4D94CA7C6B830AEAEE1438 /* ListFlightsUseCaseTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFlightsUseCaseTestSupport.swift; sourceTree = "<group>"; };
 		3078B92AEE53BB559CAF9D91 /* AuthViewModelLoginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModelLoginTests.swift; sourceTree = "<group>"; };
+		33FB8052C329139336B4F841 /* GetBoardingPassUseCaseTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetBoardingPassUseCaseTestSupport.swift; sourceTree = "<group>"; };
 		3A687F58465F96B0FA3C2235 /* MemoryLeakTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryLeakTracker.swift; sourceTree = "<group>"; };
 		3A9DEB1D99C448D5400F866D /* AppReducerProtectedPathTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReducerProtectedPathTests.swift; sourceTree = "<group>"; };
+		404A6CCB58714C6B32D7EF94 /* LoginViewRenderTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewRenderTestSupport.swift; sourceTree = "<group>"; };
 		426493D6CF25AEFB395301CC /* AuthTestFixtures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTestFixtures.swift; sourceTree = "<group>"; };
+		444F86FBE5966B05F3A6F6F9 /* LogoutUseCaseTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutUseCaseTestSupport.swift; sourceTree = "<group>"; };
 		44979152A0B494332E5FC73D /* CoverageGateEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverageGateEvaluator.swift; sourceTree = "<group>"; };
 		44EC4530481F070B13F00F08 /* FlightListViewModelLoadingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightListViewModelLoadingTests.swift; sourceTree = "<group>"; };
 		45987BD6930287F1FD7712C1 /* FlightListViewModelPaginationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightListViewModelPaginationTests.swift; sourceTree = "<group>"; };
 		45DEF6EA7798CE1C3C8F3958 /* CatalogFlightRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogFlightRepositoryTests.swift; sourceTree = "<group>"; };
 		46B3C283BBE020692A51207F /* CompositionRootSmokeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionRootSmokeTests.swift; sourceTree = "<group>"; };
 		46D4C46AC3A267014129EEDC /* CatalogBoardingPassRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogBoardingPassRepositoryTests.swift; sourceTree = "<group>"; };
+		47768F7901314D54C39C48CD /* SessionBootstrapperTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionBootstrapperTestSupport.swift; sourceTree = "<group>"; };
 		4C0FF61A19977937E0C89148 /* SessionBootstrapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionBootstrapperTests.swift; sourceTree = "<group>"; };
 		4F2AFF9C966933E81012769E /* FlightListViewModelRefreshTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightListViewModelRefreshTests.swift; sourceTree = "<group>"; };
 		4FB4D4894587CCC510942F70 /* iOSArchitectureShowcaseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSArchitectureShowcaseApp.swift; sourceTree = "<group>"; };
 		505E37574458216D6CAD94E4 /* FlightDetailViewRenderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightDetailViewRenderTests.swift; sourceTree = "<group>"; };
+		509838B32F4729B722F1FDC2 /* CatalogBoardingPassRepositoryTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogBoardingPassRepositoryTestSupport.swift; sourceTree = "<group>"; };
 		5262D72F6E321007BE60C664 /* CatalogWeatherRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogWeatherRepositoryTests.swift; sourceTree = "<group>"; };
 		53E4847952591AF5D27DB3AC /* AppStringsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStringsTests.swift; sourceTree = "<group>"; };
+		57BE8D0F5F552B44D4F3C019 /* GetFlightDetailUseCaseTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFlightDetailUseCaseTestSupport.swift; sourceTree = "<group>"; };
 		58541C5B512BB88E562CEB9C /* above-threshold.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "above-threshold.json"; sourceTree = "<group>"; };
 		5BA4D805D78EFAF32A672EEE /* ProtectedNavigationPolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtectedNavigationPolicyTests.swift; sourceTree = "<group>"; };
 		60813BB4D0EDE19F99B6FF4A /* BoardingPassViewModelTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardingPassViewModelTestSupport.swift; sourceTree = "<group>"; };
@@ -127,6 +157,7 @@
 		752C3A1FCFEF4435E0DBE182 /* GetFlightDetailUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFlightDetailUseCaseTests.swift; sourceTree = "<group>"; };
 		754D438A7E0B3806D3226E6B /* AppReducerTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReducerTestSupport.swift; sourceTree = "<group>"; };
 		78B4E7E0338376E4EEEF4895 /* FlightStatusPresentationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightStatusPresentationTests.swift; sourceTree = "<group>"; };
+		7C0BA00BA467CFFC522AEB7C /* KeychainSessionStoreTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainSessionStoreTestSupport.swift; sourceTree = "<group>"; };
 		7C2B6C8FC5D3280EA4924C58 /* LoginEmailFieldConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginEmailFieldConfigurationTests.swift; sourceTree = "<group>"; };
 		7EBDAF3268E94B5AEE70CB40 /* RootViewRenderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewRenderTests.swift; sourceTree = "<group>"; };
 		7FAC9BD23C1F981B930D61B7 /* LogoutUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutUseCaseTests.swift; sourceTree = "<group>"; };
@@ -136,6 +167,7 @@
 		834BE1F92F17847470700A6D /* ValidateScriptContractTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateScriptContractTests.swift; sourceTree = "<group>"; };
 		8F25D4E902C05D6DA3367AD8 /* FlightListViewRenderStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightListViewRenderStateTests.swift; sourceTree = "<group>"; };
 		95957995D0B9CA0A0F4F4683 /* FlightDetailViewModelTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightDetailViewModelTestSupport.swift; sourceTree = "<group>"; };
+		A87401081F0BA10E4B00E3A5 /* RootViewRenderTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewRenderTestSupport.swift; sourceTree = "<group>"; };
 		AA45E64E73F8C7FB2B44DE2F /* ProtectedPathCommandChannelTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtectedPathCommandChannelTestSupport.swift; sourceTree = "<group>"; };
 		AD9EA4F608631BE8000D94C0 /* FlightListViewRenderPaginationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightListViewRenderPaginationTests.swift; sourceTree = "<group>"; };
 		AED5CBF55FBB55F69EB39BE9 /* CoverageGateScriptTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverageGateScriptTests.swift; sourceTree = "<group>"; };
@@ -145,18 +177,21 @@
 		B52F48032A14DA482B9B0963 /* AuthViewModelTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModelTestSupport.swift; sourceTree = "<group>"; };
 		B6FE4224C4AB93E05C9A5387 /* BoardingPassViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardingPassViewModelTests.swift; sourceTree = "<group>"; };
 		B8764C9344DA452235FCA9DD /* FlightFixtures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightFixtures.swift; sourceTree = "<group>"; };
+		BB7C4AA47B7B8847F2B1F3DB /* NavigationEventBusTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationEventBusTestSupport.swift; sourceTree = "<group>"; };
 		BC81A108D4ECCE1827DE6A02 /* iOSArchitectureShowcase.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = iOSArchitectureShowcase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF279466DE6967A43D0B691B /* ViewRenderSmoke.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRenderSmoke.swift; sourceTree = "<group>"; };
 		C373FF7FB2B38D57EF52AF0A /* FlightListViewModelTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightListViewModelTestSupport.swift; sourceTree = "<group>"; };
 		C55E5A1B529B6B521616E664 /* WeatherRepositorySpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherRepositorySpy.swift; sourceTree = "<group>"; };
 		CE58BD5098AF932A4B19E183 /* filters-generated-and-tests.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "filters-generated-and-tests.json"; sourceTree = "<group>"; };
 		CEF88DDBA09240FA31CF9B8D /* NavigationEventBusSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationEventBusSpy.swift; sourceTree = "<group>"; };
+		CFBBCFB02708176FA811F1CD /* ProtectedNavigationPolicyTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtectedNavigationPolicyTestSupport.swift; sourceTree = "<group>"; };
 		D3C00CEAD8F9FDAC26649C0B /* below-threshold.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "below-threshold.json"; sourceTree = "<group>"; };
 		D672487BDBC884345718DE33 /* BoardingPassViewRenderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardingPassViewRenderTests.swift; sourceTree = "<group>"; };
 		D7E0B394612240394DE4D8D4 /* FlightListViewRenderTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightListViewRenderTestSupport.swift; sourceTree = "<group>"; };
 		D87CAF67ACACAC7B2649C5B9 /* AuthGatewaySpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthGatewaySpy.swift; sourceTree = "<group>"; };
 		D92CD87CBDADFF86F315085D /* BoardingPassOperationalTimeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardingPassOperationalTimeTests.swift; sourceTree = "<group>"; };
 		D93A7331B4174C2DA223A592 /* ShowcaseAuthRuntimeConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowcaseAuthRuntimeConfigurationTests.swift; sourceTree = "<group>"; };
+		DB15FE9F9246E03565D9DA3E /* AppViewModelTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModelTestSupport.swift; sourceTree = "<group>"; };
 		DF85147B8BFB928C8D57200E /* AppCoordinatorSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorSessionTests.swift; sourceTree = "<group>"; };
 		E2627134046B2A5BBC4C2C17 /* RemoteAuthGatewayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteAuthGatewayTests.swift; sourceTree = "<group>"; };
 		E3748362B82603BF777EAF17 /* FlightListViewModelSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightListViewModelSessionTests.swift; sourceTree = "<group>"; };
@@ -164,6 +199,7 @@
 		F18812FF16BAF5E0FB7C5562 /* ListFlightsUseCasePagingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFlightsUseCasePagingTests.swift; sourceTree = "<group>"; };
 		F40513C67D0712ECA68B9472 /* AppReducerSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReducerSessionTests.swift; sourceTree = "<group>"; };
 		F46BF773AB67D11E39C08FD7 /* GetBoardingPassUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetBoardingPassUseCaseTests.swift; sourceTree = "<group>"; };
+		FB2817DFE657C81B36E0B143 /* RemoteAuthGatewayTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteAuthGatewayTestSupport.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,12 +240,17 @@
 			isa = PBXGroup;
 			children = (
 				0F208280EEF2FC63B16AF9F9 /* AppViewModelTests.swift */,
+				DB15FE9F9246E03565D9DA3E /* AppViewModelTestSupport.swift */,
 				46B3C283BBE020692A51207F /* CompositionRootSmokeTests.swift */,
+				1B1C6470FDCD50D5A663EF49 /* CompositionRootSmokeTestSupport.swift */,
 				819AAD47AD6661D39D4F521D /* ProtectedPathCommandChannelTests.swift */,
 				AA45E64E73F8C7FB2B44DE2F /* ProtectedPathCommandChannelTestSupport.swift */,
 				7EBDAF3268E94B5AEE70CB40 /* RootViewRenderTests.swift */,
+				A87401081F0BA10E4B00E3A5 /* RootViewRenderTestSupport.swift */,
 				4C0FF61A19977937E0C89148 /* SessionBootstrapperTests.swift */,
+				47768F7901314D54C39C48CD /* SessionBootstrapperTestSupport.swift */,
 				D93A7331B4174C2DA223A592 /* ShowcaseAuthRuntimeConfigurationTests.swift */,
+				141A0982A553FAA4515B26AC /* ShowcaseAuthRuntimeConfigurationTestSupport.swift */,
 			);
 			path = AppCompositionTests;
 			sourceTree = "<group>";
@@ -224,7 +265,9 @@
 				F40513C67D0712ECA68B9472 /* AppReducerSessionTests.swift */,
 				754D438A7E0B3806D3226E6B /* AppReducerTestSupport.swift */,
 				0ED93F8320CCF6CE66CD3666 /* NavigationEventBusTests.swift */,
+				BB7C4AA47B7B8847F2B1F3DB /* NavigationEventBusTestSupport.swift */,
 				5BA4D805D78EFAF32A672EEE /* ProtectedNavigationPolicyTests.swift */,
+				CFBBCFB02708176FA811F1CD /* ProtectedNavigationPolicyTestSupport.swift */,
 			);
 			path = NavigationTests;
 			sourceTree = "<group>";
@@ -243,10 +286,13 @@
 			children = (
 				FA007822BA13643F93610893 /* TestDoubles */,
 				45DEF6EA7798CE1C3C8F3958 /* CatalogFlightRepositoryTests.swift */,
+				05FB48F3334053E30AAC38F7 /* CatalogFlightRepositoryTestSupport.swift */,
 				5262D72F6E321007BE60C664 /* CatalogWeatherRepositoryTests.swift */,
+				12B348F648E9F0594CCAE49B /* CatalogWeatherRepositoryTestSupport.swift */,
 				0119D1057EE6A269775480C9 /* FlightDetailViewModelTests.swift */,
 				95957995D0B9CA0A0F4F4683 /* FlightDetailViewModelTestSupport.swift */,
 				505E37574458216D6CAD94E4 /* FlightDetailViewRenderTests.swift */,
+				21687B3BBBA5868D9297EEAE /* FlightDetailViewRenderTestSupport.swift */,
 				AFBBCBA6F28617A7080DF077 /* FlightListSessionControllerTests.swift */,
 				B499077C229D0247BC9C3F8E /* FlightListSessionControllerTestSupport.swift */,
 				44EC4530481F070B13F00F08 /* FlightListViewModelLoadingTests.swift */,
@@ -260,6 +306,7 @@
 				1CDAD61602B9ED77C6B5B424 /* FlightOperationalTimeTests.swift */,
 				78B4E7E0338376E4EEEF4895 /* FlightStatusPresentationTests.swift */,
 				752C3A1FCFEF4435E0DBE182 /* GetFlightDetailUseCaseTests.swift */,
+				57BE8D0F5F552B44D4F3C019 /* GetFlightDetailUseCaseTestSupport.swift */,
 				F18812FF16BAF5E0FB7C5562 /* ListFlightsUseCasePagingTests.swift */,
 				830322D37DD3025FD231BE18 /* ListFlightsUseCaseRefreshTests.swift */,
 				2B4D94CA7C6B830AEAEE1438 /* ListFlightsUseCaseTestSupport.swift */,
@@ -344,13 +391,17 @@
 				3078B92AEE53BB559CAF9D91 /* AuthViewModelLoginTests.swift */,
 				B52F48032A14DA482B9B0963 /* AuthViewModelTestSupport.swift */,
 				E615AD55E156469C3A86C5BB /* KeychainSessionStoreTests.swift */,
+				7C0BA00BA467CFFC522AEB7C /* KeychainSessionStoreTestSupport.swift */,
 				7C2B6C8FC5D3280EA4924C58 /* LoginEmailFieldConfigurationTests.swift */,
 				22CDA47A534E81604971127C /* LoginUseCaseExecutionTests.swift */,
 				05D7D4A275327E0A39A54FDD /* LoginUseCasePersistenceTests.swift */,
 				06F74FF7ECD52B42D7BA6B9C /* LoginUseCaseTestSupport.swift */,
 				23CE519DB6D67A111B2750F7 /* LoginViewRenderTests.swift */,
+				404A6CCB58714C6B32D7EF94 /* LoginViewRenderTestSupport.swift */,
 				7FAC9BD23C1F981B930D61B7 /* LogoutUseCaseTests.swift */,
+				444F86FBE5966B05F3A6F6F9 /* LogoutUseCaseTestSupport.swift */,
 				E2627134046B2A5BBC4C2C17 /* RemoteAuthGatewayTests.swift */,
+				FB2817DFE657C81B36E0B143 /* RemoteAuthGatewayTestSupport.swift */,
 			);
 			path = AuthTests;
 			sourceTree = "<group>";
@@ -383,8 +434,11 @@
 				B6FE4224C4AB93E05C9A5387 /* BoardingPassViewModelTests.swift */,
 				60813BB4D0EDE19F99B6FF4A /* BoardingPassViewModelTestSupport.swift */,
 				D672487BDBC884345718DE33 /* BoardingPassViewRenderTests.swift */,
+				1EC814A0AE776CB1DA9023BD /* BoardingPassViewRenderTestSupport.swift */,
 				46D4C46AC3A267014129EEDC /* CatalogBoardingPassRepositoryTests.swift */,
+				509838B32F4729B722F1FDC2 /* CatalogBoardingPassRepositoryTestSupport.swift */,
 				F46BF773AB67D11E39C08FD7 /* GetBoardingPassUseCaseTests.swift */,
+				33FB8052C329139336B4F841 /* GetBoardingPassUseCaseTestSupport.swift */,
 			);
 			path = BoardingPassTests;
 			sourceTree = "<group>";
@@ -541,6 +595,7 @@
 				8ADADD114CD834E27CE918B6 /* AppReducerSessionTests.swift in Sources */,
 				B68B293F3EC49C4B844B32BC /* AppReducerTestSupport.swift in Sources */,
 				371355112F5787D382C8B2F5 /* AppStringsTests.swift in Sources */,
+				DE0AC6658474BF282FB1B875 /* AppViewModelTestSupport.swift in Sources */,
 				9596AFBD3BA1B01EBE96CB9C /* AppViewModelTests.swift in Sources */,
 				C684FD639EC70216A70C910D /* AuthGatewaySpy.swift in Sources */,
 				2406146351080FAF736FF1DF /* AuthTestFixtures.swift in Sources */,
@@ -551,15 +606,21 @@
 				44F206AC2E47E5AA580CE0B4 /* BoardingPassRepositorySpy.swift in Sources */,
 				1F06B5408F2A51A12D18D546 /* BoardingPassViewModelTestSupport.swift in Sources */,
 				68FD7536C7BBD162C0C862F7 /* BoardingPassViewModelTests.swift in Sources */,
+				13DCC6E28A264079541C1AD7 /* BoardingPassViewRenderTestSupport.swift in Sources */,
 				6D2A361FD4A085CE71ACB82F /* BoardingPassViewRenderTests.swift in Sources */,
+				EDEEBACBD55487F58D84B6B3 /* CatalogBoardingPassRepositoryTestSupport.swift in Sources */,
 				8517C5E7AB2CB0BB1A9B790C /* CatalogBoardingPassRepositoryTests.swift in Sources */,
+				FBF7D5B7AD9BB315D9FC75BC /* CatalogFlightRepositoryTestSupport.swift in Sources */,
 				CDC0B4C0CB0AD067359E57B2 /* CatalogFlightRepositoryTests.swift in Sources */,
+				BCEE5AA2779193D5A83C4EA5 /* CatalogWeatherRepositoryTestSupport.swift in Sources */,
 				2DC5E8A4900972B15BF88DC2 /* CatalogWeatherRepositoryTests.swift in Sources */,
+				466E3B3CBA293B165354F89C /* CompositionRootSmokeTestSupport.swift in Sources */,
 				75971B41DD8CFC9F8082AC28 /* CompositionRootSmokeTests.swift in Sources */,
 				D91BC16B32BE64C288E6840D /* CoverageGateEvaluator.swift in Sources */,
 				67F2B45022E7B61028F7D2A2 /* CoverageGateScriptTests.swift in Sources */,
 				4959A3E1A978DD5E2AA15C69 /* FlightDetailViewModelTestSupport.swift in Sources */,
 				7A23A21E028FA391093BCA56 /* FlightDetailViewModelTests.swift in Sources */,
+				04FC656A78E89F96C543C416 /* FlightDetailViewRenderTestSupport.swift in Sources */,
 				4086B997A6A8E8520E18AB5A /* FlightDetailViewRenderTests.swift in Sources */,
 				35DAF56DD3586BE67FF41456 /* FlightFixtures.swift in Sources */,
 				FE37616577FF6B0FC5A5A3C6 /* FlightListSessionControllerTestSupport.swift in Sources */,
@@ -575,8 +636,11 @@
 				C12566BEEB609F53A2FDE990 /* FlightOperationalTimeTests.swift in Sources */,
 				F5E0FCC0D0321EDFB832826E /* FlightRepositorySpy.swift in Sources */,
 				2B021771C2633B8B20EF853D /* FlightStatusPresentationTests.swift in Sources */,
+				F56E84D942B501A0064D5F5C /* GetBoardingPassUseCaseTestSupport.swift in Sources */,
 				1FA5AF9B63DB5EF210430769 /* GetBoardingPassUseCaseTests.swift in Sources */,
+				3E13526F7397D86980B754FA /* GetFlightDetailUseCaseTestSupport.swift in Sources */,
 				F590B3914E034469C132E4A9 /* GetFlightDetailUseCaseTests.swift in Sources */,
+				757DA044E1FF17F97C7ED84A /* KeychainSessionStoreTestSupport.swift in Sources */,
 				D6377C8555583F2C96ECBEA4 /* KeychainSessionStoreTests.swift in Sources */,
 				9AC75E81D1F071262CCF39BB /* ListFlightsUseCasePagingTests.swift in Sources */,
 				06564F18A38AD103EA5AA1A1 /* ListFlightsUseCaseRefreshTests.swift in Sources */,
@@ -585,18 +649,26 @@
 				F7847FBDD0673FC9AC0AF15A /* LoginUseCaseExecutionTests.swift in Sources */,
 				93975C5651D9FDDF8E263DE1 /* LoginUseCasePersistenceTests.swift in Sources */,
 				795439E18847D04A2599FE8B /* LoginUseCaseTestSupport.swift in Sources */,
+				EF2C1E47C7A93C37F4521845 /* LoginViewRenderTestSupport.swift in Sources */,
 				59EBE7A7FB7278E0AE8A27F7 /* LoginViewRenderTests.swift in Sources */,
+				BB9A8B6E49EBEB872AB5E8A5 /* LogoutUseCaseTestSupport.swift in Sources */,
 				4F3B9D10BD8233074693C786 /* LogoutUseCaseTests.swift in Sources */,
 				0A2403FA3B07831D32873928 /* MemoryLeakTracker.swift in Sources */,
 				844B0C555CEAFEA3A82921A2 /* NavigationEventBusSpy.swift in Sources */,
+				4197775AC4920059DB6CFB5A /* NavigationEventBusTestSupport.swift in Sources */,
 				2E305558CC3C991C28484A2E /* NavigationEventBusTests.swift in Sources */,
+				75E3149A92D51FCA198092D2 /* ProtectedNavigationPolicyTestSupport.swift in Sources */,
 				7515F9D596201118865B1C82 /* ProtectedNavigationPolicyTests.swift in Sources */,
 				61C1515A6D14D6CDDD40CD39 /* ProtectedPathCommandChannelTestSupport.swift in Sources */,
 				14D69548F77B9ED798363E18 /* ProtectedPathCommandChannelTests.swift in Sources */,
+				10A4C6045A42421A36151D9E /* RemoteAuthGatewayTestSupport.swift in Sources */,
 				E675C1D6230D10926C7586E6 /* RemoteAuthGatewayTests.swift in Sources */,
+				ED90A6BF9051A76DEFA1C44A /* RootViewRenderTestSupport.swift in Sources */,
 				D2EF914C8B65C33AD28B4169 /* RootViewRenderTests.swift in Sources */,
+				F4E37A9E3A279BA872932584 /* SessionBootstrapperTestSupport.swift in Sources */,
 				BB6D1B0B6E38E64BFC9502E8 /* SessionBootstrapperTests.swift in Sources */,
 				EAA258EA67E8C5BC97881EC9 /* SessionStoreSpy.swift in Sources */,
+				74095BB895652543A1F1ABBB /* ShowcaseAuthRuntimeConfigurationTestSupport.swift in Sources */,
 				72DDB2BBE730ECCF597CEC73 /* ShowcaseAuthRuntimeConfigurationTests.swift in Sources */,
 				9C0654EDB099C6EA20914C7D /* ToolchainContractTests.swift in Sources */,
 				D9917CE4780B81543CE8E7A2 /* ValidateScriptContractTests.swift in Sources */,

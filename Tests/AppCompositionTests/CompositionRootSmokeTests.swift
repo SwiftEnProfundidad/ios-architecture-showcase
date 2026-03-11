@@ -14,7 +14,7 @@ struct CompositionRootSmokeTests {
             token: "tok-composition",
             expiresAt: fixedDate(hour: 12, minute: 0)
         )
-        let tracked = makeCompositionRootSUT()
+        let tracked = makeCompositionRootSmokeSUT()
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
 
@@ -31,19 +31,4 @@ struct CompositionRootSmokeTests {
         #expect(detailData.count > 1_000)
         #expect(passData.count > 1_000)
     }
-
-    private func makeCompositionRootSUT(
-        sourceLocation: SourceLocation = #_sourceLocation
-    ) -> TrackedTestContext<CompositionRootSmokeContext> {
-        let sut = CompositionRoot(evaluationCredentials: .default)
-        return makeLeakTrackedTestContext(
-            CompositionRootSmokeContext(root: sut),
-            trackedInstances: sut,
-            sourceLocation: sourceLocation
-        )
-    }
-}
-
-private struct CompositionRootSmokeContext {
-    let root: CompositionRoot
 }

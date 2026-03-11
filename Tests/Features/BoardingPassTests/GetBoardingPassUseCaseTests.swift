@@ -2,14 +2,12 @@ import BoardingPassFeature
 import SharedKernel
 import Testing
 
-private typealias SUT = GetBoardingPassUseCase<BoardingPassRepositorySpy>
-
 @Suite("GetBoardingPassUseCase")
 struct GetBoardingPassUseCaseTests {
 
     @Test("Given flight with boarding pass, when fetching, then returns the correct pass")
     func getBoardingPassReturnsCorrectPass() async throws {
-        let tracked = makeSUT()
+        let tracked = makeGetBoardingPassUseCaseSUT()
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
         let flightID = FlightID("IB3456")
@@ -25,7 +23,7 @@ struct GetBoardingPassUseCaseTests {
 
     @Test("Given flight without boarding pass, when fetching, then throws BoardingPassError.notFound")
     func getBoardingPassThrowsWhenNotFound() async {
-        let tracked = makeSUT()
+        let tracked = makeGetBoardingPassUseCaseSUT()
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
         let flightID = FlightID("IB9999")
@@ -35,21 +33,4 @@ struct GetBoardingPassUseCaseTests {
             try await context.sut.execute(flightID: flightID)
         }
     }
-
-    private func makeSUT(
-        sourceLocation: SourceLocation = #_sourceLocation
-    ) -> TrackedTestContext<GetBoardingPassUseCaseTestContext> {
-        let repository = BoardingPassRepositorySpy()
-        let sut = SUT(repository: repository)
-        return makeLeakTrackedTestContext(
-            GetBoardingPassUseCaseTestContext(sut: sut, repository: repository),
-            trackedInstances: repository,
-            sourceLocation: sourceLocation
-        )
-    }
-}
-
-private struct GetBoardingPassUseCaseTestContext {
-    let sut: SUT
-    let repository: BoardingPassRepositorySpy
 }

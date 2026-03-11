@@ -8,24 +8,7 @@ struct FlightListViewModelPaginationTests {
 
     @Test("Given additional cached page, when loading next page, then appends the next ten flights without duplicates")
     func loadNextPageAppendsFlightsWithoutDuplicates() async {
-        let tracked = await makePaginatedFlightListViewModelSUT(
-            firstPage: makeRangePageResult(
-                range: 1...10,
-                passengerID: defaultFlightListPassengerID,
-                source: .remote,
-                isStale: false,
-                page: 1,
-                hasMorePages: true
-            ),
-            secondPage: makeRangePageResult(
-                range: 11...20,
-                passengerID: defaultFlightListPassengerID,
-                source: .cache,
-                isStale: true,
-                page: 2,
-                hasMorePages: true
-            )
-        )
+        let tracked = await makeCachedSecondPageFlightListViewModelSUT(sourceLocation: #_sourceLocation)
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
 
@@ -41,24 +24,7 @@ struct FlightListViewModelPaginationTests {
 
     @Test("Given the passenger has not reached the pagination footer, when the next page is not requested explicitly, then only the first page stays visible")
     func loadDoesNotRequestTheNextPageBeforeThePaginationFooter() async {
-        let tracked = await makePaginatedFlightListViewModelSUT(
-            firstPage: makeRangePageResult(
-                range: 1...10,
-                passengerID: defaultFlightListPassengerID,
-                source: .remote,
-                isStale: false,
-                page: 1,
-                hasMorePages: true
-            ),
-            secondPage: makeRangePageResult(
-                range: 11...12,
-                passengerID: defaultFlightListPassengerID,
-                source: .remote,
-                isStale: false,
-                page: 2,
-                hasMorePages: false
-            )
-        )
+        let tracked = await makeFirstPageOnlyFlightListViewModelSUT(sourceLocation: #_sourceLocation)
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
 
@@ -71,24 +37,7 @@ struct FlightListViewModelPaginationTests {
 
     @Test("Given the next page is still loading, when the request is in flight, then the inline pagination spinner state is exposed")
     func loadNextPageExposesInlineSpinnerState() async {
-        let tracked = makeSuspendedPaginationFlightListViewModelSUT(
-            firstPage: makeRangePageResult(
-                range: 1...10,
-                passengerID: defaultFlightListPassengerID,
-                source: .remote,
-                isStale: false,
-                page: 1,
-                hasMorePages: true
-            ),
-            secondPage: makeRangePageResult(
-                range: 11...20,
-                passengerID: defaultFlightListPassengerID,
-                source: .remote,
-                isStale: false,
-                page: 2,
-                hasMorePages: false
-            )
-        )
+        let tracked = makeInlineSpinnerPaginationFlightListViewModelSUT(sourceLocation: #_sourceLocation)
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
 

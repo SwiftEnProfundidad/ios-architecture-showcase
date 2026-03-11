@@ -11,7 +11,7 @@ struct BoardingPassViewRenderTests {
             flightID: FlightID("IB3456"),
             passengerID: PassengerID("PAX-001")
         )
-        let tracked = makeSUT(suspendedPass: pass)
+        let tracked = makeSuspendedBoardingPassViewRenderSUT(suspendedPass: pass)
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
 
@@ -35,7 +35,7 @@ struct BoardingPassViewRenderTests {
             flightID: FlightID("IB3456"),
             passengerID: PassengerID("PAX-001")
         )
-        let tracked = makeSUT(result: .success(pass), flightID: pass.flightID)
+        let tracked = makeImmediateBoardingPassViewRenderSUT(result: .success(pass), flightID: pass.flightID)
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
 
@@ -48,7 +48,7 @@ struct BoardingPassViewRenderTests {
 
     @Test("Boarding pass renders the error state")
     func rendersErrorState() async throws {
-        let tracked = makeSUT(
+        let tracked = makeImmediateBoardingPassViewRenderSUT(
             result: .failure(BoardingPassError.notFound),
             flightID: FlightID("IB3456")
         )
@@ -60,69 +60,5 @@ struct BoardingPassViewRenderTests {
 
         #expect(context.viewModel.errorMessage == AppStrings.localized("boardingpass.error.load"))
         #expect(data.count > 1_000)
-    }
-
-    private func makeSUT(
-        suspendedPass: BoardingPassData
-    ) -> TrackedTestContext<BoardingPassViewRenderContext<SuspendedBoardingPassExecutor>> {
-        let executor = SuspendedBoardingPassExecutor(pass: suspendedPass)
-        let sut = BoardingPassViewModel(
-            useCase: executor,
-            flightID: suspendedPass.flightID
-        )
-        return makeTestContext(
-            BoardingPassViewRenderContext(viewModel: sut, executor: executor)
-        )
-    }
-
-    private func makeSUT(
-        result: Result<BoardingPassData, Error>,
-        flightID: FlightID
-    ) -> TrackedTestContext<BoardingPassViewRenderContext<ImmediateBoardingPassExecutor>> {
-        let executor = ImmediateBoardingPassExecutor(result: result)
-        let sut = BoardingPassViewModel(
-            useCase: executor,
-            flightID: flightID
-        )
-        return makeTestContext(
-            BoardingPassViewRenderContext(viewModel: sut, executor: executor)
-        )
-    }
-}
-
-private struct BoardingPassViewRenderContext<Executor: BoardingPassGetting> {
-    let viewModel: BoardingPassViewModel<Executor>
-    let executor: Executor
-}
-
-private actor SuspendedBoardingPassExecutor: BoardingPassGetting {
-    private let pass: BoardingPassData
-    private var continuation: CheckedContinuation<BoardingPassData, Error>?
-
-    init(pass: BoardingPassData) {
-        self.pass = pass
-    }
-
-    func execute(flightID: FlightID) async throws -> BoardingPassData {
-        try await withCheckedThrowingContinuation { continuation in
-            self.continuation = continuation
-        }
-    }
-
-    func resume() {
-        continuation?.resume(returning: pass)
-        continuation = nil
-    }
-}
-
-private actor ImmediateBoardingPassExecutor: BoardingPassGetting {
-    private let result: Result<BoardingPassData, Error>
-
-    init(result: Result<BoardingPassData, Error>) {
-        self.result = result
-    }
-
-    func execute(flightID: FlightID) async throws -> BoardingPassData {
-        try result.get()
     }
 }

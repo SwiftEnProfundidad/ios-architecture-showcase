@@ -11,7 +11,7 @@ struct CatalogFlightRepositoryTests {
         let fileManager = FileManager.default
         let cacheDirectoryURL = fileManager.temporaryDirectory
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
-        let tracked = makeSUT(cacheDirectoryURL: cacheDirectoryURL)
+        let tracked = makeCatalogFlightRepositorySUT(cacheDirectoryURL: cacheDirectoryURL)
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
         let passengerID = PassengerID("PAX-001")
@@ -45,7 +45,7 @@ struct CatalogFlightRepositoryTests {
         let fileManager = FileManager.default
         let fixtureURL = fileManager.temporaryDirectory
             .appendingPathComponent(UUID().uuidString, isDirectory: false)
-        let tracked = makeSUT(cacheDirectoryURL: fixtureURL)
+        let tracked = makeCatalogFlightRepositorySUT(cacheDirectoryURL: fixtureURL)
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
         let passengerID = PassengerID("PAX-001")
@@ -65,20 +65,4 @@ struct CatalogFlightRepositoryTests {
         #expect(result.isStale == false)
         #expect(result.flights.count == 10)
     }
-
-    private func makeSUT(
-        cacheDirectoryURL: URL,
-        sourceLocation: SourceLocation = #_sourceLocation
-    ) -> TrackedTestContext<CatalogFlightRepositoryTestContext> {
-        let sut = CatalogFlightRepository(cacheDirectoryURL: cacheDirectoryURL)
-        return makeLeakTrackedTestContext(
-            CatalogFlightRepositoryTestContext(sut: sut),
-            trackedInstances: sut,
-            sourceLocation: sourceLocation
-        )
-    }
-}
-
-private struct CatalogFlightRepositoryTestContext {
-    let sut: CatalogFlightRepository
 }
