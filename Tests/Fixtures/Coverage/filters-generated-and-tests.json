@@ -1,0 +1,47 @@
+{
+  "data": [
+    {
+      "files": [
+        {
+          "filename": "/repo/Sources/AppComposition/CompositionRoot.swift",
+          "summary": {
+            "lines": {
+              "count": 10,
+              "covered": 9,
+              "percent": 90
+            }
+          }
+        },
+        {
+          "filename": "/repo/Tests/AppCompositionTests/CompositionRootTests.swift",
+          "summary": {
+            "lines": {
+              "count": 200,
+              "covered": 0,
+              "percent": 0
+            }
+          }
+        },
+        {
+          "filename": "/repo/.build/arm64-apple-macosx/debug/AppComposition.build/DerivedSources/resource_bundle_accessor.swift",
+          "summary": {
+            "lines": {
+              "count": 100,
+              "covered": 0,
+              "percent": 0
+            }
+          }
+        }
+      ],
+      "totals": {
+        "lines": {
+          "count": 310,
+          "covered": 9,
+          "percent": 2.9032258065
+        }
+      }
+    }
+  ],
+  "type": "llvm.coverage.json.export",
+  "version": "2.0.1"
+}
