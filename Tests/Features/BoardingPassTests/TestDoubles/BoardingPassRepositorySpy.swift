@@ -1,4 +1,5 @@
-@testable import iOSArchitectureShowcase
+import BoardingPassFeature
+import SharedKernel
 
 actor BoardingPassRepositorySpy: BoardingPassRepositoryProtocol {
     private var stubbedPasses: [FlightID: BoardingPassData] = [:]
