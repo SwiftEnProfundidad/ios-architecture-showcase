@@ -1,3 +1,5 @@
+import Foundation
+import SharedKernel
 
 public struct BoardingPassData: Sendable, Equatable {
     public let flightID: FlightID
@@ -5,7 +7,8 @@ public struct BoardingPassData: Sendable, Equatable {
     public let passengerName: String
     public let seat: String
     public let gate: String
-    public let boardingDeadline: String
+    public let boardingDeadline: Date
+    public let boardingTimeZoneIdentifier: String
     public let qrPayload: String
 
     public init(
@@ -14,7 +17,8 @@ public struct BoardingPassData: Sendable, Equatable {
         passengerName: String,
         seat: String,
         gate: String,
-        boardingDeadline: String,
+        boardingDeadline: Date,
+        boardingTimeZoneIdentifier: String,
         qrPayload: String
     ) {
         self.flightID = flightID
@@ -23,20 +27,15 @@ public struct BoardingPassData: Sendable, Equatable {
         self.seat = seat
         self.gate = gate
         self.boardingDeadline = boardingDeadline
+        self.boardingTimeZoneIdentifier = boardingTimeZoneIdentifier
         self.qrPayload = qrPayload
     }
-}
 
-public extension BoardingPassData {
-    static func stub(flightID: FlightID, passengerID: PassengerID) -> BoardingPassData {
-        BoardingPassData(
-            flightID: flightID,
-            passengerID: passengerID,
-            passengerName: "Carlos Merlos",
-            seat: "12A",
-            gate: "B7",
-            boardingDeadline: "09:45",
-            qrPayload: "\(flightID.value)-\(passengerID.value)"
+    public func formattedBoardingDeadline(locale: Locale = .current) -> String {
+        OperationalTimeFormatter.hourMinute(
+            from: boardingDeadline,
+            timeZoneIdentifier: boardingTimeZoneIdentifier,
+            locale: locale
         )
     }
 }
