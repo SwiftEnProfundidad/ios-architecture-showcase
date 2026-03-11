@@ -67,6 +67,13 @@ Feature: Passenger authentication and session management
     Then the authentication flow receives "carlos@iberia.com"
     And the visible email field keeps the normalized address
 
+  Scenario: The email field behaves like an email entry control
+    Given the passenger is on the login screen
+    When the app renders the email input
+    Then the field disables autocorrection
+    And the field neutralizes automatic capitalization through visible normalization
+    And the field keeps typed email input normalized for sign-in
+
   Scenario: Secure storage fails after authentication succeeds
     Given the gateway authenticates the passenger successfully
     And secure session storage fails while persisting the token

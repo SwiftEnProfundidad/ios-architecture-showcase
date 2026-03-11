@@ -10,11 +10,14 @@ struct RemoteAuthGatewayTests {
 
     @Test("Successful HTTP authentication maps payload into AuthSession")
     func successfulAuthenticationMapsResponse() async throws {
-        let client = HTTPClientSpy()
         let decoder = JSONEncoder()
         decoder.dateEncodingStrategy = .iso8601
         let expiresAt = fixedDate(hour: 12, minute: 0)
-        await client.stub(
+        let tracked = makeSUT()
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
+
+        await context.client.stub(
             result: .success(
                 HTTPResponse(
                     statusCode: 200,
@@ -28,9 +31,7 @@ struct RemoteAuthGatewayTests {
                 )
             )
         )
-        let sut = SUT(client: client, baseURL: authBaseURL)
-
-        let session = try await sut.authenticate(email: "carlos@iberia.com", password: "Secure123!")
+        let session = try await context.sut.authenticate(email: "carlos@iberia.com", password: "Secure123!")
 
         #expect(session.passengerID == PassengerID("PAX-001"))
         #expect(session.token == "tok-abc")
@@ -39,25 +40,44 @@ struct RemoteAuthGatewayTests {
 
     @Test("401 response maps to invalid credentials")
     func unauthorizedMapsToInvalidCredentials() async {
-        let client = HTTPClientSpy()
-        await client.stub(result: .success(HTTPResponse(statusCode: 401, data: Data())))
-        let sut = SUT(client: client, baseURL: authBaseURL)
+        let tracked = makeSUT()
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
+        await context.client.stub(result: .success(HTTPResponse(statusCode: 401, data: Data())))
 
         await #expect(throws: AuthError.invalidCredentials) {
-            try await sut.authenticate(email: "carlos@iberia.com", password: "wrong")
+            try await context.sut.authenticate(email: "carlos@iberia.com", password: "wrong")
         }
     }
 
     @Test("Transport failures map to network error")
     func transportFailuresMapToNetworkError() async {
-        let client = HTTPClientSpy()
-        await client.stub(result: .failure(.transport))
-        let sut = SUT(client: client, baseURL: authBaseURL)
+        let tracked = makeSUT()
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
+        await context.client.stub(result: .failure(.transport))
 
         await #expect(throws: AuthError.network) {
-            try await sut.authenticate(email: "carlos@iberia.com", password: "Secure123!")
+            try await context.sut.authenticate(email: "carlos@iberia.com", password: "Secure123!")
         }
     }
+
+    private func makeSUT(
+        sourceLocation: SourceLocation = #_sourceLocation
+    ) -> TrackedTestContext<RemoteAuthGatewayTestContext> {
+        let client = HTTPClientSpy()
+        let sut = SUT(client: client, baseURL: authBaseURL)
+        return makeLeakTrackedTestContext(
+            RemoteAuthGatewayTestContext(sut: sut, client: client),
+            trackedInstances: client,
+            sourceLocation: sourceLocation
+        )
+    }
+}
+
+private struct RemoteAuthGatewayTestContext {
+    let sut: SUT
+    let client: HTTPClientSpy
 }
 
 private actor HTTPClientSpy: HTTPClient {
@@ -78,12 +98,4 @@ private struct LoginPayload: Codable {
     let expiresAt: Date
 }
 
-private let authBaseURL: URL = {
-    var components = URLComponents()
-    components.scheme = "https"
-    components.host = "auth.example.com"
-    guard let url = components.url else {
-        preconditionFailure("Auth test base URL must be valid")
-    }
-    return url
-}()
+private let authBaseURL = URL(string: "https://auth.example.com") ?? URL(filePath: "/auth-example")

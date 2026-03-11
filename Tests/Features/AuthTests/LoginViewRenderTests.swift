@@ -7,54 +7,52 @@ import Testing
 struct LoginViewRenderTests {
     @Test("Login screen renders the default state")
     func rendersDefaultState() throws {
-        let viewModel = AuthViewModel(
-            loginUseCase: LoginRenderExecutor(mode: .success(sampleSession)),
-            eventBus: NavigationEventBusSpy()
-        )
+        let tracked = makeSUT(mode: .success(sampleSession))
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
 
-        let data = try renderedPNG(from: LoginView(viewModel: viewModel))
+        let data = try renderedPNG(from: LoginView(viewModel: context.viewModel))
 
         #expect(data.count > 1_000)
     }
 
     @Test("Login screen renders quick access and error feedback")
     func rendersQuickAccessAndErrorState() async throws {
-        let viewModel = AuthViewModel(
-            loginUseCase: LoginRenderExecutor(mode: .invalidCredentials),
-            eventBus: NavigationEventBusSpy(),
+        let tracked = makeSUT(
+            mode: .invalidCredentials,
             quickAccessEmail: ShowcaseLoginFixtures.email,
             quickAccessPassword: ShowcaseLoginFixtures.password
         )
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
 
-        await viewModel.login()
+        await context.viewModel.login()
         let data = try renderedPNG(
-            from: LoginView(viewModel: viewModel),
+            from: LoginView(viewModel: context.viewModel),
             colorScheme: .dark
         )
 
-        #expect(viewModel.errorMessage == AppStrings.localized("auth.error.invalidCredentials"))
+        #expect(context.viewModel.errorMessage == AppStrings.localized("auth.error.invalidCredentials"))
         #expect(data.count > 1_000)
     }
 
     @Test("Login screen renders the loading state while authentication is suspended")
     func rendersLoadingState() async throws {
-        let executor = LoginRenderExecutor(mode: .suspended(sampleSession))
-        let viewModel = AuthViewModel(
-            loginUseCase: executor,
-            eventBus: NavigationEventBusSpy()
-        )
+        let tracked = makeSUT(mode: .suspended(sampleSession))
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
 
         let task = Task {
-            await viewModel.login()
+            await context.viewModel.login()
         }
         await Task.yield()
 
-        let data = try renderedPNG(from: LoginView(viewModel: viewModel))
+        let data = try renderedPNG(from: LoginView(viewModel: context.viewModel))
 
-        #expect(viewModel.isLoading)
+        #expect(context.viewModel.isLoading)
         #expect(data.count > 1_000)
 
-        await executor.resume()
+        await context.executor.resume()
         await task.value
     }
 
@@ -65,6 +63,30 @@ struct LoginViewRenderTests {
             expiresAt: fixedDate(hour: 12, minute: 0)
         )
     }
+
+    private func makeSUT(
+        mode: LoginRenderExecutor.Mode,
+        quickAccessEmail: String? = nil,
+        quickAccessPassword: String? = nil
+    ) -> TrackedTestContext<LoginViewRenderTestContext> {
+        let executor = LoginRenderExecutor(mode: mode)
+        let eventBus = NavigationEventBusSpy()
+        let sut = AuthViewModel(
+            loginUseCase: executor,
+            eventBus: eventBus,
+            quickAccessEmail: quickAccessEmail,
+            quickAccessPassword: quickAccessPassword
+        )
+        return makeTestContext(
+            LoginViewRenderTestContext(viewModel: sut, executor: executor, eventBus: eventBus)
+        )
+    }
+}
+
+private struct LoginViewRenderTestContext {
+    let viewModel: AuthViewModel<LoginRenderExecutor>
+    let executor: LoginRenderExecutor
+    let eventBus: NavigationEventBusSpy
 }
 
 private actor LoginRenderExecutor: LoginExecuting {
