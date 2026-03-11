@@ -4,6 +4,7 @@ import SwiftUI
 public struct LoginView<LoginExecutor: LoginExecuting>: View {
     @Bindable var viewModel: AuthViewModel<LoginExecutor>
     @Environment(\.colorScheme) private var colorScheme
+    private let emailFieldConfiguration = LoginEmailFieldConfiguration.default
 
     public init(viewModel: AuthViewModel<LoginExecutor>) {
         self.viewModel = viewModel
@@ -111,7 +112,11 @@ public struct LoginView<LoginExecutor: LoginExecuting>: View {
     private var emailField: some View {
         TextField(AppStrings.localized("auth.login.email"), text: $viewModel.email)
             .textFieldStyle(.roundedBorder)
-            .autocorrectionDisabled()
+            .autocorrectionDisabled(emailFieldConfiguration.disablesAutocorrection)
+            .onChange(of: viewModel.email) {
+                guard emailFieldConfiguration.normalizesVisibleInput else { return }
+                viewModel.normalizeVisibleEmailInput()
+            }
             .accessibilityLabel(AppStrings.localized("auth.login.email.accessibility"))
     }
 }

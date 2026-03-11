@@ -9,25 +9,29 @@ struct KeychainSessionStoreTests {
     @Test("Keychain session store saves and restores the authenticated session")
     func savesAndRestoresSession() async throws {
         guard keychainWriteIsAvailable() else { return }
-        let store = makeStore()
+        let tracked = makeSUT()
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
         let session = makeSession()
 
-        try await store.save(session: session)
-        let restoredSession = await store.currentSession()
+        try await context.sut.save(session: session)
+        let restoredSession = await context.sut.currentSession()
 
         #expect(restoredSession == session)
-        await store.clear()
+        await context.sut.clear()
     }
 
     @Test("Keychain session store clears the stored session")
     func clearsSession() async throws {
         guard keychainWriteIsAvailable() else { return }
-        let store = makeStore()
+        let tracked = makeSUT()
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
 
-        try await store.save(session: makeSession())
-        await store.clear()
+        try await context.sut.save(session: makeSession())
+        await context.sut.clear()
 
-        let restoredSession = await store.currentSession()
+        let restoredSession = await context.sut.currentSession()
         #expect(restoredSession == nil)
     }
 
@@ -35,22 +39,29 @@ struct KeychainSessionStoreTests {
     func clearsCorruptedPayload() async {
         guard keychainWriteIsAvailable() else { return }
         let credentials = uniqueCredentials()
-        let store = KeychainSessionStore(
-            service: credentials.service,
-            account: credentials.account
-        )
+        let tracked = makeSUT(credentials: credentials)
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
 
         injectCorruptedPayload(service: credentials.service, account: credentials.account)
 
-        let restoredSession = await store.currentSession()
+        let restoredSession = await context.sut.currentSession()
 
         #expect(restoredSession == nil)
-        await store.clear()
+        await context.sut.clear()
     }
 
-    private func makeStore() -> KeychainSessionStore {
-        let credentials = uniqueCredentials()
-        return KeychainSessionStore(service: credentials.service, account: credentials.account)
+    private func makeSUT(
+        credentials: (service: String, account: String)? = nil,
+        sourceLocation: SourceLocation = #_sourceLocation
+    ) -> TrackedTestContext<KeychainSessionStoreTestContext> {
+        let credentials = credentials ?? uniqueCredentials()
+        let sut = KeychainSessionStore(service: credentials.service, account: credentials.account)
+        return makeLeakTrackedTestContext(
+            KeychainSessionStoreTestContext(sut: sut),
+            trackedInstances: sut,
+            sourceLocation: sourceLocation
+        )
     }
 
     private func makeSession() -> AuthSession {
@@ -109,4 +120,8 @@ struct KeychainSessionStoreTests {
         SecItemDelete(query as CFDictionary)
         return true
     }
+}
+
+private struct KeychainSessionStoreTestContext {
+    let sut: KeychainSessionStore
 }

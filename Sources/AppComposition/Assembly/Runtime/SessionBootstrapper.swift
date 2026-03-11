@@ -1,12 +1,13 @@
 import AuthFeature
 import SharedNavigation
 
-struct SessionBootstrapper<Store: SessionReading & SessionClearing> {
+@MainActor
+public struct SessionBootstrapper<Store: SessionReading & SessionClearing> {
     private let sessionStore: Store
     private let stateStore: AppStateStore
     private let policy: SessionLaunchPolicy
 
-    init(
+    public init(
         sessionStore: Store,
         stateStore: AppStateStore,
         policy: SessionLaunchPolicy
@@ -16,7 +17,7 @@ struct SessionBootstrapper<Store: SessionReading & SessionClearing> {
         self.policy = policy
     }
 
-    func bootstrap() async {
+    public func bootstrap() async {
         guard policy == .restoreValidSession else {
             await sessionStore.clear()
             return

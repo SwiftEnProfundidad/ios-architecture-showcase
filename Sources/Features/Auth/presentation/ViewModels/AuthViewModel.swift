@@ -49,9 +49,14 @@ public final class AuthViewModel<LoginExecutor: LoginExecuting> {
         await executeLogin(email: quickAccessEmail, password: quickAccessPassword)
     }
 
+    public func normalizeVisibleEmailInput() {
+        guard email.isEmpty == false else { return }
+        email = normalizedEmail(from: email)
+    }
+
     private func executeLogin(email: String, password: String) async {
         guard !isLoading else { return }
-        let normalizedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        let normalizedEmail = normalizedEmail(from: email)
         self.email = normalizedEmail
         isLoading = true
         errorMessage = nil
@@ -84,5 +89,9 @@ public final class AuthViewModel<LoginExecutor: LoginExecuting> {
         case .network: AppStrings.localized("auth.error.network")
         case .storage: AppStrings.localized("auth.error.unexpected")
         }
+    }
+
+    private func normalizedEmail(from rawEmail: String) -> String {
+        rawEmail.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
     }
 }

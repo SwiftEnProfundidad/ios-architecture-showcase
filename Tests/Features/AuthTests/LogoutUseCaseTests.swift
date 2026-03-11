@@ -9,23 +9,34 @@ struct LogoutUseCaseTests {
 
     @Test("When logout, the session is removed from the SessionStore")
     func logoutClearsSession() async {
-        let (token, sut, sessionStore) = makeSUT()
-        await sut.execute()
+        let tracked = makeSUT()
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
+        await context.sut.execute()
 
-        let clearCallCount = await sessionStore.recordedClearCallCount()
+        let clearCallCount = await context.sessionStore.recordedClearCallCount()
         #expect(clearCallCount == 1)
-        _ = token
     }
 
     private func makeSUT(
         sourceLocation: SourceLocation = #_sourceLocation
-    ) -> (MemoryLeakToken, SUT, SessionClearingSpy) {
-        let token = MemoryLeakToken()
+    ) -> TrackedTestContext<LogoutUseCaseTestContext> {
         let sessionStore = SessionClearingSpy()
         let sut = SUT(sessionStore: sessionStore)
-        trackForMemoryLeaks(sessionStore, token: token, sourceLocation: sourceLocation)
-        return (token, sut, sessionStore)
+        return makeLeakTrackedTestContext(
+            LogoutUseCaseTestContext(
+                sut: sut,
+                sessionStore: sessionStore
+            ),
+            trackedInstances: sessionStore,
+            sourceLocation: sourceLocation
+        )
     }
+}
+
+private struct LogoutUseCaseTestContext {
+    let sut: SUT
+    let sessionStore: SessionClearingSpy
 }
 
 actor SessionClearingSpy: SessionClearing {

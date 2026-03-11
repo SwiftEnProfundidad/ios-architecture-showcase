@@ -142,13 +142,6 @@ private struct BootstrapAuthConfiguration: Sendable {
 }
 
 private extension URL {
-    static let bootstrapAuthBaseURL: URL = {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = "bootstrap.auth.local"
-        guard let url = components.url else {
-            preconditionFailure("Bootstrap auth URL must be valid")
-        }
-        return url
-    }()
+    static let bootstrapAuthBaseURL =
+        URL(string: "https://bootstrap.auth.local") ?? URL(filePath: "/bootstrap-auth-local")
 }

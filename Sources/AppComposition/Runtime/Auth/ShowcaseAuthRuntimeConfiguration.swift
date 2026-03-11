@@ -6,9 +6,9 @@ public struct ShowcaseAuthRuntimeConfiguration: Sendable {
     public let baseURL: URL
     public let session: URLSession
     public let evaluationCredentials: ShowcaseEvaluationCredentials?
-    let launchPolicy: SessionLaunchPolicy
+    public let launchPolicy: SessionLaunchPolicy
 
-    init(
+    public init(
         baseURL: URL,
         session: URLSession,
         evaluationCredentials: ShowcaseEvaluationCredentials? = nil,
@@ -58,13 +58,6 @@ private extension URL {
 }
 
 private extension URLComponents {
-    static let bootstrapAuthBaseURL: URL = {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = "bootstrap.auth.local"
-        guard let url = components.url else {
-            preconditionFailure("Bootstrap auth URL must be valid")
-        }
-        return url
-    }()
+    static let bootstrapAuthBaseURL =
+        URL(string: "https://bootstrap.auth.local") ?? URL(filePath: "/bootstrap-auth-local")
 }
