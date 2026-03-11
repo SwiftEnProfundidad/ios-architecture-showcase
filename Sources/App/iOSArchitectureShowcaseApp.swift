@@ -1,30 +1,27 @@
+import AppComposition
 import SwiftUI
 
 @main
 struct iOSArchitectureShowcaseApp: App {
-
-    @State private var appViewModel: AppViewModel
-    @State private var coordinator: AppCoordinator
-    private let factory: DefaultViewFactory
+    @State private var compositionRoot: CompositionRoot
 
     init() {
-        let bus = DefaultNavigationEventBus()
-        let store = AppStateStore()
-        let coordinator = AppCoordinator(bus: bus, store: store)
-        let appViewModel = AppViewModel(store: store)
-        let factory = DefaultViewFactory(bus: bus, passengerID: PassengerID("PAX-001"))
-
-        _appViewModel = State(initialValue: appViewModel)
-        _coordinator = State(initialValue: coordinator)
-        self.factory = factory
+        _compositionRoot = State(initialValue: CompositionRoot())
     }
 
     var body: some Scene {
         WindowGroup {
-            RootView(appViewModel: appViewModel, factory: factory)
-                .task {
-                    await coordinator.start()
-                }
+            RootView(
+                appViewModel: compositionRoot.appViewModel,
+                syncProtectedPath: compositionRoot.syncProtectedPath(_:),
+                makeLoginView: compositionRoot.makeLoginView,
+                makeFlightListView: compositionRoot.makeFlightListView(session:),
+                makeFlightDetailView: compositionRoot.makeFlightDetailView(flightID:),
+                makeBoardingPassView: compositionRoot.makeBoardingPassView(flightID:)
+            )
+            .task {
+                await compositionRoot.start()
+            }
         }
     }
 }
