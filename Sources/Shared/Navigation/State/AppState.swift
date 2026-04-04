@@ -1,4 +1,3 @@
-
 public struct AppState: Sendable, Equatable {
     public let rootRoute: RootRoute
     public let session: AppSession?
@@ -17,6 +16,6 @@ public struct AppState: Sendable, Equatable {
     )
 
     public var isAuthenticated: Bool {
-        session?.isExpired == false
+        session?.isExpired() == false
     }
 }

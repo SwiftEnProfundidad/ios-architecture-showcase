@@ -1,8 +1,9 @@
 import Foundation
 import Testing
 
+@Suite("ValidateScriptContract")
 struct ValidateScriptContractTests {
-    @Test("Local validation defaults the coverage gate threshold to eighty five percent")
+    @Test("Given local validation runs without an explicit threshold, when the coverage gate is configured, then the threshold defaults to eighty five percent")
     func validateScriptDefaultsCoverageThresholdToEightyFive() throws {
         let sut = makeSUT()
 

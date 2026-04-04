@@ -5,7 +5,7 @@ import Testing
 @Suite("AppCoordinator session")
 struct AppCoordinatorSessionTests {
 
-    @Test("Coordinator applies reducer and updates store when it receives SessionStarted")
+    @Test("Given the coordinator, when it receives SessionStarted, then the reducer output is applied and the store is updated")
     func coordinatorUpdatesStoreOnSessionStarted() async {
         let tracked = makeAppCoordinatorSUT()
         defer { tracked.assertNoLeaks() }
@@ -25,7 +25,7 @@ struct AppCoordinatorSessionTests {
         await context.coordinator.stop()
     }
 
-    @Test("Coordinator applies reducer and updates store when it receives Logout")
+    @Test("Given the coordinator, when it receives Logout, then the reducer output is applied and the store is updated")
     func coordinatorUpdatesStoreOnLogout() async {
         let tracked = makeAppCoordinatorSUT(initial: makeAuthenticatedCoordinatorState())
         defer { tracked.assertNoLeaks() }

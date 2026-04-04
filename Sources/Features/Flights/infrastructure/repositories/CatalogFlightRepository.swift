@@ -41,7 +41,13 @@ public actor CatalogFlightRepository: FlightRepositoryProtocol {
                 isStale: false
             )
         } catch {
-            let cachedFlights = try loadCachedFlights()
+            let cachedFlights: [Flight]
+            do {
+                cachedFlights = try loadCachedFlights()
+            } catch {
+                logger.error("Remote catalog unavailable and no cached flights for passenger \(passengerID.value, privacy: .public)")
+                throw FlightError.network
+            }
             let result = pageProjector.page(
                 flights: cachedFlights,
                 passengerID: passengerID,
@@ -70,12 +76,18 @@ public actor CatalogFlightRepository: FlightRepositoryProtocol {
         } catch let error as FlightError {
             throw error
         } catch {
-            let cachedFlights = try loadCachedFlights()
-            if let flight = cachedFlights.first(where: { $0.id == id }) {
-                return flight
+            let cachedFlights: [Flight]
+            do {
+                cachedFlights = try loadCachedFlights()
+            } catch {
+                logger.error("Flight detail unavailable for \(id.value, privacy: .public)")
+                throw FlightError.network
             }
-            logger.error("Flight detail unavailable for \(id.value, privacy: .public)")
-            throw FlightError.network
+            guard let flight = cachedFlights.first(where: { $0.id == id }) else {
+                logger.error("Flight detail unavailable for \(id.value, privacy: .public)")
+                throw FlightError.network
+            }
+            return flight
         }
     }
 

@@ -5,7 +5,7 @@ import Testing
 @Suite("NavigationEventBus")
 struct NavigationEventBusTests {
 
-    @Test("Published event is received by the subscriber")
+    @Test("Given a subscriber, when an event is published, then the subscriber receives it")
     func publishedEventIsReceivedBySubscriber() async {
         let tracked = makeNavigationEventBusSUT()
         defer { tracked.assertNoLeaks() }
@@ -26,7 +26,7 @@ struct NavigationEventBusTests {
         #expect(received == expected)
     }
 
-    @Test("Multiple events are received in order")
+    @Test("Given a subscriber, when multiple events are published in sequence, then they are received in the same order")
     func multipleEventsReceivedInOrder() async {
         let tracked = makeNavigationEventBusSUT()
         defer { tracked.assertNoLeaks() }

@@ -5,7 +5,7 @@ import Testing
 @Suite("ProtectedNavigationPolicy")
 struct ProtectedNavigationPolicyTests {
 
-    @Test("Expired protected navigation invalidates persistence and resets state")
+    @Test("Given protected navigation has expired, when the policy is evaluated, then persistence is invalidated and state is reset")
     func expiredProtectedNavigationInvalidatesPersistence() throws {
         let sut = makeProtectedNavigationPolicySUT()
         let expiredState = makeExpiredProtectedNavigationState()
@@ -20,7 +20,7 @@ struct ProtectedNavigationPolicyTests {
         #expect(resolvedDecision.shouldInvalidatePersistedSession)
     }
 
-    @Test("Valid protected navigation keeps the session and does not invalidate persistence")
+    @Test("Given protected navigation is still valid, when the policy is evaluated, then the session is preserved and persistence is not invalidated")
     func validProtectedNavigationKeepsSession() throws {
         let sut = makeProtectedNavigationPolicySUT()
         let validState = makeValidProtectedNavigationState()

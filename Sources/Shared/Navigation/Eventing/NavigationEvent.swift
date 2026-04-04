@@ -1,4 +1,3 @@
-
 public enum NavigationEvent: Sendable, Equatable {
     case sessionStarted(AppSession)
     case sessionStartRejected

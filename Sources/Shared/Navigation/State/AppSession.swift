@@ -12,7 +12,7 @@ public struct AppSession: Sendable, Equatable {
         self.expiresAt = expiresAt
     }
 
-    public var isExpired: Bool {
-        expiresAt <= .now
+    public func isExpired(at currentDate: Date = .now) -> Bool {
+        expiresAt <= currentDate
     }
 }

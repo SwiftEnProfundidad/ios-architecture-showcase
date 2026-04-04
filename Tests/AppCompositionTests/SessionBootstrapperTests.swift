@@ -3,7 +3,7 @@ import Testing
 @MainActor
 @Suite("SessionBootstrapper")
 struct SessionBootstrapperTests {
-    @Test("Bootstrap clears persisted session when restore on launch is disabled")
+    @Test("Given restore on launch is disabled, when bootstrap runs, then any persisted session is cleared")
     func clearsSessionWhenRestoreIsDisabled() async {
         let session = makeBootstrapSession(expiresAt: .distantFuture)
         let tracked = makeSessionBootstrapperSUT(session: session, policy: .resetSession)
@@ -18,7 +18,7 @@ struct SessionBootstrapperTests {
         #expect(state == .initial)
     }
 
-    @Test("Bootstrap restores a valid persisted session into app state")
+    @Test("Given a valid persisted session and restore enabled, when bootstrap runs, then app state reflects the session")
     func restoresValidSession() async {
         let session = makeBootstrapSession(expiresAt: .distantFuture)
         let tracked = makeSessionBootstrapperSUT(session: session, policy: .restoreValidSession)
@@ -33,7 +33,7 @@ struct SessionBootstrapperTests {
         #expect(state.path.isEmpty)
     }
 
-    @Test("Bootstrap clears expired sessions instead of restoring them")
+    @Test("Given a persisted session that is expired, when bootstrap runs, then it is cleared and not restored")
     func clearsExpiredSession() async {
         let session = makeBootstrapSession(expiresAt: .distantPast)
         let tracked = makeSessionBootstrapperSUT(session: session, policy: .restoreValidSession)
