@@ -29,6 +29,9 @@ DerivedData/
 .idea/
 *.swp
 .codex-artifacts/
+.pumuki/
+.ai_evidence.json
+ai_evidence.json
 **/.$*.bkp
 
 # Fastlane
