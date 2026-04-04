@@ -18,7 +18,7 @@ struct FlightCacheStore {
 
     func loadFlights() throws -> [Flight] {
         guard fileManager.fileExists(atPath: cacheURL.path) else {
-            throw FlightError.network
+            throw FlightError.cacheUnavailable
         }
         let data = try Data(contentsOf: cacheURL)
         return try decoder.decode([FlightRecord].self, from: data).map(\.flight)

@@ -14,13 +14,14 @@ let package = Package(
         .library(name: "AuthFeature", targets: ["AuthFeature"]),
         .library(name: "FlightsFeature", targets: ["FlightsFeature"]),
         .library(name: "BoardingPassFeature", targets: ["BoardingPassFeature"]),
-        .library(name: "AppComposition", targets: ["AppComposition"])
+        .library(name: "AppComposition", targets: ["AppComposition"]),
+        .library(name: "CoverageGate", targets: ["CoverageGate"])
     ],
     targets: [
         .target(
             name: "SharedKernel",
             path: "Sources/Shared/Kernel",
-            resources: [.process("Resources")]
+            resources: [.process("resources")]
         ),
         .target(
             name: "SharedNavigation",
@@ -42,7 +43,7 @@ let package = Package(
                 "SharedNavigation"
             ],
             path: "Sources/Features/Flights",
-            resources: [.process("Resources")]
+            resources: [.process("resources")]
         ),
         .target(
             name: "BoardingPassFeature",
@@ -51,7 +52,7 @@ let package = Package(
                 "SharedNavigation"
             ],
             path: "Sources/Features/BoardingPass",
-            resources: [.process("Resources")]
+            resources: [.process("resources")]
         ),
         .target(
             name: "AppComposition",
@@ -64,6 +65,10 @@ let package = Package(
             ],
             path: "Sources/AppComposition"
         ),
+        .target(
+            name: "CoverageGate",
+            path: "Sources/Tooling/CoverageGate"
+        ),
         .testTarget(
             name: "iOSArchitectureShowcaseTests",
             dependencies: [
@@ -72,7 +77,8 @@ let package = Package(
                 "AuthFeature",
                 "FlightsFeature",
                 "BoardingPassFeature",
-                "AppComposition"
+                "AppComposition",
+                "CoverageGate"
             ],
             path: "Tests",
             resources: [

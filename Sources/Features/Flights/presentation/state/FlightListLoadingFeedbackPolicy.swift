@@ -12,11 +12,11 @@ struct FlightListLoadingFeedbackPolicy: Sendable {
         self.minimumNextPageSpinnerNanoseconds = minimumNextPageSpinnerNanoseconds
     }
 
-    func awaitMinimumFeedback(
+    func awaitMinimumFeedback<C: Clock<Duration>>(
         isInitialPresentation: Bool,
         isNextPageLoad: Bool,
-        clock: ContinuousClock,
-        loadStartedAt: ContinuousClock.Instant
+        clock: C,
+        loadStartedAt: C.Instant
     ) async throws {
         let minimumNanoseconds = minimumFeedbackNanoseconds(
             isInitialPresentation: isInitialPresentation,
@@ -26,7 +26,7 @@ struct FlightListLoadingFeedbackPolicy: Sendable {
         let minimumDuration = Duration.nanoseconds(Int64(minimumNanoseconds))
         let elapsed = loadStartedAt.duration(to: clock.now)
         guard elapsed < minimumDuration else { return }
-        try await Task.sleep(for: minimumDuration - elapsed)
+        try await clock.sleep(until: loadStartedAt.advanced(by: minimumDuration), tolerance: nil)
     }
 
     private func minimumFeedbackNanoseconds(

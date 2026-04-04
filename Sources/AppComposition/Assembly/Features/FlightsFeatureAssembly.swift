@@ -51,10 +51,10 @@ struct FlightsFeatureAssembly {
     }
 }
 
-private struct FlightListScene<ListExecutor: ListFlightsExecuting, SessionController: FlightListSessionControlling>: View {
-    @State private var viewModel: FlightListViewModel<ListExecutor, SessionController>
+private struct FlightListScene<ListExecutor: ListFlightsExecuting, SessionController: FlightListSessionControlling, FeedbackClock: Clock<Duration>>: View {
+    @State private var viewModel: FlightListViewModel<ListExecutor, SessionController, FeedbackClock>
 
-    init(viewModel: FlightListViewModel<ListExecutor, SessionController>) {
+    init(viewModel: FlightListViewModel<ListExecutor, SessionController, FeedbackClock>) {
         _viewModel = State(initialValue: viewModel)
     }
 

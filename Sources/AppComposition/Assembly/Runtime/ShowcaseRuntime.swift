@@ -1,6 +1,7 @@
 import AuthFeature
 import BoardingPassFeature
 import FlightsFeature
+import SharedKernel
 import SharedNavigation
 
 struct ShowcaseRuntime {

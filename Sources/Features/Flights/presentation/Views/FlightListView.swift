@@ -1,11 +1,11 @@
 import SharedKernel
 import SwiftUI
 
-public struct FlightListView<ListExecutor: ListFlightsExecuting, SessionController: FlightListSessionControlling>: View {
-    @Bindable var viewModel: FlightListViewModel<ListExecutor, SessionController>
+public struct FlightListView<ListExecutor: ListFlightsExecuting, SessionController: FlightListSessionControlling, FeedbackClock: Clock<Duration>>: View {
+    @Bindable var viewModel: FlightListViewModel<ListExecutor, SessionController, FeedbackClock>
     @Environment(\.colorScheme) private var colorScheme
 
-    public init(viewModel: FlightListViewModel<ListExecutor, SessionController>) {
+    public init(viewModel: FlightListViewModel<ListExecutor, SessionController, FeedbackClock>) {
         self.viewModel = viewModel
     }
 
@@ -177,112 +177,5 @@ public struct FlightListView<ListExecutor: ListFlightsExecuting, SessionControll
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
-    }
-}
-
-private struct FlightRowView: View {
-    let flight: Flight
-    @Environment(\.colorScheme) private var colorScheme
-
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 4) {
-                Text(flight.number)
-                    .font(.headline)
-                Text(AppStrings.localized("flights.route", flight.origin, flight.destination))
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-            }
-            Spacer()
-            VStack(alignment: .trailing, spacing: 4) {
-                Text(flight.formattedScheduledDeparture())
-                    .font(.subheadline.monospacedDigit())
-                statusBadge(flight.status)
-            }
-        }
-        .padding(16)
-        .background(.thinMaterial, in: .rect(cornerRadius: 20))
-        .overlay {
-            RoundedRectangle(cornerRadius: 20)
-                .strokeBorder(Color.white.opacity(colorScheme == .dark ? 0.10 : 0.45), lineWidth: 1)
-        }
-        .accessibilityElement(children: .combine)
-    }
-
-    private func statusBadge(_ status: Flight.Status) -> some View {
-        let presentation = FlightStatusPresentation(status: status)
-
-        return Text(presentation.title)
-            .font(.caption.bold())
-            .padding(.horizontal, 8)
-            .padding(.vertical, 2)
-            .background(presentation.tint.color.opacity(0.15))
-            .foregroundStyle(presentation.tint.color)
-            .clipShape(.rect(cornerRadius: 6))
-    }
-}
-
-private struct FlightSkeletonRow: View {
-    @Environment(\.colorScheme) private var colorScheme
-
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 10) {
-                RoundedRectangle(cornerRadius: 6)
-                    .fill(.primary.opacity(0.16))
-                    .frame(width: 78, height: 16)
-                RoundedRectangle(cornerRadius: 6)
-                    .fill(.primary.opacity(0.10))
-                    .frame(width: 120, height: 12)
-            }
-            Spacer()
-            VStack(alignment: .trailing, spacing: 10) {
-                RoundedRectangle(cornerRadius: 6)
-                    .fill(.primary.opacity(0.16))
-                    .frame(width: 48, height: 14)
-                RoundedRectangle(cornerRadius: 999)
-                    .fill(.primary.opacity(0.10))
-                    .frame(width: 72, height: 22)
-            }
-        }
-        .padding(16)
-        .background(.thinMaterial, in: .rect(cornerRadius: 20))
-        .overlay {
-            RoundedRectangle(cornerRadius: 20)
-                .strokeBorder(Color.white.opacity(colorScheme == .dark ? 0.10 : 0.45), lineWidth: 1)
-        }
-        .overlay {
-            SkeletonShimmer()
-                .clipShape(.rect(cornerRadius: 20))
-        }
-        .redacted(reason: .placeholder)
-    }
-}
-
-private struct SkeletonShimmer: View {
-    @Environment(\.colorScheme) private var colorScheme
-
-    var body: some View {
-        TimelineView(.animation) { timeline in
-            GeometryReader { geometry in
-                let phase = timeline.date.timeIntervalSinceReferenceDate
-                    .truncatingRemainder(dividingBy: 1.25) / 1.25
-                let width = geometry.size.width
-                LinearGradient(
-                    colors: [
-                        .clear,
-                        .white.opacity(colorScheme == .dark ? 0.12 : 0.35),
-                        .clear
-                    ],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .frame(width: max(width * 0.35, 80))
-                .rotationEffect(.degrees(18))
-                .offset(x: (phase * width * 1.8) - width * 0.7)
-            }
-        }
-        .allowsHitTesting(false)
-        .accessibilityHidden(true)
     }
 }
