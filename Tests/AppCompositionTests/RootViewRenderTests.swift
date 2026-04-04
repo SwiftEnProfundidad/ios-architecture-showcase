@@ -7,7 +7,7 @@ import Testing
 @MainActor
 @Suite("RootViewRender")
 struct RootViewRenderTests {
-    @Test("Root view renders the login route")
+    @Test("Given the app is logged out, when the root view is rendered, then the login route is shown")
     func rendersLoginRoute() throws {
         let tracked = makeRootViewRenderingSUT()
         defer { tracked.assertNoLeaks() }
@@ -27,7 +27,7 @@ struct RootViewRenderTests {
         #expect(data.count > 1_000)
     }
 
-    @Test("Root view renders the authenticated route")
+    @Test("Given the app is authenticated, when the root view is rendered, then the authenticated route is shown")
     func rendersAuthenticatedRoute() async throws {
         let tracked = makeObservedRootNavigationSUT()
         defer { tracked.assertNoLeaks() }

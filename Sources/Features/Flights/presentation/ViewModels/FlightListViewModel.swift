@@ -5,7 +5,11 @@ import SharedNavigation
 
 @MainActor
 @Observable
-public final class FlightListViewModel<ListExecutor: ListFlightsExecuting, SessionController: FlightListSessionControlling> {
+public final class FlightListViewModel<
+    ListExecutor: ListFlightsExecuting,
+    SessionController: FlightListSessionControlling,
+    FeedbackClock: Clock<Duration>
+> {
     public private(set) var flights: [Flight] = []
     public private(set) var isLoading = false
     public private(set) var isLoadingNextPage = false
@@ -20,6 +24,7 @@ public final class FlightListViewModel<ListExecutor: ListFlightsExecuting, Sessi
     private let sessionController: SessionController
     private let eventBus: NavigationEventPublishing
     private let passengerID: PassengerID
+    private let clock: FeedbackClock
     private let loadingFeedbackPolicy: FlightListLoadingFeedbackPolicy
     private var screenState = FlightListScreenState()
 
@@ -28,6 +33,7 @@ public final class FlightListViewModel<ListExecutor: ListFlightsExecuting, Sessi
         sessionController: SessionController,
         eventBus: NavigationEventPublishing,
         passengerID: PassengerID,
+        clock: FeedbackClock,
         minimumInitialSkeletonNanoseconds: UInt64 = 0,
         minimumNextPageSpinnerNanoseconds: UInt64 = 0
     ) {
@@ -35,32 +41,8 @@ public final class FlightListViewModel<ListExecutor: ListFlightsExecuting, Sessi
         self.sessionController = sessionController
         self.eventBus = eventBus
         self.passengerID = passengerID
+        self.clock = clock
         self.loadingFeedbackPolicy = FlightListLoadingFeedbackPolicy(
-            minimumInitialSkeletonNanoseconds: minimumInitialSkeletonNanoseconds,
-            minimumNextPageSpinnerNanoseconds: minimumNextPageSpinnerNanoseconds
-        )
-    }
-
-    public convenience init<LogoutExecutor: SessionEnding>(
-        listUseCase: ListExecutor,
-        logoutUseCase: LogoutExecutor,
-        eventBus: NavigationEventPublishing,
-        passengerID: PassengerID,
-        sessionExpiresAt: Date,
-        minimumInitialSkeletonNanoseconds: UInt64 = 0,
-        minimumNextPageSpinnerNanoseconds: UInt64 = 0,
-        currentDateProvider: @escaping () -> Date = { .now }
-    ) where SessionController == FlightListSessionController<LogoutExecutor> {
-        self.init(
-            listUseCase: listUseCase,
-            sessionController: FlightListSessionController(
-                logoutUseCase: logoutUseCase,
-                eventBus: eventBus,
-                sessionExpiresAt: sessionExpiresAt,
-                currentDateProvider: currentDateProvider
-            ),
-            eventBus: eventBus,
-            passengerID: passengerID,
             minimumInitialSkeletonNanoseconds: minimumInitialSkeletonNanoseconds,
             minimumNextPageSpinnerNanoseconds: minimumNextPageSpinnerNanoseconds
         )
@@ -131,7 +113,6 @@ public final class FlightListViewModel<ListExecutor: ListFlightsExecuting, Sessi
             screenState.finishLoad(reset: reset)
             syncPublishedState()
         }
-        let clock = ContinuousClock()
         let loadStartedAt = clock.now
         do {
             let result = try await listUseCase.execute(passengerID: passengerID, page: page)
@@ -173,5 +154,52 @@ public final class FlightListViewModel<ListExecutor: ListFlightsExecuting, Sessi
         canLoadMorePages = screenState.canLoadMorePages
         errorMessage = screenState.errorMessage
         staleMessage = screenState.staleMessage
+    }
+}
+
+extension FlightListViewModel where FeedbackClock == ContinuousClock {
+    public convenience init(
+        listUseCase: ListExecutor,
+        sessionController: SessionController,
+        eventBus: NavigationEventPublishing,
+        passengerID: PassengerID,
+        minimumInitialSkeletonNanoseconds: UInt64 = 0,
+        minimumNextPageSpinnerNanoseconds: UInt64 = 0
+    ) {
+        self.init(
+            listUseCase: listUseCase,
+            sessionController: sessionController,
+            eventBus: eventBus,
+            passengerID: passengerID,
+            clock: ContinuousClock(),
+            minimumInitialSkeletonNanoseconds: minimumInitialSkeletonNanoseconds,
+            minimumNextPageSpinnerNanoseconds: minimumNextPageSpinnerNanoseconds
+        )
+    }
+
+    public convenience init<LogoutExecutor: SessionEnding>(
+        listUseCase: ListExecutor,
+        logoutUseCase: LogoutExecutor,
+        eventBus: NavigationEventPublishing,
+        passengerID: PassengerID,
+        sessionExpiresAt: Date,
+        minimumInitialSkeletonNanoseconds: UInt64 = 0,
+        minimumNextPageSpinnerNanoseconds: UInt64 = 0,
+        currentDateProvider: @escaping () -> Date = { .now }
+    ) where SessionController == FlightListSessionController<LogoutExecutor> {
+        self.init(
+            listUseCase: listUseCase,
+            sessionController: FlightListSessionController(
+                logoutUseCase: logoutUseCase,
+                eventBus: eventBus,
+                sessionExpiresAt: sessionExpiresAt,
+                currentDateProvider: currentDateProvider
+            ),
+            eventBus: eventBus,
+            passengerID: passengerID,
+            clock: ContinuousClock(),
+            minimumInitialSkeletonNanoseconds: minimumInitialSkeletonNanoseconds,
+            minimumNextPageSpinnerNanoseconds: minimumNextPageSpinnerNanoseconds
+        )
     }
 }

@@ -65,7 +65,7 @@ In local bootstrap mode, the app intentionally starts from login so the reviewer
 
 Those layers are documented as consciously deferred, not forgotten.
 
-Internal delivery notes under `docs/governance/` exist for handoff and interview preparation, but they are not required to review the technical submission itself.
+Internal delivery notes for handoff and interview preparation are not required to review the technical submission itself.
 
 ## Artifacts worth checking
 

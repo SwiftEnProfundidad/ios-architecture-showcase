@@ -5,7 +5,7 @@ import Testing
 @Suite("AppCoordinator protected navigation")
 struct AppCoordinatorProtectedNavigationTests {
 
-    @Test("Coordinator processes event sequence correctly")
+    @Test("Given an ordered sequence of navigation events, when the coordinator processes them, then the final store state matches the expected sequence")
     func coordinatorProcessesEventSequence() async {
         let tracked = makeAppCoordinatorSUT(initial: makeAuthenticatedCoordinatorState())
         defer { tracked.assertNoLeaks() }
@@ -21,7 +21,7 @@ struct AppCoordinatorProtectedNavigationTests {
         await context.coordinator.stop()
     }
 
-    @Test("Coordinator clears persisted session when protected navigation detects an expired session")
+    @Test("Given protected navigation reports an expired session, when the coordinator handles it, then the persisted session is cleared")
     func coordinatorClearsPersistedSessionOnExpiredProtectedNavigation() async {
         let scenario = makeExpiredProtectedNavigationCoordinatorSUT()
         let tracked = scenario.tracked

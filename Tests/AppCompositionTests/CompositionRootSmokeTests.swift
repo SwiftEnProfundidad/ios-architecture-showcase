@@ -7,7 +7,7 @@ import Testing
 @MainActor
 @Suite("CompositionRootSmoke")
 struct CompositionRootSmokeTests {
-    @Test("Composition root starts idempotently and renders all entry points")
+    @Test("Given multiple start calls, when the composition root runs, then it stays idempotent and all entry points render")
     func startsAndRendersAllEntrypoints() async throws {
         let session = AppSession(
             passengerID: PassengerID("PAX-001"),

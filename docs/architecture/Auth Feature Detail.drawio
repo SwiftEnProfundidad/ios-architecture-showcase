@@ -1,6 +1,6 @@
-<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.1 Chrome/142.0.7444.265 Electron/39.8.0 Safari/537.36" version="29.6.1">
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6">
   <diagram name="Auth Feature Detail" id="auth-feature-detail-v3">
-    <mxGraphModel dx="1426" dy="727" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+    <mxGraphModel dx="2216" dy="895" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -211,6 +211,24 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="edge-showcase-auth-runtime-configuration-showcase-bootstrap-auth-url-protocol" edge="1" parent="1" source="showcase-auth-runtime-configuration" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;strokeWidth=1.5;dashed=1;dashPattern=8 4;endArrow=blockThin;endFill=1;fontColor=#CBD5E1;fontSize=11;labelBackgroundColor=#0F172A;" target="showcase-bootstrap-auth-url-protocol" value="installs bootstrap">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="auth-session" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#38BDF8;strokeWidth=1.5;fontColor=#F1F5F9;fontSize=13;fontStyle=1;align=center" value="AuthSession&#xa;passengerID · token · expiresAt" vertex="1">
+          <mxGeometry height="50" width="200" x="675" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="auth-error" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#38BDF8;strokeWidth=1.5;fontColor=#F1F5F9;fontSize=14;fontStyle=1;align=center" value="AuthError" vertex="1">
+          <mxGeometry height="40" width="200" x="675" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="logout-executing" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#F59E0B;strokeWidth=1.5;fontColor=#F1F5F9;fontSize=14;fontStyle=1;align=center" value="LogoutExecuting" vertex="1">
+          <mxGeometry height="46" width="150" x="375" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="logout-use-case" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#F59E0B;strokeWidth=1.5;fontColor=#F1F5F9;fontSize=15;fontStyle=1;align=center" value="LogoutUseCase" vertex="1">
+          <mxGeometry height="46" width="150" x="375" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-logout-use-case-logout-executing" edge="1" parent="1" source="logout-use-case" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#34D399;strokeWidth=2;endArrow=blockThin;endFill=1;fontColor=#6EE7B7;fontSize=11;labelBackgroundColor=#0F172A;" target="logout-executing" value="implements">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-logout-use-case-session-accessing" edge="1" parent="1" source="logout-use-case" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#E2E8F0;strokeWidth=1.6;dashed=1;dashPattern=6 4;endArrow=blockThin;endFill=1;fontColor=#E2E8F0;fontSize=11;labelBackgroundColor=#0F172A;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" target="session-accessing" value="uses SessionClearing">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="Fvj85UPZ9GRRF19m_ngy-1" connectable="0" parent="1" style="group" value="" vertex="1">

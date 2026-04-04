@@ -37,7 +37,7 @@ public struct ProtectedNavigationPolicy: Sendable {
             )
         }
 
-        guard session.isExpired == false else {
+        guard session.isExpired() == false else {
             return ProtectedNavigationDecision(
                 nextState: .initial,
                 shouldInvalidatePersistedSession: true

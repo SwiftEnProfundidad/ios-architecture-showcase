@@ -67,6 +67,8 @@ targets:
         product: BoardingPassFeature
       - package: iOSArchitectureShowcaseModules
         product: AppComposition
+      - package: iOSArchitectureShowcaseModules
+        product: CoverageGate
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.swiftenprofundidad.iOSArchitectureShowcaseTests

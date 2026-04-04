@@ -5,7 +5,7 @@ import Testing
 @MainActor
 @Suite("ProtectedPathCommandChannel")
 struct ProtectedPathCommandChannelTests {
-    @Test("Publishes the visible path when it differs from projected state")
+    @Test("Given the visible path differs from projected state, when synchronized, then a publish occurs")
     func publishesVisiblePathWhenItDiffersFromProjectedState() async {
         let tracked = makeProtectedPathCommandChannelSUT()
         defer { tracked.assertNoLeaks() }
@@ -20,7 +20,7 @@ struct ProtectedPathCommandChannelTests {
         #expect(await context.spy.recordedPaths() == [visiblePath])
     }
 
-    @Test("Skips publishing when the visible path already matches projected state")
+    @Test("Given the visible path matches projected state, when synchronized, then nothing is published")
     func skipsPublishingWhenVisiblePathMatchesProjectedState() async {
         let tracked = makeProtectedPathCommandChannelSUT()
         defer { tracked.assertNoLeaks() }
