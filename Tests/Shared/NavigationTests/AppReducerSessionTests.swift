@@ -41,7 +41,7 @@ struct AppReducerSessionTests {
         #expect(result == .initial)
     }
 
-    @Test("Reducer is a pure function: same input produces same output")
+    @Test("Given the same session state and event, when the reducer is applied twice, then both outputs are equal")
     func reducerIsPure() {
         let sut = makeAppReducerSUT()
         let initial = makeAuthenticatedNavigationState()

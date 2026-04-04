@@ -35,7 +35,7 @@ struct AppReducerProtectedPathTests {
         #expect(result.path == [.primaryDetail(contextID: contextID), .secondaryAttachment(contextID: contextID)])
     }
 
-    @Test("Given unauthenticated state, protected navigation events do not modify the state")
+    @Test("Given unauthenticated state, when a protected navigation event is received, then the state remains unchanged")
     func unauthenticatedProtectedRoutesDoNotChangeState() {
         let sut = makeAppReducerSUT()
         let contextID = "IB3456"
@@ -45,7 +45,7 @@ struct AppReducerProtectedPathTests {
         #expect(result == .initial)
     }
 
-    @Test("Given navigation stack, syncing the visible path rebuilds the expected protected stack")
+    @Test("Given a navigation stack with detail and attachment, when the visible path is synced progressively, then the stack is rebuilt as expected")
     func syncProtectedPathProducesExpectedPath() {
         let sut = makeAppReducerSUT()
         let contextID = "IB3456"
@@ -65,7 +65,7 @@ struct AppReducerProtectedPathTests {
         #expect(listState.path.isEmpty)
     }
 
-    @Test("SyncProtectedPath normalizes protected stacks")
+    @Test("Given a protected navigation stack, when SyncProtectedPath runs, then the stack is normalized as expected")
     func syncProtectedPathNormalizesProtectedStacks() {
         let sut = makeAppReducerSUT()
         let contextID = "IB3456"

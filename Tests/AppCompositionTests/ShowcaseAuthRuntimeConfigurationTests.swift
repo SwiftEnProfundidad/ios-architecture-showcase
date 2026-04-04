@@ -7,7 +7,7 @@ import Testing
 @Suite("ShowcaseAuthRuntimeConfiguration")
 struct ShowcaseAuthRuntimeConfigurationTests {
 
-    @Test("Empty AUTH_BASE_URL configures the bootstrap HTTP transport")
+    @Test("Given AUTH_BASE_URL is empty, when runtime is assembled, then the bootstrap HTTP transport is configured accordingly")
     func emptyBaseURLConfiguresBootstrapTransport() {
         let configuration = makeShowcaseAuthRuntimeConfigurationSUT()
         let configuredProtocolNames = configuration.session.configuration.protocolClasses?.map {
@@ -20,7 +20,7 @@ struct ShowcaseAuthRuntimeConfigurationTests {
         #expect(configuredProtocolNames.contains("ShowcaseBootstrapAuthURLProtocol"))
     }
 
-    @Test("Explicit runtime configuration can opt into restoring sessions on launch")
+    @Test("Given restore-on-launch is enabled in runtime configuration, when the app bootstraps, then sessions are restored on launch")
     func explicitConfigurationCanRestoreSessionsOnLaunch() {
         var components = URLComponents()
         components.scheme = "https"
@@ -37,7 +37,7 @@ struct ShowcaseAuthRuntimeConfigurationTests {
         #expect(configuration.launchPolicy == .restoreValidSession)
     }
 
-    @Test("Bootstrap HTTP transport authenticates the evaluation credentials")
+    @Test("Given evaluation credentials, when authenticating via bootstrap HTTP transport, then authentication succeeds")
     func bootstrapTransportAuthenticatesEvaluationCredentials() async throws {
         let configuration = makeShowcaseAuthRuntimeConfigurationSUT()
         let gateway = RemoteAuthGateway(

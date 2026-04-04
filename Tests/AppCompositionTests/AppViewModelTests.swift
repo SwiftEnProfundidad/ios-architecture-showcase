@@ -7,7 +7,7 @@ import Testing
 @Suite("AppViewModel")
 struct AppViewModelTests {
 
-    @Test("AppViewModel reflects store updates after coordinator processes an event")
+    @Test("Given the coordinator processes an event, when the store updates, then AppViewModel reflects the new state")
     func appViewModelReflectsStateChanges() async {
         let tracked = makeObservedAppViewModelSUT()
         defer { tracked.assertNoLeaks() }
@@ -36,7 +36,7 @@ struct AppViewModelTests {
         #expect(context.viewModel.path == [.primaryDetail(contextID: "IB3456")])
     }
 
-    @Test("AppViewModel stops observing once cancelled")
+    @Test("Given observation is cancelled, when further store updates occur, then AppViewModel stops receiving them")
     func appViewModelStopsReflectingStateAfterCancellation() async {
         let tracked = makeStoppedObserverAppViewModelSUT()
         defer { tracked.assertNoLeaks() }

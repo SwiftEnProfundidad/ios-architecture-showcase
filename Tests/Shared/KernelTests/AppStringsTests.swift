@@ -3,7 +3,7 @@ import Testing
 
 @Suite("AppStrings")
 struct AppStringsTests {
-    @Test("AppStrings resolves localized keys")
+    @Test("Given a localized key, when AppStrings resolves it, then the expected string is returned")
     func resolvesLocalizedKeys() {
         let sut = makeSUT()
         let title = sut.localized("auth.login.title")
@@ -14,7 +14,7 @@ struct AppStringsTests {
         #expect(productName == "iOS Architecture Showcase")
     }
 
-    @Test("AppStrings interpolates localized arguments")
+    @Test("Given a format string and arguments, when AppStrings formats it, then placeholders are interpolated")
     func interpolatesArguments() {
         let sut = makeSUT()
         let message = sut.localized(
@@ -30,7 +30,7 @@ struct AppStringsTests {
         #expect(message.contains("BCN"))
     }
 
-    @Test("AppStrings formats shared UI strings without hardcoded fallbacks")
+    @Test("Given shared UI string accessors, when they are resolved, then values come from localization without hardcoded fallbacks")
     func formatsSharedUIStrings() {
         let sut = makeSUT()
         let route = sut.localized("flights.route", "MAD", "BCN")
