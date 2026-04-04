@@ -11,7 +11,7 @@ Enterprise-grade iOS showcase for passenger authentication, flight browsing, and
 - Functional source of truth: `docs/features/`
 - Architectural/module contract: `Package.swift`
 - Xcode wiring source of truth: `project.yml`
-- Generated Xcode artifact: `iOSArchitectureShowcase.xcodeproj`
+- Generated Xcode artifact: `iOSArchitectureShowcase.xcodeproj` (must match `project.yml`; CI fails if you skip `xcodegen generate` after changing `project.yml` or test paths)
 - Official validation command: `./scripts/validate.sh`
 - Reviewer handoff: `docs/reviewer-guide.md`
 
