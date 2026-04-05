@@ -39,11 +39,18 @@ struct FlightListViewModelSessionTests {
 
     @Test("Given session expires while page load is suspended, when the page returns, then flights are discarded and SessionExpired is published")
     func loadDiscardsFlightsIfSessionExpiresDuringSuspendedPageLoad() async {
-        let tracked = makeExpiringDuringLoadFlightListViewModelSUT(sourceLocation: #_sourceLocation)
+        let scenario = makeExpiringDuringLoadFlightListViewModelSUT(sourceLocation: #_sourceLocation)
+        let tracked = scenario.tracked
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
 
-        await context.sut.load()
+        let task = Task {
+            await context.sut.load()
+        }
+        await context.listUseCase.awaitExecuteCall()
+        scenario.currentDate.value = scenario.currentDate.value.addingTimeInterval(0.2)
+        await context.listUseCase.resumeExecute()
+        await task.value
 
         #expect(context.sut.flights.isEmpty)
         #expect(await context.eventBus.lastPublishedEvent == .sessionEnded(.expired))
@@ -59,9 +66,14 @@ struct FlightListViewModelSessionTests {
 
         await context.sut.load()
         #expect(context.sut.flights.first?.status == .onTime)
-        scenario.currentDate.value = scenario.currentDate.value.addingTimeInterval(0.2)
 
-        await context.sut.refresh()
+        let task = Task {
+            await context.sut.refresh()
+        }
+        await context.listUseCase.awaitRefreshCall()
+        scenario.currentDate.value = scenario.currentDate.value.addingTimeInterval(0.2)
+        await context.listUseCase.resumeRefresh()
+        await task.value
 
         #expect(context.sut.flights.first?.status == .onTime)
         #expect(await context.eventBus.lastPublishedEvent == .sessionEnded(.expired))

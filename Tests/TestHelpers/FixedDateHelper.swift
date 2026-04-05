@@ -10,5 +10,5 @@ func fixedDate(hour: Int, minute: Int) -> Date {
             hour: hour,
             minute: minute
         )
-    ) ?? .now
+    )!
 }

@@ -40,20 +40,33 @@ actor ListFlightsUseCaseSpy: ListFlightsExecuting {
     }
 }
 
-actor SlowListFlightsUseCaseSpy: ListFlightsExecuting {
+actor SuspendedExecuteListFlightsUseCaseSpy: ListFlightsExecuting {
     private let result: FlightListResult
+    private var continuation: CheckedContinuation<FlightListResult, Error>?
+    private(set) var executeWasCalled = false
 
     init(result: FlightListResult) {
         self.result = result
     }
 
     func execute(passengerID: PassengerID, page: Int) async throws -> FlightListResult {
-        try await Task.sleep(nanoseconds: 150_000_000)
-        return result
+        executeWasCalled = true
+        return try await withCheckedThrowingContinuation { self.continuation = $0 }
     }
 
     func refreshAll(flightIDs: [FlightID]) async throws -> [Flight] {
         []
+    }
+
+    func awaitExecuteCall() async {
+        while !executeWasCalled {
+            await Task.yield()
+        }
+    }
+
+    func resumeExecute() {
+        continuation?.resume(returning: result)
+        continuation = nil
     }
 }
 
@@ -73,34 +86,15 @@ actor InstantListFlightsUseCaseSpy: ListFlightsExecuting {
     }
 }
 
-actor SlowExpiringListFlightsUseCaseSpy: ListFlightsExecuting {
-    private let result: FlightListResult
-    private let delayNanoseconds: UInt64
-
-    init(result: FlightListResult, delayNanoseconds: UInt64) {
-        self.result = result
-        self.delayNanoseconds = delayNanoseconds
-    }
-
-    func execute(passengerID: PassengerID, page: Int) async throws -> FlightListResult {
-        try await Task.sleep(nanoseconds: delayNanoseconds)
-        return result
-    }
-
-    func refreshAll(flightIDs: [FlightID]) async throws -> [Flight] {
-        []
-    }
-}
-
-actor RefreshDelayListFlightsUseCaseSpy: ListFlightsExecuting {
+actor SuspendedRefreshListFlightsUseCaseSpy: ListFlightsExecuting {
     private let pageResult: FlightListResult
     private let refreshedFlights: [Flight]
-    private let delayNanoseconds: UInt64
+    private var continuation: CheckedContinuation<[Flight], Error>?
+    private(set) var refreshWasCalled = false
 
-    init(pageResult: FlightListResult, refreshedFlights: [Flight], delayNanoseconds: UInt64) {
+    init(pageResult: FlightListResult, refreshedFlights: [Flight]) {
         self.pageResult = pageResult
         self.refreshedFlights = refreshedFlights
-        self.delayNanoseconds = delayNanoseconds
     }
 
     func execute(passengerID: PassengerID, page: Int) async throws -> FlightListResult {
@@ -108,8 +102,19 @@ actor RefreshDelayListFlightsUseCaseSpy: ListFlightsExecuting {
     }
 
     func refreshAll(flightIDs: [FlightID]) async throws -> [Flight] {
-        try await Task.sleep(nanoseconds: delayNanoseconds)
-        return refreshedFlights
+        refreshWasCalled = true
+        return try await withCheckedThrowingContinuation { self.continuation = $0 }
+    }
+
+    func awaitRefreshCall() async {
+        while !refreshWasCalled {
+            await Task.yield()
+        }
+    }
+
+    func resumeRefresh() {
+        continuation?.resume(returning: refreshedFlights)
+        continuation = nil
     }
 }
 
