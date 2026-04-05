@@ -200,9 +200,9 @@ func makeStaleCacheFlightListLoadingSUT(
 func makePendingFirstPageFlightListLoadingSUT(
     passengerID: PassengerID = defaultFlightListPassengerID,
     sourceLocation: SourceLocation = #_sourceLocation
-) -> TrackedTestContext<SessionBoundFlightListViewModelTestContext<SlowListFlightsUseCaseSpy, SessionEndingSpy, ContinuousClock>> {
+) -> TrackedTestContext<SessionBoundFlightListViewModelTestContext<SuspendedExecuteListFlightsUseCaseSpy, SessionEndingSpy, ContinuousClock>> {
     makeSessionBoundFlightListViewModelSUT(
-        listUseCase: SlowListFlightsUseCaseSpy(
+        listUseCase: SuspendedExecuteListFlightsUseCaseSpy(
             result: makePageResult(
                 flightIDs: ["IB1001"],
                 passengerID: passengerID,
@@ -371,32 +371,42 @@ func makeExpiredSessionFlightListViewModelSUT(
 }
 
 @MainActor
+struct ExpiringDuringLoadFlightListViewModelScenario {
+    let tracked: TrackedTestContext<
+        SessionBoundFlightListViewModelTestContext<SuspendedExecuteListFlightsUseCaseSpy, SessionEndingSpy, ContinuousClock>
+    >
+    let currentDate: CurrentDateStub
+}
+
+@MainActor
 func makeExpiringDuringLoadFlightListViewModelSUT(
     passengerID: PassengerID = defaultFlightListPassengerID,
     sourceLocation: SourceLocation = #_sourceLocation
-) -> TrackedTestContext<SessionBoundFlightListViewModelTestContext<SlowExpiringListFlightsUseCaseSpy, SessionEndingSpy, ContinuousClock>> {
-    makeSessionBoundFlightListViewModelSUT(
-        listUseCase: SlowExpiringListFlightsUseCaseSpy(
+) -> ExpiringDuringLoadFlightListViewModelScenario {
+    let currentDate = CurrentDateStub(value: .now)
+    let tracked = makeSessionBoundFlightListViewModelSUT(
+        listUseCase: SuspendedExecuteListFlightsUseCaseSpy(
             result: FlightListResult(
                 flights: [Flight.stub(id: FlightID("IB1001"), passengerID: passengerID)],
                 source: .remote,
                 isStale: false,
                 page: 1,
                 hasMorePages: false
-            ),
-            delayNanoseconds: 150_000_000
+            )
         ),
         logoutUseCase: SessionEndingSpy(),
         passengerID: passengerID,
-        sessionExpiresAt: Date().addingTimeInterval(0.05),
+        sessionExpiresAt: currentDate.value.addingTimeInterval(0.15),
+        currentDateProvider: { currentDate.value },
         sourceLocation: sourceLocation
     )
+    return ExpiringDuringLoadFlightListViewModelScenario(tracked: tracked, currentDate: currentDate)
 }
 
 @MainActor
 struct ExpiringRefreshFlightListViewModelScenario {
     let tracked: TrackedTestContext<
-        SessionBoundFlightListViewModelTestContext<RefreshDelayListFlightsUseCaseSpy, SessionEndingSpy, ContinuousClock>
+        SessionBoundFlightListViewModelTestContext<SuspendedRefreshListFlightsUseCaseSpy, SessionEndingSpy, ContinuousClock>
     >
     let currentDate: CurrentDateStub
 }
@@ -408,7 +418,7 @@ func makeExpiringDuringRefreshFlightListViewModelSUT(
 ) -> ExpiringRefreshFlightListViewModelScenario {
     let currentDate = CurrentDateStub(value: .now)
     let tracked = makeSessionBoundFlightListViewModelSUT(
-        listUseCase: RefreshDelayListFlightsUseCaseSpy(
+        listUseCase: SuspendedRefreshListFlightsUseCaseSpy(
             pageResult: FlightListResult(
                 flights: [Flight.stub(id: FlightID("IB1001"), passengerID: passengerID, status: .onTime)],
                 source: .remote,
@@ -416,8 +426,7 @@ func makeExpiringDuringRefreshFlightListViewModelSUT(
                 page: 1,
                 hasMorePages: false
             ),
-            refreshedFlights: [Flight.stub(id: FlightID("IB1001"), passengerID: passengerID, status: .delayed)],
-            delayNanoseconds: 300_000_000
+            refreshedFlights: [Flight.stub(id: FlightID("IB1001"), passengerID: passengerID, status: .delayed)]
         ),
         logoutUseCase: SessionEndingSpy(),
         passengerID: passengerID,

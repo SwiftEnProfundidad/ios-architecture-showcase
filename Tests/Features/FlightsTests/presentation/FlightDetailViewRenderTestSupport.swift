@@ -23,8 +23,8 @@ func makeSuspendedFlightDetailViewRenderSUT(
 func makeImmediateFlightDetailViewRenderSUT(
     result: Result<FlightDetail, Error>,
     flightID: FlightID
-) -> TrackedTestContext<FlightDetailViewRenderContext<ImmediateFlightDetailExecutor>> {
-    let executor = ImmediateFlightDetailExecutor(result: result)
+) -> TrackedTestContext<FlightDetailViewRenderContext<FlightDetailExecutor>> {
+    let executor = FlightDetailExecutor(result: result)
     let eventBus = NavigationEventBusSpy()
     let sut = FlightDetailViewModel(
         detailUseCase: executor,

@@ -91,8 +91,8 @@ struct FlightDetailViewModelTests {
         let lastEvent = await context.eventBus.lastPublishedEvent
         #expect(
             lastEvent == .requestProtectedPath([
-                .primaryDetail(contextID: "IB3456"),
-                .secondaryAttachment(contextID: "IB3456")
+                .primaryDetail(contextID: FlightID("IB3456")),
+                .secondaryAttachment(contextID: FlightID("IB3456"))
             ])
         )
     }

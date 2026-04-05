@@ -28,10 +28,11 @@ struct FlightListViewModelLoadingTests {
         let task = Task {
             await context.sut.load()
         }
-        await Task.yield()
+        await context.listUseCase.awaitExecuteCall()
 
         #expect(context.sut.isShowingInitialSkeleton)
 
+        await context.listUseCase.resumeExecute()
         await task.value
 
         #expect(context.sut.isShowingInitialSkeleton == false)
