@@ -74,3 +74,11 @@ Feature: Enterprise testing strategy and coverage governance
     When the tests import AppComposition
     Then the suites do not rely on @testable imports
     And the exercised public types remain reviewable through explicit module contracts
+
+  Rule: Gherkin under docs/features is the behavioral source of truth; tests prove it
+
+  Scenario: Auth login error handling stays aligned with the feature file and Swift tests
+    Given docs/features/auth.feature describes malformed HTTP 200 login responses alongside other failure modes
+    When the reviewer traces behavior from specification to code
+    Then RemoteAuthGatewayTests encodes the gateway mapping for undecodable 200 bodies
+    And AuthViewModelLoginTests encodes session rejection and the shared network error copy for that domain outcome

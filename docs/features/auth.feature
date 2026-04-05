@@ -45,6 +45,17 @@ Feature: Passenger authentication and session management
     And navigation remains on the login route
     And the passenger can retry the operation
 
+  Rule: Successful HTTP status alone is not enough; the login payload must be decodable
+
+  Scenario: Server returns HTTP success with a malformed login payload
+    Given the authentication transport completes successfully
+    And the gateway receives HTTP 200 with a body that cannot be decoded as a login session
+    When the passenger submits valid credentials
+    Then the system rejects the authentication
+    And no authenticated session is created
+    And navigation remains on the login route
+    And the app shows the same connectivity error string used for network failures
+
   Rule: Input validation must stop invalid requests before leaving the device
 
   Scenario Outline: Malformed credentials are rejected before remote authentication is invoked

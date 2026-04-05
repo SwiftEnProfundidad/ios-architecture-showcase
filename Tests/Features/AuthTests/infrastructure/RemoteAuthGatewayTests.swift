@@ -60,4 +60,16 @@ struct RemoteAuthGatewayTests {
             try await context.sut.authenticate(email: "carlos@iberia.com", password: "Secure123!")
         }
     }
+
+    @Test("Given HTTP 200 with malformed JSON, when the gateway maps the response, then invalid server response is produced")
+    func malformedSuccessBodyMapsToInvalidServerResponse() async {
+        let tracked = makeRemoteAuthGatewaySUT()
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
+        await context.client.stub(result: .success(HTTPResponse(statusCode: 200, data: Data("{".utf8))))
+
+        await #expect(throws: AuthError.invalidServerResponse) {
+            try await context.sut.authenticate(email: "carlos@iberia.com", password: "Secure123!")
+        }
+    }
 }

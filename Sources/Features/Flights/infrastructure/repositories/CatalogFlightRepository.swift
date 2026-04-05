@@ -2,6 +2,10 @@ import Foundation
 import OSLog
 import SharedKernel
 
+private enum CatalogEvaluationDefaults {
+    static let refreshMutationFlightID = FlightID("IB3456")
+}
+
 public actor CatalogFlightRepository: FlightRepositoryProtocol {
     private let logger = Logger(subsystem: LoggerSubsystem.app, category: "flights.repository")
     private let dataSource: CatalogFlightDataSource
@@ -35,7 +39,7 @@ public actor CatalogFlightRepository: FlightRepositoryProtocol {
             cacheStore: FlightCacheStore(
                 cacheURL: cacheDirectory.appendingPathComponent("flight-cache.json", isDirectory: false)
             ),
-            refreshMutator: EvaluationFlightRefreshMutator(targetFlightID: FlightID("IB3456"))
+            refreshMutator: EvaluationFlightRefreshMutator(targetFlightID: CatalogEvaluationDefaults.refreshMutationFlightID)
         )
     }
 
