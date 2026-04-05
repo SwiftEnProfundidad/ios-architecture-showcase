@@ -3,29 +3,41 @@ import OSLog
 import SharedKernel
 
 public actor CatalogFlightRepository: FlightRepositoryProtocol {
-    private let logger = Logger(subsystem: "com.swiftenprofundidad.iOSArchitectureShowcase", category: "flights.repository")
+    private let logger = Logger(subsystem: LoggerSubsystem.app, category: "flights.repository")
     private let dataSource: CatalogFlightDataSource
     private let cacheStore: FlightCacheStore
     private let refreshMutator: EvaluationFlightRefreshMutator
     private let pageProjector = FlightPageProjector()
     private var state = CatalogFlightRepositoryState()
 
-    public init(
+    init(
+        dataSource: CatalogFlightDataSource,
+        cacheStore: FlightCacheStore,
+        refreshMutator: EvaluationFlightRefreshMutator
+    ) {
+        self.dataSource = dataSource
+        self.cacheStore = cacheStore
+        self.refreshMutator = refreshMutator
+    }
+
+    public static func catalog(
         fileManager: FileManager = .default,
         cacheDirectoryURL: URL? = nil
-    ) {
+    ) -> CatalogFlightRepository {
         let cacheDirectory = cacheDirectoryURL ?? {
             let appSupportURL = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first ?? fileManager.temporaryDirectory
             return appSupportURL
                 .appendingPathComponent("iOSArchitectureShowcase", isDirectory: true)
                 .appendingPathComponent("Flights", isDirectory: true)
         }()
-        self.dataSource = CatalogFlightDataSource(bundle: .module)
-        self.cacheStore = FlightCacheStore(
-            fileManager: fileManager,
-            cacheURL: cacheDirectory.appendingPathComponent("flight-cache.json", isDirectory: false)
+        return CatalogFlightRepository(
+            dataSource: CatalogFlightDataSource(bundle: .module),
+            cacheStore: FlightCacheStore(
+                fileManager: fileManager,
+                cacheURL: cacheDirectory.appendingPathComponent("flight-cache.json", isDirectory: false)
+            ),
+            refreshMutator: EvaluationFlightRefreshMutator(targetFlightID: FlightID("IB3456"))
         )
-        self.refreshMutator = EvaluationFlightRefreshMutator()
     }
 
     public func fetchPage(passengerID: PassengerID, page: Int, pageSize: Int) async throws -> FlightListResult {
