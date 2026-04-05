@@ -26,7 +26,7 @@ final class ShowcaseBootstrapAuthURLProtocol: URLProtocol {
 
     override func startLoading() {
         guard let client else {
-            return
+            preconditionFailure("URLProtocol.startLoading() invoked without client")
         }
         let configuration = Self.state.withLock { $0 }
         let response = Self.responseHandler.handleRequest(request, configuration: configuration)

@@ -48,6 +48,22 @@ struct AuthViewModelLoginTests {
         #expect(context.sut.errorMessage == AppStrings.localized("auth.error.invalidCredentials"))
     }
 
+    @Test("Given invalid server response, when login fails, then SessionStartRejected is published and the network error string is shown")
+    func invalidServerResponseMapsToNetworkMessage() async {
+        let tracked = makeAuthViewModelSUT()
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
+        await context.loginUseCase.stub(result: .failure(AuthError.invalidServerResponse))
+        context.sut.email = "carlos@iberia.com"
+        context.sut.password = "Secure123!"
+
+        await context.sut.login()
+
+        let publishedEvent = await context.eventBus.lastPublishedEvent
+        #expect(publishedEvent == .sessionStartRejected)
+        #expect(context.sut.errorMessage == AppStrings.localized("auth.error.network"))
+    }
+
     @Test("Given quick access is triggered, when login runs, then it uses the configured evaluation credentials without manual entry")
     func quickAccessUsesConfiguredEvaluationCredentials() async {
         let session = makeAuthSession(token: "tok-quick", hour: 13, minute: 30)

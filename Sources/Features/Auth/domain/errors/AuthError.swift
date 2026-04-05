@@ -3,5 +3,6 @@ public enum AuthError: Error, Equatable, Sendable {
     case invalidEmailFormat
     case sessionExpired
     case network
+    case invalidServerResponse
     case storage
 }

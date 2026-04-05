@@ -46,7 +46,7 @@ public struct RemoteAuthGateway<Client: HTTPClient>: AuthGatewayProtocol {
         switch response.statusCode {
         case 200:
             guard let sessionResponse = try? decoder.decode(LoginResponseBody.self, from: response.data) else {
-                throw AuthError.network
+                throw AuthError.invalidServerResponse
             }
             return AuthSession(
                 passengerID: PassengerID(sessionResponse.passengerID),

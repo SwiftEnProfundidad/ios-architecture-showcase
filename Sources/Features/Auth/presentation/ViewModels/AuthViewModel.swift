@@ -86,7 +86,7 @@ public final class AuthViewModel<LoginExecutor: LoginExecuting> {
         case .invalidCredentials: AppStrings.localized("auth.error.invalidCredentials")
         case .invalidEmailFormat: AppStrings.localized("auth.error.invalidEmailFormat")
         case .sessionExpired: AppStrings.localized("auth.error.sessionExpired")
-        case .network: AppStrings.localized("auth.error.network")
+        case .network, .invalidServerResponse: AppStrings.localized("auth.error.network")
         case .storage: AppStrings.localized("auth.error.unexpected")
         }
     }
