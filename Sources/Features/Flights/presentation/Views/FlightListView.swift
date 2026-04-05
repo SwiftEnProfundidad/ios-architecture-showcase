@@ -151,7 +151,7 @@ public struct FlightListView<ListExecutor: ListFlightsExecuting, SessionControll
                     .accessibilityLabel(AppStrings.localized("flights.list.loadingMore"))
             } else {
                 Color.clear
-                    .frame(width: 1, height: 1)
+                    .frame(width: ShowcaseLayout.Skeleton.List.paginationSpacer, height: ShowcaseLayout.Skeleton.List.paginationSpacer)
                     .accessibilityHidden(true)
             }
             Spacer()

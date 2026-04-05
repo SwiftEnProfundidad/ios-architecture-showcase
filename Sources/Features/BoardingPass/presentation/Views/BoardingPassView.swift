@@ -131,13 +131,13 @@ public struct BoardingPassView<UseCase: BoardingPassGetting>: View {
             VStack(spacing: ShowcaseLayout.Space.hero) {
                 RoundedRectangle(cornerRadius: ShowcaseLayout.Radius.card)
                     .fill(.thinMaterial)
-                    .frame(height: 104)
+                    .frame(height: ShowcaseLayout.Skeleton.BoardingPass.headerBlockHeight)
                 RoundedRectangle(cornerRadius: ShowcaseLayout.Radius.card)
                     .fill(.thinMaterial)
-                    .frame(height: 278)
+                    .frame(height: ShowcaseLayout.Skeleton.BoardingPass.qrBlockHeight)
                 RoundedRectangle(cornerRadius: ShowcaseLayout.Radius.card)
                     .fill(.thinMaterial)
-                    .frame(height: 144)
+                    .frame(height: ShowcaseLayout.Skeleton.BoardingPass.detailsBlockHeight)
             }
             .redacted(reason: .placeholder)
             .frame(maxWidth: ShowcaseLayout.ContentWidth.detail)

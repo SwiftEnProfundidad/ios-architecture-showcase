@@ -1,3 +1,4 @@
+import SharedKernel
 import SwiftUI
 
 struct SkeletonShimmer: View {
@@ -6,8 +7,9 @@ struct SkeletonShimmer: View {
     var body: some View {
         TimelineView(.animation) { timeline in
             GeometryReader { geometry in
+                let cycle = ShowcaseLayout.Skeleton.Shimmer.cycleDuration
                 let phase = timeline.date.timeIntervalSinceReferenceDate
-                    .truncatingRemainder(dividingBy: 1.25) / 1.25
+                    .truncatingRemainder(dividingBy: cycle) / cycle
                 let width = geometry.size.width
                 LinearGradient(
                     colors: [
@@ -18,9 +20,9 @@ struct SkeletonShimmer: View {
                     startPoint: .top,
                     endPoint: .bottom
                 )
-                .frame(width: max(width * 0.35, 80))
-                .rotationEffect(.degrees(18))
-                .offset(x: (phase * width * 1.8) - width * 0.7)
+                .frame(width: max(width * ShowcaseLayout.Skeleton.Shimmer.highlightWidthRatio, ShowcaseLayout.Skeleton.Shimmer.minHighlightWidth))
+                .rotationEffect(.degrees(ShowcaseLayout.Skeleton.Shimmer.rotationDegrees))
+                .offset(x: (phase * width * ShowcaseLayout.Skeleton.Shimmer.offsetPhaseMultiplier) - width * ShowcaseLayout.Skeleton.Shimmer.offsetBaseMultiplier)
             }
         }
         .allowsHitTesting(false)

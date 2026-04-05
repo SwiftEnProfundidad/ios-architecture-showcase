@@ -131,14 +131,14 @@ public struct FlightDetailView<DetailUseCase: FlightDetailGetting>: View {
                 VStack(alignment: .leading, spacing: ShowcaseLayout.Space.lg) {
                     RoundedRectangle(cornerRadius: ShowcaseLayout.Radius.line)
                         .fill(.primary.opacity(0.16))
-                        .frame(width: 110, height: 28)
+                        .frame(width: ShowcaseLayout.Skeleton.Detail.titleWidth, height: ShowcaseLayout.Skeleton.Detail.titleHeight)
                     RoundedRectangle(cornerRadius: ShowcaseLayout.Radius.line)
                         .fill(.primary.opacity(0.10))
-                        .frame(width: 180, height: 18)
+                        .frame(width: ShowcaseLayout.Skeleton.Detail.subtitleWidth, height: ShowcaseLayout.Skeleton.Detail.subtitleHeight)
                     ForEach(0..<2, id: \.self) { _ in
                         RoundedRectangle(cornerRadius: ShowcaseLayout.Radius.line)
                             .fill(.primary.opacity(0.10))
-                            .frame(height: 20)
+                            .frame(height: ShowcaseLayout.Skeleton.Detail.rowLineHeight)
                     }
                 }
                 .padding(ShowcaseLayout.Inset.card)
@@ -146,15 +146,15 @@ public struct FlightDetailView<DetailUseCase: FlightDetailGetting>: View {
 
                 RoundedRectangle(cornerRadius: ShowcaseLayout.Radius.card)
                     .fill(.thinMaterial)
-                    .frame(height: 92)
+                    .frame(height: ShowcaseLayout.Skeleton.Detail.weatherBlockHeight)
                     .overlay {
                         VStack(alignment: .leading, spacing: ShowcaseLayout.Space.md) {
                             RoundedRectangle(cornerRadius: ShowcaseLayout.Radius.line)
                                 .fill(.primary.opacity(0.16))
-                                .frame(width: 140, height: 18)
+                                .frame(width: ShowcaseLayout.Skeleton.Detail.weatherLine1Width, height: ShowcaseLayout.Skeleton.Detail.weatherLine1Height)
                             RoundedRectangle(cornerRadius: ShowcaseLayout.Radius.line)
                                 .fill(.primary.opacity(0.10))
-                                .frame(width: 180, height: 16)
+                                .frame(width: ShowcaseLayout.Skeleton.Detail.weatherLine2Width, height: ShowcaseLayout.Skeleton.Detail.weatherLine2Height)
                         }
                         .padding(ShowcaseLayout.Inset.card)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -162,7 +162,7 @@ public struct FlightDetailView<DetailUseCase: FlightDetailGetting>: View {
 
                 RoundedRectangle(cornerRadius: ShowcaseLayout.Radius.block)
                     .fill(.primary.opacity(0.10))
-                    .frame(height: 52)
+                    .frame(height: ShowcaseLayout.Skeleton.Detail.actionPlaceholderHeight)
             }
             .redacted(reason: .placeholder)
             .frame(maxWidth: ShowcaseLayout.ContentWidth.detail)

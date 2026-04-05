@@ -9,19 +9,19 @@ struct FlightSkeletonRow: View {
             VStack(alignment: .leading, spacing: ShowcaseLayout.Space.md) {
                 RoundedRectangle(cornerRadius: ShowcaseLayout.Radius.badge)
                     .fill(.primary.opacity(0.16))
-                    .frame(width: 78, height: 16)
+                    .frame(width: ShowcaseLayout.Skeleton.ListRow.primaryLineWidth, height: ShowcaseLayout.Skeleton.ListRow.primaryLineHeight)
                 RoundedRectangle(cornerRadius: ShowcaseLayout.Radius.badge)
                     .fill(.primary.opacity(0.10))
-                    .frame(width: 120, height: 12)
+                    .frame(width: ShowcaseLayout.Skeleton.ListRow.secondaryLineWidth, height: ShowcaseLayout.Skeleton.ListRow.secondaryLineHeight)
             }
             Spacer()
             VStack(alignment: .trailing, spacing: ShowcaseLayout.Space.md) {
                 RoundedRectangle(cornerRadius: ShowcaseLayout.Radius.badge)
                     .fill(.primary.opacity(0.16))
-                    .frame(width: 48, height: 14)
+                    .frame(width: ShowcaseLayout.Skeleton.ListRow.trailingShortWidth, height: ShowcaseLayout.Skeleton.ListRow.trailingShortHeight)
                 RoundedRectangle(cornerRadius: ShowcaseLayout.Radius.pill)
                     .fill(.primary.opacity(0.10))
-                    .frame(width: 72, height: 22)
+                    .frame(width: ShowcaseLayout.Skeleton.ListRow.pillWidth, height: ShowcaseLayout.Skeleton.ListRow.pillHeight)
             }
         }
         .padding(ShowcaseLayout.Inset.row)

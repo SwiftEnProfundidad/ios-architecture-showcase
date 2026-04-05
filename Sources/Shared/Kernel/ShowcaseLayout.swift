@@ -54,4 +54,50 @@ public enum ShowcaseLayout {
     public enum QR {
         public static let side: CGFloat = 220
     }
+
+    public enum Skeleton {
+        public enum ListRow {
+            public static let primaryLineWidth: CGFloat = 78
+            public static let primaryLineHeight: CGFloat = 16
+            public static let secondaryLineWidth: CGFloat = 120
+            public static let secondaryLineHeight: CGFloat = 12
+            public static let trailingShortWidth: CGFloat = 48
+            public static let trailingShortHeight: CGFloat = 14
+            public static let pillWidth: CGFloat = 72
+            public static let pillHeight: CGFloat = 22
+        }
+
+        public enum Detail {
+            public static let titleWidth: CGFloat = 110
+            public static let titleHeight: CGFloat = 28
+            public static let subtitleWidth: CGFloat = 180
+            public static let subtitleHeight: CGFloat = 18
+            public static let rowLineHeight: CGFloat = 20
+            public static let weatherBlockHeight: CGFloat = 92
+            public static let weatherLine1Width: CGFloat = 140
+            public static let weatherLine1Height: CGFloat = 18
+            public static let weatherLine2Width: CGFloat = 180
+            public static let weatherLine2Height: CGFloat = 16
+            public static let actionPlaceholderHeight: CGFloat = 52
+        }
+
+        public enum BoardingPass {
+            public static let headerBlockHeight: CGFloat = 104
+            public static let qrBlockHeight: CGFloat = 278
+            public static let detailsBlockHeight: CGFloat = 144
+        }
+
+        public enum List {
+            public static let paginationSpacer: CGFloat = 1
+        }
+
+        public enum Shimmer {
+            public static let highlightWidthRatio: CGFloat = 0.35
+            public static let minHighlightWidth: CGFloat = 80
+            public static let cycleDuration: Double = 1.25
+            public static let rotationDegrees: CGFloat = 18
+            public static let offsetPhaseMultiplier: CGFloat = 1.8
+            public static let offsetBaseMultiplier: CGFloat = 0.7
+        }
+    }
 }
