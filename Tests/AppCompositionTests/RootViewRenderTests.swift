@@ -44,7 +44,7 @@ struct RootViewRenderTests {
             AppState(
                 rootRoute: .authenticatedHome,
                 session: session,
-                path: [.primaryDetail(contextID: "IB3456")]
+                path: [.primaryDetail(contextID: FlightID("IB3456"))]
             )
         )
 

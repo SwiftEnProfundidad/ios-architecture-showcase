@@ -23,17 +23,17 @@ struct AppViewModelTests {
 
         await context.coordinator.start()
         await context.bus.publish(.sessionStarted(session))
-        await context.bus.publish(.requestProtectedPath([.primaryDetail(contextID: "IB3456")]))
+        await context.bus.publish(.requestProtectedPath([.primaryDetail(contextID: FlightID("IB3456"))]))
 
         await eventually {
             context.viewModel.rootRoute == .authenticatedHome &&
             context.viewModel.session?.passengerID == PassengerID("PAX-001") &&
-            context.viewModel.path == [.primaryDetail(contextID: "IB3456")]
+            context.viewModel.path == [.primaryDetail(contextID: FlightID("IB3456"))]
         }
 
         #expect(context.viewModel.rootRoute == .authenticatedHome)
         #expect(context.viewModel.session?.expiresAt == expiresAt)
-        #expect(context.viewModel.path == [.primaryDetail(contextID: "IB3456")])
+        #expect(context.viewModel.path == [.primaryDetail(contextID: FlightID("IB3456"))])
     }
 
     @Test("Given observation is cancelled, when further store updates occur, then AppViewModel stops receiving them")
@@ -54,7 +54,7 @@ struct AppViewModelTests {
             AppState(
                 rootRoute: .authenticatedHome,
                 session: session,
-                path: [.primaryDetail(contextID: "IB3456")]
+                path: [.primaryDetail(contextID: FlightID("IB3456"))]
             )
         )
 

@@ -4,7 +4,6 @@ public actor AppCoordinator<Bus: NavigationEventBus> {
     private let bus: Bus
     private let store: AppStateStore
     private let reducer: AppReducer
-    private let protectedNavigationPolicy: ProtectedNavigationPolicy
     private let invalidatePersistedSession: (@Sendable () async -> Void)?
     private var listenerTask: Task<Void, Never>?
 
@@ -12,13 +11,11 @@ public actor AppCoordinator<Bus: NavigationEventBus> {
         bus: Bus,
         store: AppStateStore,
         reducer: AppReducer = AppReducer(),
-        protectedNavigationPolicy: ProtectedNavigationPolicy = ProtectedNavigationPolicy(),
         invalidatePersistedSession: (@Sendable () async -> Void)? = nil
     ) {
         self.bus = bus
         self.store = store
         self.reducer = reducer
-        self.protectedNavigationPolicy = protectedNavigationPolicy
         self.invalidatePersistedSession = invalidatePersistedSession
     }
 
@@ -33,18 +30,13 @@ public actor AppCoordinator<Bus: NavigationEventBus> {
         let stream = await bus.events()
         let capturedStore = store
         let capturedReducer = reducer
-        let capturedProtectedNavigationPolicy = protectedNavigationPolicy
         let capturedInvalidator = invalidatePersistedSession
         listenerTask = Task {
             for await event in stream {
                 guard !Task.isCancelled else { break }
                 let current = await capturedStore.currentState
-                let protectedNavigationDecision = capturedProtectedNavigationPolicy.evaluate(
-                    current: current,
-                    event: event
-                )
-                let next = protectedNavigationDecision?.nextState ?? capturedReducer.reduce(current, event: event)
-                if protectedNavigationDecision?.shouldInvalidatePersistedSession == true {
+                let next = capturedReducer.reduce(current, event: event)
+                if current.session?.isExpired() == true && next.session == nil {
                     await capturedInvalidator?()
                 }
                 await capturedStore.apply(next)
