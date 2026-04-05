@@ -53,6 +53,7 @@ In local bootstrap mode, the app intentionally starts from login so the reviewer
    - `FlightsFeature`
    - `BoardingPassFeature`
    - `AppComposition`
+   - `CoverageGate` (tooling library exercised by tests and validation scripts)
 2. Confirm that feature modules depend only on shared modules, not on each other.
 3. Open `Sources/AppComposition/CompositionRoot.swift` and verify that composition is the single place that wires all features together.
 4. Open `Sources/Shared/Navigation/` and verify that navigation state, reducer, eventing, and coordination are isolated from feature implementation details.
@@ -86,7 +87,7 @@ Internal delivery notes for handoff and interview preparation are not required t
 | Navigation is event-driven and centralized | `Sources/Shared/Navigation/` |
 | BDD is the behavioral source of truth | `docs/features/` |
 | Local and CI validation use the same contract | `scripts/validate.sh` + `.github/workflows/ci.yml` |
-| Coverage is enforced as a gate | `scripts/coverage_gate.py` + `scripts/validate.sh` |
+| Coverage is enforced as a gate | `Sources/Tooling/CoverageGate/` + `scripts/coverage_gate.py` + `scripts/validate.sh` |
 | Showcase auth is HTTP-shaped and not a separate fake flow | `Sources/AppComposition/Runtime/Auth/ShowcaseAuthRuntimeConfiguration.swift` + `Sources/AppComposition/Runtime/Auth/ShowcaseBootstrapAuthURLProtocol.swift` |
 | Secure session persistence exists in runtime | `Sources/Features/Auth/infrastructure/repositories/KeychainSessionStore.swift` |
 | Flights demonstrate pagination, refresh, and cache fallback | `Sources/Features/Flights/` + `docs/features/flights.feature` |

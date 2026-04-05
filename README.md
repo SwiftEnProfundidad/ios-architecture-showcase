@@ -62,6 +62,7 @@ Editable diagrams live in `docs/architecture/*.drawio`. The `PNG` previews below
 | `SharedKernel` | Shared IDs, entities/contracts, localized strings, layout tokens, screen palette, and logging subsystem |
 | `SharedNetworking` | HTTP client protocol and URLSession transport shared across features |
 | `AppComposition` | Composition root, runtime wiring, session restoration, and scene assembly |
+| `CoverageGate` | Tooling-only coverage threshold evaluation used by tests and `validate.sh` (not linked into the app) |
 
 ## Repository map
 
@@ -78,6 +79,8 @@ Sources/
     Kernel/
     Networking/
     Navigation/
+  Tooling/
+    CoverageGate/
 Tests/
 docs/
   architecture/
