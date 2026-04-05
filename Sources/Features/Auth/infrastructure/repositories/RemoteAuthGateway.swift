@@ -1,5 +1,6 @@
 import Foundation
 import SharedKernel
+import SharedNetworking
 
 public struct RemoteAuthGateway<Client: HTTPClient>: AuthGatewayProtocol {
     private let client: Client
@@ -47,15 +48,12 @@ public struct RemoteAuthGateway<Client: HTTPClient>: AuthGatewayProtocol {
                 expiresAt: sessionResponse.expiresAt
             )
         case 401:
-            return try invalidCredentials()
+            throw AuthError.invalidCredentials
         default:
             throw AuthError.network
         }
     }
 
-    private func invalidCredentials() throws -> AuthSession {
-        throw AuthError.invalidCredentials
-    }
 }
 
 private struct LoginRequestBody: Codable {

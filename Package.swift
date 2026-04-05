@@ -10,6 +10,7 @@ let package = Package(
     ],
     products: [
         .library(name: "SharedKernel", targets: ["SharedKernel"]),
+        .library(name: "SharedNetworking", targets: ["SharedNetworking"]),
         .library(name: "SharedNavigation", targets: ["SharedNavigation"]),
         .library(name: "AuthFeature", targets: ["AuthFeature"]),
         .library(name: "FlightsFeature", targets: ["FlightsFeature"]),
@@ -24,6 +25,10 @@ let package = Package(
             resources: [.process("resources")]
         ),
         .target(
+            name: "SharedNetworking",
+            path: "Sources/Shared/Networking"
+        ),
+        .target(
             name: "SharedNavigation",
             dependencies: ["SharedKernel"],
             path: "Sources/Shared/Navigation"
@@ -32,6 +37,7 @@ let package = Package(
             name: "AuthFeature",
             dependencies: [
                 "SharedKernel",
+                "SharedNetworking",
                 "SharedNavigation"
             ],
             path: "Sources/Features/Auth"
@@ -48,8 +54,7 @@ let package = Package(
         .target(
             name: "BoardingPassFeature",
             dependencies: [
-                "SharedKernel",
-                "SharedNavigation"
+                "SharedKernel"
             ],
             path: "Sources/Features/BoardingPass",
             resources: [.process("resources")]
@@ -58,6 +63,7 @@ let package = Package(
             name: "AppComposition",
             dependencies: [
                 "SharedKernel",
+                "SharedNetworking",
                 "SharedNavigation",
                 "AuthFeature",
                 "FlightsFeature",
@@ -73,6 +79,7 @@ let package = Package(
             name: "iOSArchitectureShowcaseTests",
             dependencies: [
                 "SharedKernel",
+                "SharedNetworking",
                 "SharedNavigation",
                 "AuthFeature",
                 "FlightsFeature",
