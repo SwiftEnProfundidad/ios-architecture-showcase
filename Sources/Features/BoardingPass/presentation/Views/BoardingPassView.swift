@@ -11,9 +11,6 @@ public struct BoardingPassView<UseCase: BoardingPassGetting>: View {
 
     public var body: some View {
         ZStack {
-            screenBackground
-                .ignoresSafeArea()
-
             Group {
                 if viewModel.isLoading {
                     boardingPassSkeleton
@@ -31,6 +28,7 @@ public struct BoardingPassView<UseCase: BoardingPassGetting>: View {
                 }
             }
         }
+        .screenBackground()
         .navigationTitle(AppStrings.localized("boardingpass.navigationTitle"))
         .task {
             await viewModel.load()
@@ -82,7 +80,10 @@ public struct BoardingPassView<UseCase: BoardingPassGetting>: View {
             )
             detailRow(
                 label: AppStrings.localized("boardingpass.boardingDeadline"),
-                value: pass.formattedBoardingDeadline(),
+                value: OperationalTimeFormatter.hourMinute(
+                    from: pass.boardingDeadline,
+                    timeZoneIdentifier: pass.boardingTimeZoneIdentifier
+                ),
                 icon: "clock.badge.exclamationmark"
             )
         }
@@ -146,21 +147,4 @@ public struct BoardingPassView<UseCase: BoardingPassGetting>: View {
         }
     }
 
-    private var screenBackground: some View {
-        LinearGradient(
-            colors: colorScheme == .dark
-                ? [
-                    Color(red: 0.07, green: 0.10, blue: 0.18),
-                    Color(red: 0.03, green: 0.04, blue: 0.08),
-                    .black
-                ]
-                : [
-                    Color(red: 0.93, green: 0.96, blue: 1.0),
-                    Color(red: 0.98, green: 0.98, blue: 1.0),
-                    .white
-                ],
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
-    }
 }
