@@ -2,6 +2,7 @@ import AuthFeature
 import BoardingPassFeature
 import FlightsFeature
 import SharedKernel
+import SharedNetworking
 import SharedNavigation
 
 struct ShowcaseRuntime {
@@ -30,7 +31,7 @@ struct ShowcaseRuntime {
             launchPolicy: authConfiguration.launchPolicy
         )
         let flights = FlightsRuntime(
-            flightRepository: CatalogFlightRepository(),
+            flightRepository: .catalog(),
             weatherRepository: CatalogWeatherRepository(),
             minimumInitialSkeletonNanoseconds: 450_000_000,
             minimumNextPageSpinnerNanoseconds: 180_000_000

@@ -2,6 +2,7 @@ import AppComposition
 import AuthFeature
 import Foundation
 import SharedKernel
+import SharedNetworking
 import Testing
 
 @Suite("ShowcaseAuthRuntimeConfiguration")
@@ -39,13 +40,11 @@ struct ShowcaseAuthRuntimeConfigurationTests {
 
     @Test("Given evaluation credentials, when authenticating via bootstrap HTTP transport, then authentication succeeds")
     func bootstrapTransportAuthenticatesEvaluationCredentials() async throws {
-        let configuration = makeShowcaseAuthRuntimeConfigurationSUT()
-        let gateway = RemoteAuthGateway(
-            client: URLSessionHTTPClient(session: configuration.session),
-            baseURL: configuration.baseURL
-        )
+        let tracked = makeBootstrapAuthenticationSUT()
+        defer { tracked.assertNoLeaks() }
+        let context = tracked.context
 
-        let session = try await gateway.authenticate(
+        let session = try await context.gateway.authenticate(
             email: ShowcaseEvaluationCredentials.default.email,
             password: ShowcaseEvaluationCredentials.default.password
         )
