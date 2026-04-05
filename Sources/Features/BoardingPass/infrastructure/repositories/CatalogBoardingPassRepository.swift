@@ -3,17 +3,20 @@ import OSLog
 import SharedKernel
 
 public struct CatalogBoardingPassRepository: BoardingPassRepositoryProtocol {
-    private let logger = Logger(subsystem: "com.swiftenprofundidad.iOSArchitectureShowcase", category: "boarding-pass.repository")
+    public static let defaultSimulatedLatency: UInt64 = 150_000_000
+    private let logger = Logger(subsystem: LoggerSubsystem.app, category: "boarding-pass.repository")
     private let bundle: Bundle
     private let decoder = JSONDecoder()
+    private let simulatedLatencyNanoseconds: UInt64
 
-    public init() {
+    public init(simulatedLatencyNanoseconds: UInt64 = defaultSimulatedLatency) {
         self.bundle = .module
+        self.simulatedLatencyNanoseconds = simulatedLatencyNanoseconds
         decoder.dateDecodingStrategy = .iso8601
     }
 
     public func fetch(forFlightID flightID: FlightID) async throws -> BoardingPassData {
-        try await Task.sleep(nanoseconds: 150_000_000)
+        try await Task.sleep(nanoseconds: simulatedLatencyNanoseconds)
         guard let url = bundle.url(forResource: "boarding-pass-catalog", withExtension: "json") else {
             logger.error("Boarding pass catalog is not available")
             throw BoardingPassError.network
