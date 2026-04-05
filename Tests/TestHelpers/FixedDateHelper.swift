@@ -1,7 +1,7 @@
 import Foundation
 
 func fixedDate(hour: Int, minute: Int) -> Date {
-    Calendar(identifier: .gregorian).date(
+    guard let date = Calendar(identifier: .gregorian).date(
         from: DateComponents(
             timeZone: TimeZone(secondsFromGMT: 0),
             year: 2030,
@@ -10,5 +10,8 @@ func fixedDate(hour: Int, minute: Int) -> Date {
             hour: hour,
             minute: minute
         )
-    )!
+    ) else {
+        preconditionFailure("fixedDate: static calendar components must resolve to a valid instant")
+    }
+    return date
 }

@@ -15,7 +15,9 @@ struct EvaluationFlightRefreshMutator {
         guard didApplyMutation == false else {
             return (flights, true)
         }
-        guard let index = flights.firstIndex(where: { $0.id == id && $0.id == targetFlightID }) else {
+        guard id == targetFlightID,
+              let index = flights.firstIndex(where: { $0.id == targetFlightID })
+        else {
             return (flights, false)
         }
         var refreshedFlights = flights

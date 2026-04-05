@@ -18,6 +18,12 @@ public struct RemoteAuthGateway<Client: HTTPClient>: AuthGatewayProtocol {
     public func authenticate(email: String, password: String) async throws -> AuthSession {
         let endpoint = baseURL.appending(path: "v1").appending(path: "auth").appending(path: "login")
         let body = LoginRequestBody(email: email, password: password)
+        let encodedBody: Data
+        do {
+            encodedBody = try encoder.encode(body)
+        } catch {
+            throw AuthError.network
+        }
         let request = HTTPRequest(
             url: endpoint,
             method: .post,
@@ -25,7 +31,7 @@ public struct RemoteAuthGateway<Client: HTTPClient>: AuthGatewayProtocol {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             ],
-            body: try? encoder.encode(body)
+            body: encodedBody
         )
 
         let response: HTTPResponse

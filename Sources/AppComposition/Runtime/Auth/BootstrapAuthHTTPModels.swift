@@ -14,6 +14,10 @@ struct BootstrapAuthConfiguration: Sendable {
 }
 
 extension URL {
-    static let bootstrapAuthBaseURL =
-        URL(string: "https://bootstrap.auth.local") ?? URL(filePath: "/bootstrap-auth-local")
+    static let bootstrapAuthBaseURL: URL = {
+        guard let url = URL(string: "https://bootstrap.auth.local") else {
+            preconditionFailure("Bootstrap auth base URL must remain a valid absolute URL string literal")
+        }
+        return url
+    }()
 }

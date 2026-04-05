@@ -26,7 +26,12 @@ struct BootstrapAuthResponseHandler {
         )
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
-        let bodyData = (try? encoder.encode(session)) ?? Data()
+        let bodyData: Data
+        do {
+            bodyData = try encoder.encode(session)
+        } catch {
+            return BootstrapHTTPResponse(statusCode: 500, body: Data())
+        }
         return BootstrapHTTPResponse(statusCode: 200, body: bodyData)
     }
 
