@@ -1,7 +1,7 @@
 import Foundation
 import SharedKernel
 
-struct FlightCacheStore {
+struct FlightCacheStore: @unchecked Sendable {
     private let fileManager: FileManager
     private let cacheURL: URL
     private let decoder: JSONDecoder
