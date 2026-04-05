@@ -7,7 +7,7 @@ struct FlightRowView: View {
 
     var body: some View {
         HStack {
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: ShowcaseLayout.Space.xs) {
                 Text(flight.number)
                     .font(.headline)
                 Text(AppStrings.localized("flights.route", flight.origin, flight.destination))
@@ -15,7 +15,7 @@ struct FlightRowView: View {
                     .foregroundStyle(.secondary)
             }
             Spacer()
-            VStack(alignment: .trailing, spacing: 4) {
+            VStack(alignment: .trailing, spacing: ShowcaseLayout.Space.xs) {
                 Text(OperationalTimeFormatter.hourMinute(
                     from: flight.scheduledDeparture,
                     timeZoneIdentifier: flight.departureTimeZoneIdentifier
@@ -24,11 +24,11 @@ struct FlightRowView: View {
                 statusBadge(flight.status)
             }
         }
-        .padding(16)
-        .background(.thinMaterial, in: .rect(cornerRadius: 20))
+        .padding(ShowcaseLayout.Inset.row)
+        .background(.thinMaterial, in: .rect(cornerRadius: ShowcaseLayout.Radius.row))
         .overlay {
-            RoundedRectangle(cornerRadius: 20)
-                .strokeBorder(Color.white.opacity(colorScheme == .dark ? 0.10 : 0.45), lineWidth: 1)
+            RoundedRectangle(cornerRadius: ShowcaseLayout.Radius.row)
+                .strokeBorder(Color.white.opacity(colorScheme == .dark ? 0.10 : 0.45), lineWidth: ShowcaseLayout.Line.stroke)
         }
         .accessibilityElement(children: .combine)
     }
@@ -38,10 +38,10 @@ struct FlightRowView: View {
 
         return Text(presentation.title)
             .font(.caption.bold())
-            .padding(.horizontal, 8)
-            .padding(.vertical, 2)
+            .padding(.horizontal, ShowcaseLayout.Inset.badgeHorizontal)
+            .padding(.vertical, ShowcaseLayout.Inset.badgeVertical)
             .background(presentation.tint.color.opacity(0.15))
             .foregroundStyle(presentation.tint.color)
-            .clipShape(.rect(cornerRadius: 6))
+            .clipShape(.rect(cornerRadius: ShowcaseLayout.Radius.badge))
     }
 }

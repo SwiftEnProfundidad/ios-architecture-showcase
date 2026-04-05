@@ -1,14 +1,13 @@
 import Foundation
 import SharedKernel
 
-struct FlightCacheStore: @unchecked Sendable {
-    private let fileManager: FileManager
+actor FlightCacheStore {
     private let cacheURL: URL
     private let decoder: JSONDecoder
     private let encoder: JSONEncoder
+    private let fileManager = FileManager.default
 
-    init(fileManager: FileManager, cacheURL: URL) {
-        self.fileManager = fileManager
+    init(cacheURL: URL) {
         self.cacheURL = cacheURL
         self.decoder = JSONDecoder()
         self.encoder = JSONEncoder()

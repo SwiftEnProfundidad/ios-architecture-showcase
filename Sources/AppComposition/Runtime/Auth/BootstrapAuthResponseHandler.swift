@@ -10,7 +10,7 @@ struct BootstrapAuthResponseHandler {
         }
         guard
             let body = requestBody(from: request),
-            let payload = try? JSONDecoder().decode(BootstrapAuthLoginPayload.self, from: body)
+            let payload = try? JSONDecoder().decode(BootstrapAuthLoginBody.self, from: body)
         else {
             return BootstrapHTTPResponse(statusCode: 400, body: Data())
         }
@@ -19,7 +19,7 @@ struct BootstrapAuthResponseHandler {
             return BootstrapHTTPResponse(statusCode: 401, body: Data())
         }
 
-        let session = BootstrapAuthSessionPayload(
+        let session = BootstrapAuthSessionBody(
             passengerID: configuration.passengerID,
             token: "session-\(UUID().uuidString.lowercased())",
             expiresAt: .now.addingTimeInterval(configuration.sessionDuration)
@@ -56,33 +56,4 @@ struct BootstrapAuthResponseHandler {
         }
         return data
     }
-}
-
-private struct BootstrapAuthLoginPayload: Codable {
-    let email: String
-    let password: String
-}
-
-private struct BootstrapAuthSessionPayload: Codable {
-    let passengerID: String
-    let token: String
-    let expiresAt: Date
-}
-
-struct BootstrapHTTPResponse: Sendable {
-    let statusCode: Int
-    let body: Data
-}
-
-struct BootstrapAuthConfiguration: Sendable {
-    let baseURL: URL
-    let email: String
-    let password: String
-    let passengerID: String
-    let sessionDuration: TimeInterval
-}
-
-extension URL {
-    static let bootstrapAuthBaseURL =
-        URL(string: "https://bootstrap.auth.local") ?? URL(filePath: "/bootstrap-auth-local")
 }

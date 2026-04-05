@@ -44,7 +44,7 @@ public struct FlightListView<ListExecutor: ListFlightsExecuting, SessionControll
                 description: Text(error)
             )
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .padding(.horizontal, 24)
+            .padding(.horizontal, ShowcaseLayout.Inset.screenXWide)
         } else {
             flightList
         }
@@ -52,7 +52,7 @@ public struct FlightListView<ListExecutor: ListFlightsExecuting, SessionControll
 
     private var flightList: some View {
         ScrollView {
-            LazyVStack(spacing: 12) {
+            LazyVStack(spacing: ShowcaseLayout.Space.lg) {
             if let staleMessage = viewModel.staleMessage {
                 bannerRow(
                     message: staleMessage,
@@ -76,20 +76,20 @@ public struct FlightListView<ListExecutor: ListFlightsExecuting, SessionControll
                     FlightRowView(flight: flight)
                 }
                 .buttonStyle(.plain)
-                .padding(.horizontal, 16)
+                .padding(.horizontal, ShowcaseLayout.Inset.row)
                 .accessibilityLabel(flightAccessibilityLabel(flight))
             }
 
             if viewModel.canLoadMorePages || viewModel.isLoadingNextPage {
                 paginationFooter
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 8)
+                    .padding(.horizontal, ShowcaseLayout.Inset.row)
+                    .padding(.vertical, ShowcaseLayout.Inset.bannerVertical)
                     .onAppear {
                         Task { await viewModel.loadNextPage() }
                     }
             }
         }
-            .padding(.vertical, 12)
+            .padding(.vertical, ShowcaseLayout.Inset.listVertical)
         }
         .scrollIndicators(.hidden)
     }
@@ -106,22 +106,22 @@ public struct FlightListView<ListExecutor: ListFlightsExecuting, SessionControll
 
     private var skeletonList: some View {
         ScrollView {
-            LazyVStack(spacing: 12) {
+            LazyVStack(spacing: ShowcaseLayout.Space.lg) {
                 ForEach(0..<8, id: \.self) { _ in
                     FlightSkeletonRow()
-                        .padding(.horizontal, 16)
+                        .padding(.horizontal, ShowcaseLayout.Inset.row)
                         .accessibilityHidden(true)
                 }
             }
-            .padding(.vertical, 12)
+            .padding(.vertical, ShowcaseLayout.Inset.listVertical)
         }
         .scrollIndicators(.hidden)
         .overlay(alignment: .topLeading) {
             Text(AppStrings.localized("flights.list.loading"))
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(.secondary)
-                .padding(.horizontal, 20)
-                .padding(.top, 8)
+                .padding(.horizontal, ShowcaseLayout.Inset.loadingLabelX)
+                .padding(.top, ShowcaseLayout.Inset.loadingLabelTop)
                 .accessibilityHidden(true)
         }
     }
@@ -131,14 +131,14 @@ public struct FlightListView<ListExecutor: ListFlightsExecuting, SessionControll
         Label(message, systemImage: icon)
             .font(.footnote)
             .foregroundStyle(tint)
-            .padding(16)
+            .padding(ShowcaseLayout.Inset.bannerContent)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(.thinMaterial, in: .rect(cornerRadius: 18))
+            .background(.thinMaterial, in: .rect(cornerRadius: ShowcaseLayout.Radius.banner))
             .overlay {
-                RoundedRectangle(cornerRadius: 18)
-                    .strokeBorder(tint.opacity(colorScheme == .dark ? 0.35 : 0.18), lineWidth: 1)
+                RoundedRectangle(cornerRadius: ShowcaseLayout.Radius.banner)
+                    .strokeBorder(tint.opacity(colorScheme == .dark ? 0.35 : 0.18), lineWidth: ShowcaseLayout.Line.stroke)
             }
-            .padding(.horizontal, 16)
+            .padding(.horizontal, ShowcaseLayout.Inset.row)
             .accessibilityLabel(message)
     }
 

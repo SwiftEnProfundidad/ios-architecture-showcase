@@ -24,7 +24,7 @@ public struct FlightDetailView<DetailUseCase: FlightDetailGetting>: View {
                         description: Text(error)
                     )
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .padding(.horizontal, 24)
+                    .padding(.horizontal, ShowcaseLayout.Inset.screenXWide)
                 }
             }
         }
@@ -37,7 +37,7 @@ public struct FlightDetailView<DetailUseCase: FlightDetailGetting>: View {
 
     private func detailContent(_ detail: FlightDetail) -> some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
+            VStack(alignment: .leading, spacing: ShowcaseLayout.Space.section) {
                 flightSummarySection(detail.flight)
 
                 if let weather = detail.weather {
@@ -54,14 +54,14 @@ public struct FlightDetailView<DetailUseCase: FlightDetailGetting>: View {
                 .buttonStyle(.borderedProminent)
                 .accessibilityLabel(AppStrings.localized("flights.detail.boardingPassCTA.accessibility"))
             }
-            .frame(maxWidth: 640)
-            .padding(.horizontal, 20)
-            .padding(.vertical, 28)
+            .frame(maxWidth: ShowcaseLayout.ContentWidth.detail)
+            .padding(.horizontal, ShowcaseLayout.Inset.screenX)
+            .padding(.vertical, ShowcaseLayout.Space.screen)
         }
     }
 
     private func flightSummarySection(_ flight: Flight) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: ShowcaseLayout.Space.sm) {
             Text(flight.number)
                 .font(.title.bold())
             Text(AppStrings.localized("flights.route", flight.origin, flight.destination))
@@ -81,16 +81,16 @@ public struct FlightDetailView<DetailUseCase: FlightDetailGetting>: View {
                 icon: "clock"
             )
         }
-        .padding(20)
-        .background(.thinMaterial, in: .rect(cornerRadius: 24))
+        .padding(ShowcaseLayout.Inset.card)
+        .background(.thinMaterial, in: .rect(cornerRadius: ShowcaseLayout.Radius.card))
         .overlay {
-            RoundedRectangle(cornerRadius: 24)
-                .strokeBorder(Color.white.opacity(colorScheme == .dark ? 0.10 : 0.45), lineWidth: 1)
+            RoundedRectangle(cornerRadius: ShowcaseLayout.Radius.card)
+                .strokeBorder(Color.white.opacity(colorScheme == .dark ? 0.10 : 0.45), lineWidth: ShowcaseLayout.Line.stroke)
         }
     }
 
     private func weatherSection(_ weather: WeatherInfo) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: ShowcaseLayout.Space.sm) {
             Text(AppStrings.localized("flights.detail.weather.title"))
                 .font(.headline)
             Label(
@@ -102,12 +102,12 @@ public struct FlightDetailView<DetailUseCase: FlightDetailGetting>: View {
                 systemImage: "sun.max"
             )
         }
-        .padding(20)
+        .padding(ShowcaseLayout.Inset.card)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.thinMaterial, in: .rect(cornerRadius: 24))
+        .background(.thinMaterial, in: .rect(cornerRadius: ShowcaseLayout.Radius.card))
         .overlay {
-            RoundedRectangle(cornerRadius: 24)
-                .strokeBorder(Color.white.opacity(colorScheme == .dark ? 0.10 : 0.45), lineWidth: 1)
+            RoundedRectangle(cornerRadius: ShowcaseLayout.Radius.card)
+                .strokeBorder(Color.white.opacity(colorScheme == .dark ? 0.10 : 0.45), lineWidth: ShowcaseLayout.Line.stroke)
         }
     }
 
@@ -127,47 +127,47 @@ public struct FlightDetailView<DetailUseCase: FlightDetailGetting>: View {
 
     private var detailSkeleton: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                VStack(alignment: .leading, spacing: 12) {
-                    RoundedRectangle(cornerRadius: 8)
+            VStack(alignment: .leading, spacing: ShowcaseLayout.Space.section) {
+                VStack(alignment: .leading, spacing: ShowcaseLayout.Space.lg) {
+                    RoundedRectangle(cornerRadius: ShowcaseLayout.Radius.line)
                         .fill(.primary.opacity(0.16))
                         .frame(width: 110, height: 28)
-                    RoundedRectangle(cornerRadius: 8)
+                    RoundedRectangle(cornerRadius: ShowcaseLayout.Radius.line)
                         .fill(.primary.opacity(0.10))
                         .frame(width: 180, height: 18)
                     ForEach(0..<2, id: \.self) { _ in
-                        RoundedRectangle(cornerRadius: 8)
+                        RoundedRectangle(cornerRadius: ShowcaseLayout.Radius.line)
                             .fill(.primary.opacity(0.10))
                             .frame(height: 20)
                     }
                 }
-                .padding(20)
-                .background(.thinMaterial, in: .rect(cornerRadius: 24))
+                .padding(ShowcaseLayout.Inset.card)
+                .background(.thinMaterial, in: .rect(cornerRadius: ShowcaseLayout.Radius.card))
 
-                RoundedRectangle(cornerRadius: 24)
+                RoundedRectangle(cornerRadius: ShowcaseLayout.Radius.card)
                     .fill(.thinMaterial)
                     .frame(height: 92)
                     .overlay {
-                        VStack(alignment: .leading, spacing: 10) {
-                            RoundedRectangle(cornerRadius: 8)
+                        VStack(alignment: .leading, spacing: ShowcaseLayout.Space.md) {
+                            RoundedRectangle(cornerRadius: ShowcaseLayout.Radius.line)
                                 .fill(.primary.opacity(0.16))
                                 .frame(width: 140, height: 18)
-                            RoundedRectangle(cornerRadius: 8)
+                            RoundedRectangle(cornerRadius: ShowcaseLayout.Radius.line)
                                 .fill(.primary.opacity(0.10))
                                 .frame(width: 180, height: 16)
                         }
-                        .padding(20)
+                        .padding(ShowcaseLayout.Inset.card)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     }
 
-                RoundedRectangle(cornerRadius: 16)
+                RoundedRectangle(cornerRadius: ShowcaseLayout.Radius.block)
                     .fill(.primary.opacity(0.10))
                     .frame(height: 52)
             }
             .redacted(reason: .placeholder)
-            .frame(maxWidth: 640)
-            .padding(.horizontal, 20)
-            .padding(.vertical, 28)
+            .frame(maxWidth: ShowcaseLayout.ContentWidth.detail)
+            .padding(.horizontal, ShowcaseLayout.Inset.screenX)
+            .padding(.vertical, ShowcaseLayout.Space.screen)
             .accessibilityHidden(true)
         }
     }

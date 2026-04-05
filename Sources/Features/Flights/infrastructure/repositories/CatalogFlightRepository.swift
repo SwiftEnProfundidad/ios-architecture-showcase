@@ -33,7 +33,6 @@ public actor CatalogFlightRepository: FlightRepositoryProtocol {
         return CatalogFlightRepository(
             dataSource: CatalogFlightDataSource(bundle: .module),
             cacheStore: FlightCacheStore(
-                fileManager: fileManager,
                 cacheURL: cacheDirectory.appendingPathComponent("flight-cache.json", isDirectory: false)
             ),
             refreshMutator: EvaluationFlightRefreshMutator(targetFlightID: FlightID("IB3456"))
@@ -43,7 +42,7 @@ public actor CatalogFlightRepository: FlightRepositoryProtocol {
     public func fetchPage(passengerID: PassengerID, page: Int, pageSize: Int) async throws -> FlightListResult {
         do {
             let flights = try state.loadCatalogFlights(using: dataSource)
-            persistCacheIfPossible(flights)
+            await persistCacheIfPossible(flights)
             return pageProjector.page(
                 flights: flights,
                 passengerID: passengerID,
@@ -55,7 +54,7 @@ public actor CatalogFlightRepository: FlightRepositoryProtocol {
         } catch {
             let cachedFlights: [Flight]
             do {
-                cachedFlights = try loadCachedFlights()
+                cachedFlights = try await loadCachedFlights()
             } catch {
                 logger.error("Remote catalog unavailable and no cached flights for passenger \(passengerID.value, privacy: .public)")
                 throw FlightError.network
@@ -79,7 +78,7 @@ public actor CatalogFlightRepository: FlightRepositoryProtocol {
     public func fetchByID(_ id: FlightID) async throws -> Flight {
         do {
             let flights = try state.loadCatalogFlights(using: dataSource)
-            persistCacheIfPossible(flights)
+            await persistCacheIfPossible(flights)
             guard let flight = flights.first(where: { $0.id == id }) else {
                 logger.error("Flight detail not found for \(id.value, privacy: .public)")
                 throw FlightError.notFound
@@ -90,7 +89,7 @@ public actor CatalogFlightRepository: FlightRepositoryProtocol {
         } catch {
             let cachedFlights: [Flight]
             do {
-                cachedFlights = try loadCachedFlights()
+                cachedFlights = try await loadCachedFlights()
             } catch {
                 logger.error("Flight detail unavailable for \(id.value, privacy: .public)")
                 throw FlightError.network
@@ -109,7 +108,7 @@ public actor CatalogFlightRepository: FlightRepositoryProtocol {
             using: dataSource,
             refreshMutator: refreshMutator
         )
-        persistCacheIfPossible(flights)
+        await persistCacheIfPossible(flights)
         guard let refreshedFlight = flights.first(where: { $0.id == id }) else {
             logger.error("Refresh failed because flight \(id.value, privacy: .public) does not exist")
             throw FlightError.notFound
@@ -117,13 +116,13 @@ public actor CatalogFlightRepository: FlightRepositoryProtocol {
         return refreshedFlight
     }
 
-    private func loadCachedFlights() throws -> [Flight] {
-        try cacheStore.loadFlights()
+    private func loadCachedFlights() async throws -> [Flight] {
+        try await cacheStore.loadFlights()
     }
 
-    private func persistCacheIfPossible(_ flights: [Flight]) {
+    private func persistCacheIfPossible(_ flights: [Flight]) async {
         do {
-            try cacheStore.persist(flights)
+            try await cacheStore.persist(flights)
         } catch {
             logger.error("Failed to persist local flight cache")
         }

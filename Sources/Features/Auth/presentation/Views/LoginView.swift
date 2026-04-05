@@ -14,24 +14,16 @@ public struct LoginView<LoginExecutor: LoginExecuting>: View {
         ZStack {
             LinearGradient(
                 colors: colorScheme == .dark
-                    ? [
-                        Color(red: 0.06, green: 0.09, blue: 0.18),
-                        Color(red: 0.03, green: 0.03, blue: 0.07),
-                        .black
-                    ]
-                    : [
-                        Color(red: 0.95, green: 0.97, blue: 1.0),
-                        Color(red: 0.99, green: 0.99, blue: 1.0),
-                        .white
-                    ],
+                    ? ShowcaseScreenPalette.loginDarkGradient
+                    : ShowcaseScreenPalette.loginLightGradient,
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
             .ignoresSafeArea()
 
             ScrollView {
-                VStack(spacing: 28) {
-                    VStack(spacing: 12) {
+                VStack(spacing: ShowcaseLayout.Space.hero) {
+                    VStack(spacing: ShowcaseLayout.Space.lg) {
                         Text(AppStrings.localized("auth.login.title"))
                             .font(.largeTitle.bold())
                             .accessibilityAddTraits(.isHeader)
@@ -41,19 +33,19 @@ public struct LoginView<LoginExecutor: LoginExecuting>: View {
                             .foregroundStyle(.secondary)
                     }
 
-                    VStack(spacing: 18) {
-                        VStack(spacing: 16) {
+                    VStack(spacing: ShowcaseLayout.Space.xxl) {
+                        VStack(spacing: ShowcaseLayout.Inset.row) {
                             emailField
                             SecureField(AppStrings.localized("auth.login.password"), text: $viewModel.password)
                                 .textFieldStyle(.roundedBorder)
                                 .textContentType(.password)
                                 .accessibilityLabel(AppStrings.localized("auth.login.password.accessibility"))
                         }
-                        .padding(24)
-                        .background(.thinMaterial, in: .rect(cornerRadius: 28))
+                        .padding(ShowcaseLayout.Inset.formBlock)
+                        .background(.thinMaterial, in: .rect(cornerRadius: ShowcaseLayout.Radius.loginCard))
                         .overlay {
-                            RoundedRectangle(cornerRadius: 28)
-                                .strokeBorder(Color.white.opacity(colorScheme == .dark ? 0.10 : 0.55), lineWidth: 1)
+                            RoundedRectangle(cornerRadius: ShowcaseLayout.Radius.loginCard)
+                                .strokeBorder(Color.white.opacity(colorScheme == .dark ? 0.10 : 0.55), lineWidth: ShowcaseLayout.Line.stroke)
                         }
 
                         if let error = viewModel.errorMessage {
@@ -90,11 +82,11 @@ public struct LoginView<LoginExecutor: LoginExecuting>: View {
                             .accessibilityLabel(AppStrings.localized("auth.login.quickAccess.accessibility"))
                         }
                     }
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, ShowcaseLayout.Inset.screenX)
                 }
-                .frame(maxWidth: 560)
-                .padding(.horizontal, 20)
-                .padding(.vertical, 48)
+                .frame(maxWidth: ShowcaseLayout.ContentWidth.login)
+                .padding(.horizontal, ShowcaseLayout.Inset.screenX)
+                .padding(.vertical, ShowcaseLayout.Space.loginVertical)
             }
         }
         .navigationTitle(AppStrings.localized("auth.login.navigationTitle"))
