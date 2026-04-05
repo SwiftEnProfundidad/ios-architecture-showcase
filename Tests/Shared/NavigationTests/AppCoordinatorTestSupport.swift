@@ -25,7 +25,6 @@ func makeAppCoordinatorSUT(
         store: store,
         invalidatePersistedSession: sessionInvalidator
     )
-    _ = sourceLocation
     return makeTestContext(
         AppCoordinatorTestContext(
             coordinator: coordinator,

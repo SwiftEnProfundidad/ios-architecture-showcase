@@ -32,8 +32,8 @@ struct NavigationEventBusTests {
         defer { tracked.assertNoLeaks() }
         let bus = tracked.context.bus
         let events: [NavigationEvent] = [
-            .requestProtectedPath([.primaryDetail(contextID: "IB3456")]),
-            .requestProtectedPath([.primaryDetail(contextID: "IB3456"), .secondaryAttachment(contextID: "IB3456")]),
+            .requestProtectedPath([.primaryDetail(contextID: FlightID("IB3456"))]),
+            .requestProtectedPath([.primaryDetail(contextID: FlightID("IB3456")), .secondaryAttachment(contextID: FlightID("IB3456"))]),
             .syncProtectedPath([])
         ]
 

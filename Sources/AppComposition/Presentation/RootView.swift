@@ -41,9 +41,9 @@ public struct RootView<
             .navigationDestination(for: AppRoute.self) { route in
                 switch route {
                 case .primaryDetail(let contextID):
-                    makeFlightDetailView(FlightID(contextID))
+                    makeFlightDetailView(contextID)
                 case .secondaryAttachment(let contextID):
-                    makeBoardingPassView(FlightID(contextID))
+                    makeBoardingPassView(contextID)
                 }
             }
         }

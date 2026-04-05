@@ -41,8 +41,8 @@ public final class FlightDetailViewModel<DetailUseCase: FlightDetailGetting> {
     public func requestBoardingPass() async {
         await eventBus.publish(
             .requestProtectedPath([
-                .primaryDetail(contextID: flightID.value),
-                .secondaryAttachment(contextID: flightID.value)
+                .primaryDetail(contextID: flightID),
+                .secondaryAttachment(contextID: flightID)
             ])
         )
     }
