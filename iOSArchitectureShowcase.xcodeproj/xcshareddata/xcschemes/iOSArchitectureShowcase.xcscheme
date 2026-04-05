@@ -51,6 +51,18 @@
                ReferencedContainer = "container:iOSArchitectureShowcase.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO"
+            testExecutionOrdering = "random">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ECC246323FBC40B5931DECB6"
+               BuildableName = "iOSArchitectureShowcaseHostedTests.xctest"
+               BlueprintName = "iOSArchitectureShowcaseHostedTests"
+               ReferencedContainer = "container:iOSArchitectureShowcase.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <CommandLineArguments>
       </CommandLineArguments>

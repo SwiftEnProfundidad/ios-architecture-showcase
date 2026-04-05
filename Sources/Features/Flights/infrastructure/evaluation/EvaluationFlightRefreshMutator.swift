@@ -1,6 +1,12 @@
 import SharedKernel
 
 struct EvaluationFlightRefreshMutator {
+    private let targetFlightID: FlightID
+
+    init(targetFlightID: FlightID) {
+        self.targetFlightID = targetFlightID
+    }
+
     func applyRefresh(
         to flights: [Flight],
         for id: FlightID,
@@ -9,7 +15,7 @@ struct EvaluationFlightRefreshMutator {
         guard didApplyMutation == false else {
             return (flights, true)
         }
-        guard let index = flights.firstIndex(where: { $0.id == id && $0.id == FlightID("IB3456") }) else {
+        guard let index = flights.firstIndex(where: { $0.id == id && $0.id == targetFlightID }) else {
             return (flights, false)
         }
         var refreshedFlights = flights

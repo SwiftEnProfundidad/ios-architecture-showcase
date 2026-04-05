@@ -96,7 +96,7 @@ public final class FlightListViewModel<
 
     public func selectFlight(_ flight: Flight) async {
         await eventBus.publish(
-            .requestProtectedPath([.primaryDetail(contextID: flight.id.value)])
+            .requestProtectedPath([.primaryDetail(contextID: flight.id)])
         )
     }
 

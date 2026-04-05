@@ -1,6 +1,7 @@
 import AuthFeature
 import Foundation
 import SharedKernel
+import SharedNetworking
 import Testing
 
 @Suite("RemoteAuthGateway")
@@ -8,8 +9,8 @@ struct RemoteAuthGatewayTests {
 
     @Test("Given a successful HTTP authentication response, when the gateway maps it, then an AuthSession is produced")
     func successfulAuthenticationMapsResponse() async throws {
-        let decoder = JSONEncoder()
-        decoder.dateEncodingStrategy = .iso8601
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
         let expiresAt = fixedDate(hour: 12, minute: 0)
         let tracked = makeRemoteAuthGatewaySUT()
         defer { tracked.assertNoLeaks() }
@@ -19,7 +20,7 @@ struct RemoteAuthGatewayTests {
             result: .success(
                 HTTPResponse(
                     statusCode: 200,
-                    data: try decoder.encode(
+                    data: try encoder.encode(
                         LoginPayload(
                             passengerID: "PAX-001",
                             token: "tok-abc",

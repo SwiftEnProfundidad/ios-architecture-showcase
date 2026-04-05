@@ -48,14 +48,3 @@ actor SuspendedFlightDetailExecutor: FlightDetailGetting {
     }
 }
 
-actor ImmediateFlightDetailExecutor: FlightDetailGetting {
-    private let result: Result<FlightDetail, Error>
-
-    init(result: Result<FlightDetail, Error>) {
-        self.result = result
-    }
-
-    func execute(flightID: FlightID) async throws -> FlightDetail {
-        try result.get()
-    }
-}

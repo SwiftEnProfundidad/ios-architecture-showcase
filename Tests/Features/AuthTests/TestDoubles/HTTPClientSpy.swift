@@ -1,4 +1,4 @@
-import SharedKernel
+import SharedNetworking
 
 actor HTTPClientSpy: HTTPClient {
     private var result: Result<HTTPResponse, HTTPClientError> = .failure(.transport)

@@ -1,4 +1,5 @@
 import AppComposition
+import SharedKernel
 import SharedNavigation
 import Testing
 
@@ -10,7 +11,7 @@ struct ProtectedPathCommandChannelTests {
         let tracked = makeProtectedPathCommandChannelSUT()
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
-        let visiblePath = [AppRoute.primaryDetail(contextID: "IB3456")]
+        let visiblePath = [AppRoute.primaryDetail(contextID: FlightID("IB3456"))]
 
         await context.sut.synchronize(
             visiblePath: visiblePath,
@@ -25,7 +26,7 @@ struct ProtectedPathCommandChannelTests {
         let tracked = makeProtectedPathCommandChannelSUT()
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
-        let visiblePath = [AppRoute.primaryDetail(contextID: "IB3456")]
+        let visiblePath = [AppRoute.primaryDetail(contextID: FlightID("IB3456"))]
 
         await context.sut.synchronize(
             visiblePath: visiblePath,

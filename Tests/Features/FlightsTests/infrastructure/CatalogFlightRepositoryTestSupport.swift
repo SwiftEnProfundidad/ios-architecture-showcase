@@ -10,7 +10,7 @@ func makeCatalogFlightRepositorySUT(
     cacheDirectoryURL: URL,
     sourceLocation: SourceLocation = #_sourceLocation
 ) -> TrackedTestContext<CatalogFlightRepositoryTestContext> {
-    let sut = CatalogFlightRepository(cacheDirectoryURL: cacheDirectoryURL)
+    let sut = CatalogFlightRepository.catalog(cacheDirectoryURL: cacheDirectoryURL)
     return makeLeakTrackedTestContext(
         CatalogFlightRepositoryTestContext(sut: sut),
         trackedInstances: sut,

@@ -13,7 +13,7 @@ public final class CompositionRoot {
     private let authFeatureAssembly: AuthFeatureAssembly
     private let flightsFeatureAssembly: FlightsFeatureAssembly
     private let boardingPassFeatureAssembly: BoardingPassFeatureAssembly
-    private let sessionBootstrapper: SessionBootstrapper<KeychainSessionStore>
+    private let sessionBootstrapper: SessionBootstrapper
     private let syncProtectedPathCommand: @Sendable ([AppRoute]) async -> Void
     private var hasStarted = false
 

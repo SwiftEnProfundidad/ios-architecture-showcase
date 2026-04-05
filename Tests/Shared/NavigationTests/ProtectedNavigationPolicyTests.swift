@@ -12,7 +12,7 @@ struct ProtectedNavigationPolicyTests {
 
         let decision = sut.evaluate(
             current: expiredState,
-            event: .requestProtectedPath([.primaryDetail(contextID: "IB3456")])
+            event: .requestProtectedPath([.primaryDetail(contextID: FlightID("IB3456"))])
         )
         let resolvedDecision = try #require(decision)
 
@@ -27,15 +27,15 @@ struct ProtectedNavigationPolicyTests {
 
         let decision = sut.evaluate(
             current: validState,
-            event: .requestProtectedPath([.secondaryAttachment(contextID: "IB3456")])
+            event: .requestProtectedPath([.secondaryAttachment(contextID: FlightID("IB3456"))])
         )
         let resolvedDecision = try #require(decision)
 
         #expect(resolvedDecision.nextState.rootRoute == .authenticatedHome)
         #expect(resolvedDecision.nextState.session == validState.session)
         #expect(resolvedDecision.nextState.path == [
-            .primaryDetail(contextID: "IB3456"),
-            .secondaryAttachment(contextID: "IB3456")
+            .primaryDetail(contextID: FlightID("IB3456")),
+            .secondaryAttachment(contextID: FlightID("IB3456"))
         ])
         #expect(resolvedDecision.shouldInvalidatePersistedSession == false)
     }

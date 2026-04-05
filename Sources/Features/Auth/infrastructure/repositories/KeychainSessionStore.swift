@@ -4,7 +4,7 @@ import Security
 import SharedKernel
 
 public actor KeychainSessionStore: SessionStoreProtocol {
-    private let logger = Logger(subsystem: "com.swiftenprofundidad.iOSArchitectureShowcase", category: "auth.session-store")
+    private let logger = Logger(subsystem: LoggerSubsystem.app, category: "auth.session-store")
     private let service: String
     private let account: String
     private let encoder = JSONEncoder()

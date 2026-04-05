@@ -39,7 +39,7 @@ func makeBootstrapSession(expiresAt: Date) -> AuthSession {
 }
 
 struct SessionBootstrapperTestContext {
-    let bootstrapper: SessionBootstrapper<TrackingSessionStore>
+    let bootstrapper: SessionBootstrapper
     let store: TrackingSessionStore
     let stateStore: AppStateStore
 }

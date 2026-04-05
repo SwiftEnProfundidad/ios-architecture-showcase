@@ -54,9 +54,14 @@ targets:
     deploymentTarget: "17.0"
     sources:
       - path: Tests
+        excludes:
+          - Features/AuthTests/infrastructure/KeychainSessionStoreTestSupport.swift
+          - Features/AuthTests/infrastructure/KeychainSessionStoreTests.swift
     dependencies:
       - package: iOSArchitectureShowcaseModules
         product: SharedKernel
+      - package: iOSArchitectureShowcaseModules
+        product: SharedNetworking
       - package: iOSArchitectureShowcaseModules
         product: SharedNavigation
       - package: iOSArchitectureShowcaseModules
@@ -74,6 +79,25 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.swiftenprofundidad.iOSArchitectureShowcaseTests
         GENERATE_INFOPLIST_FILE: YES
 
+  iOSArchitectureShowcaseHostedTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "17.0"
+    hostApplication: iOSArchitectureShowcase
+    sources:
+      - path: Tests/TestHelpers/FixedDateHelper.swift
+      - path: Tests/TestHelpers/MemoryLeakTracker.swift
+      - path: Tests/Features/AuthTests/infrastructure/KeychainSessionStoreTestSupport.swift
+      - path: Tests/Features/AuthTests/infrastructure/KeychainSessionStoreTests.swift
+    dependencies:
+      - target: iOSArchitectureShowcase
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.swiftenprofundidad.iOSArchitectureShowcaseHostedTests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/iOSArchitectureShowcase.app/iOSArchitectureShowcase"
+        BUNDLE_LOADER: "$(TEST_HOST)"
+
 schemes:
   iOSArchitectureShowcase:
     build:
@@ -88,6 +112,9 @@ schemes:
       targets:
         - name: iOSArchitectureShowcaseTests
           parallelizable: true
+          randomExecutionOrder: true
+        - name: iOSArchitectureShowcaseHostedTests
+          parallelizable: false
           randomExecutionOrder: true
     profile:
       config: Release

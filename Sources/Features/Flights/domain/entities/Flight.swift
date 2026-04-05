@@ -41,12 +41,4 @@ public struct Flight: Sendable, Equatable, Identifiable {
         self.departureTimeZoneIdentifier = departureTimeZoneIdentifier
         self.gate = gate
     }
-
-    public func formattedScheduledDeparture(locale: Locale = .current) -> String {
-        OperationalTimeFormatter.hourMinute(
-            from: scheduledDeparture,
-            timeZoneIdentifier: departureTimeZoneIdentifier,
-            locale: locale
-        )
-    }
 }

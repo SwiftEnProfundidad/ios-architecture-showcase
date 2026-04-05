@@ -10,7 +10,7 @@ struct AppCoordinatorProtectedNavigationTests {
         let tracked = makeAppCoordinatorSUT(initial: makeAuthenticatedCoordinatorState())
         defer { tracked.assertNoLeaks() }
         let context = tracked.context
-        let contextID = "IB3456"
+        let contextID = FlightID("IB3456")
         await context.coordinator.start()
 
         let result = await nextCoordinatorStateUpdate(from: context.store) {
@@ -30,7 +30,7 @@ struct AppCoordinatorProtectedNavigationTests {
         await context.coordinator.start()
 
         let result = await nextCoordinatorStateUpdate(from: context.store) {
-            await context.bus.publish(.requestProtectedPath([.primaryDetail(contextID: "IB3456")]))
+            await context.bus.publish(.requestProtectedPath([.primaryDetail(contextID: FlightID("IB3456"))]))
         }
 
         #expect(result == .initial)

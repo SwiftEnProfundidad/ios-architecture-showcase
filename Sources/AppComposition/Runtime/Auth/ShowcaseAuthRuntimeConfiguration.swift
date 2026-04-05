@@ -52,12 +52,3 @@ public struct ShowcaseAuthRuntimeConfiguration: Sendable {
         )
     }
 }
-
-private extension URL {
-    static let bootstrapAuthBaseURL = URLComponents.bootstrapAuthBaseURL
-}
-
-private extension URLComponents {
-    static let bootstrapAuthBaseURL =
-        URL(string: "https://bootstrap.auth.local") ?? URL(filePath: "/bootstrap-auth-local")
-}

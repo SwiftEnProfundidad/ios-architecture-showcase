@@ -1,6 +1,7 @@
 import AuthFeature
 import Foundation
 import SharedKernel
+import SharedNetworking
 import Testing
 
 typealias RemoteAuthGatewaySUT = RemoteAuthGateway<HTTPClientSpy>

@@ -1,5 +1,3 @@
-import Foundation
-
 public struct LoginEmailFieldConfiguration: Sendable, Equatable {
     public let disablesAutocorrection: Bool
     public let normalizesVisibleInput: Bool
