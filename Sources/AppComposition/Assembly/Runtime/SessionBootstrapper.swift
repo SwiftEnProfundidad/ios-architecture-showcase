@@ -2,13 +2,13 @@ import AuthFeature
 import SharedNavigation
 
 @MainActor
-public struct SessionBootstrapper<Store: SessionReading & SessionClearing> {
-    private let sessionStore: Store
+public struct SessionBootstrapper {
+    private let sessionStore: any SessionReading & SessionClearing
     private let stateStore: AppStateStore
     private let policy: SessionLaunchPolicy
 
     public init(
-        sessionStore: Store,
+        sessionStore: any SessionReading & SessionClearing,
         stateStore: AppStateStore,
         policy: SessionLaunchPolicy
     ) {
