@@ -47,6 +47,7 @@ In local bootstrap mode, the app intentionally starts from login so the reviewer
 
 1. Open `Package.swift` and confirm the product split:
    - `SharedKernel`
+   - `SharedNetworking`
    - `SharedNavigation`
    - `AuthFeature`
    - `FlightsFeature`

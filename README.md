@@ -1,6 +1,5 @@
 # iOS Architecture Showcase
 
-[![CI](https://github.com/SwiftEnProfundidad/ios-architecture-showcase/actions/workflows/ci.yml/badge.svg)](https://github.com/SwiftEnProfundidad/ios-architecture-showcase/actions/workflows/ci.yml)
 [![Swift](https://img.shields.io/badge/Swift%206.2-orange.svg)](https://swift.org/)
 [![Platform](https://img.shields.io/badge/platform-iOS%2017%2B-lightgrey.svg)](https://developer.apple.com/ios/)
 
@@ -60,7 +59,8 @@ Editable diagrams live in `docs/architecture/*.drawio`. The `PNG` previews below
 | `FlightsFeature` | Paginated flight browsing, concurrent refresh, flight detail, and cache fallback |
 | `BoardingPassFeature` | Boarding pass retrieval and native QR rendering |
 | `SharedNavigation` | Event bus, reducer, state store, routes, and coordinator |
-| `SharedKernel` | Shared IDs, minimal entities/contracts, and localized strings |
+| `SharedKernel` | Shared IDs, entities/contracts, localized strings, layout tokens, screen palette, and logging subsystem |
+| `SharedNetworking` | HTTP client protocol and URLSession transport shared across features |
 | `AppComposition` | Composition root, runtime wiring, session restoration, and scene assembly |
 
 ## Repository map
@@ -76,6 +76,7 @@ Sources/
     BoardingPass/
   Shared/
     Kernel/
+    Networking/
     Navigation/
 Tests/
 docs/
@@ -101,7 +102,7 @@ scripts/validate.sh
 
 - `AppComposition` is the only module allowed to know all features at once.
 - `AuthFeature`, `FlightsFeature`, and `BoardingPassFeature` do not import each other.
-- Shared cross-feature surface is restricted to `SharedKernel` and `SharedNavigation`.
+- Shared cross-feature surface is restricted to `SharedKernel`, `SharedNetworking`, and `SharedNavigation`.
 - The same validation entrypoint is used locally and in CI.
 - Quality claims are backed by executable evidence, not by README-only promises.
 
