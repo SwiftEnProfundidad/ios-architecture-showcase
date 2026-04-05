@@ -3,16 +3,19 @@ import OSLog
 import SharedKernel
 
 public struct CatalogWeatherRepository: WeatherRepositoryProtocol {
-    private let logger = Logger(subsystem: "com.swiftenprofundidad.iOSArchitectureShowcase", category: "weather.repository")
+    public static let defaultSimulatedLatency: UInt64 = 150_000_000
+    private let logger = Logger(subsystem: LoggerSubsystem.app, category: "weather.repository")
     private let bundle: Bundle
     private let decoder = JSONDecoder()
+    private let simulatedLatencyNanoseconds: UInt64
 
-    public init() {
+    public init(simulatedLatencyNanoseconds: UInt64 = defaultSimulatedLatency) {
         self.bundle = .module
+        self.simulatedLatencyNanoseconds = simulatedLatencyNanoseconds
     }
 
     public func fetchWeather(forFlightID flightID: FlightID) async throws -> WeatherInfo {
-        try await Task.sleep(nanoseconds: 150_000_000)
+        try await Task.sleep(nanoseconds: simulatedLatencyNanoseconds)
         guard let url = bundle.url(forResource: "weather-catalog", withExtension: "json") else {
             logger.error("Weather catalog is not available")
             throw FlightError.network
