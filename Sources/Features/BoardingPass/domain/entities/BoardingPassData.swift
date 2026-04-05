@@ -30,12 +30,4 @@ public struct BoardingPassData: Sendable, Equatable {
         self.boardingTimeZoneIdentifier = boardingTimeZoneIdentifier
         self.qrPayload = qrPayload
     }
-
-    public func formattedBoardingDeadline(locale: Locale = .current) -> String {
-        OperationalTimeFormatter.hourMinute(
-            from: boardingDeadline,
-            timeZoneIdentifier: boardingTimeZoneIdentifier,
-            locale: locale
-        )
-    }
 }

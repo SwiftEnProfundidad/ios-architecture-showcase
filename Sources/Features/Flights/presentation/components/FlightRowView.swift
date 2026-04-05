@@ -16,7 +16,10 @@ struct FlightRowView: View {
             }
             Spacer()
             VStack(alignment: .trailing, spacing: 4) {
-                Text(flight.formattedScheduledDeparture())
+                Text(OperationalTimeFormatter.hourMinute(
+                    from: flight.scheduledDeparture,
+                    timeZoneIdentifier: flight.departureTimeZoneIdentifier
+                ))
                     .font(.subheadline.monospacedDigit())
                 statusBadge(flight.status)
             }

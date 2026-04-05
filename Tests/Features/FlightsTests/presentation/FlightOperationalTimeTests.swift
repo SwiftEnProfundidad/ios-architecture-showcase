@@ -8,29 +8,19 @@ struct FlightOperationalTimeTests {
 
     @Test("Given a flight timestamp and operational airport timezone, when departure time is formatted, then the string uses that timezone")
     func flightDepartureUsesOperationalTimezone() {
-        let sut = makeSUT(
+        let flight = Flight.stub(
             id: FlightID("IB3456"),
             passengerID: PassengerID("PAX-001"),
             scheduledDeparture: fixedDate(hour: 10, minute: 30),
             departureTimeZoneIdentifier: "Europe/Madrid"
         )
 
-        let renderedTime = sut.formattedScheduledDeparture(locale: Locale(identifier: "en_GB"))
+        let renderedTime = OperationalTimeFormatter.hourMinute(
+            from: flight.scheduledDeparture,
+            timeZoneIdentifier: flight.departureTimeZoneIdentifier,
+            locale: Locale(identifier: "en_GB")
+        )
 
         #expect(renderedTime == "11:30")
-    }
-
-    private func makeSUT(
-        id: FlightID,
-        passengerID: PassengerID,
-        scheduledDeparture: Date,
-        departureTimeZoneIdentifier: String
-    ) -> Flight {
-        Flight.stub(
-            id: id,
-            passengerID: passengerID,
-            scheduledDeparture: scheduledDeparture,
-            departureTimeZoneIdentifier: departureTimeZoneIdentifier
-        )
     }
 }
